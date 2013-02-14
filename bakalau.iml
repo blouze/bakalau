@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="bakalau">
+    <configurations>
+      <configuration name="bakalau" main-class="Bakalau" output-file="Bakalau.swf" output-folder="$MODULE_DIR$/out/production/bakalau" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
+        <dependencies target-player="11.4">
+          <entries>
+            <entry library-name="starlingMVC-1.2" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="CocoonP2P-0.8.4" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="feathers-themes" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="as3-signals-0.9" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="starling-framework-1.3-SNAPSHOT" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="feathersUI-1.1.0 PRERELEASE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="air-sqlite" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="apache_flex_sdk_4.9" />
+        </dependencies>
+        <compiler-options>
+          <option name="additionalOptions" value="-default-frame-rate=60" />
+        </compiler-options>
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="apache_flex_sdk_4.9" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="starling-framework-1.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="starlingMVC" level="project" />
+    <orderEntry type="library" exported="" name="starlingMVC-1.2" level="project" />
+    <orderEntry type="library" exported="" name="starling-framework-1.2" level="project" />
+    <orderEntry type="library" exported="" name="CocoonP2P-0.8.4" level="project" />
+    <orderEntry type="library" exported="" name="feathersUI-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="feathers-themes" level="project" />
+    <orderEntry type="library" exported="" name="as3-signals-0.9" level="project" />
+    <orderEntry type="library" exported="" name="feathersUI-1.1.0 PRERELEASE" level="project" />
+    <orderEntry type="library" exported="" name="air-sqlite" level="project" />
+  </component>
+</module>
+
