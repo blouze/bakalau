@@ -7,7 +7,7 @@
  */
 package com.bakalau.view.components.screens
 {
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.GamesData;
 
 	import feathers.controls.Button;

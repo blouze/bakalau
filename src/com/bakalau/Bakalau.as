@@ -7,7 +7,7 @@
  */
 package com.bakalau
 {
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -22,7 +22,7 @@ package com.bakalau
 		public function Bakalau ()
 		{
 			trace("[Pastonbak]");
-			registerClassAlias("com.bakalau.model.vo.GameVO", GameVO);
+			registerClassAlias("com.bakalau.model.VOs.GameVO", GameVO);
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 

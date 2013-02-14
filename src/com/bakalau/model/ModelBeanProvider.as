@@ -17,7 +17,7 @@ package com.bakalau.model
 		public function ModelBeanProvider ()
 		{
 			beans = [
-				new Bean(new DatabaseModel(), "databaseModel"),
+				new Bean(new DataBaseModel(), "dataBaseModel"),
 				new Bean(new PlayersModel(), "playersModel"),
 				new Bean(new GamesModel(), "gamesModel")
 			];

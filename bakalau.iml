@@ -2,8 +2,8 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="bakalau">
     <configurations>
-      <configuration name="bakalau" main-class="Bakalau" output-file="Bakalau.swf" output-folder="$MODULE_DIR$/out/production/bakalau" use-html-wrapper="true" wrapper-template-path="$MODULE_DIR$/html-template">
-        <dependencies target-player="11.4">
+      <configuration name="bakalau" target-platform="Mobile" main-class="Bakalau" output-file="Bakalau.swf" output-folder="$MODULE_DIR$/out/production/bakalau">
+        <dependencies>
           <entries>
             <entry library-name="starlingMVC-1.2" library-level="project">
               <dependency linkage="Merged" />
@@ -33,8 +33,8 @@
           <option name="additionalOptions" value="-default-frame-rate=60" />
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android />
-        <packaging-ios />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau.xml" package-file-name="bakalau" />
+        <packaging-ios package-file-name="bakalau" />
       </configuration>
     </configurations>
     <compiler-options />

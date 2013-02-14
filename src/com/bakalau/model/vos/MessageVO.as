@@ -5,7 +5,7 @@
  * Time: 11:54
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.model.vo
+package com.bakalau.model.VOs
 {
 	public class MessageVO
 	{

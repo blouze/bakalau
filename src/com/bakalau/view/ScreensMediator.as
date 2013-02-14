@@ -8,7 +8,7 @@
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.ApplicationEvent;
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.ScreensView;
 
 	import starling.events.EventDispatcher;

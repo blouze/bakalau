@@ -8,7 +8,7 @@
 package com.bakalau.model
 {
 	import com.bakalau.controller.events.ApplicationEvent;
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;

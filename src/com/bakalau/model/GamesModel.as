@@ -8,7 +8,7 @@
 package com.bakalau.model
 {
 	import com.bakalau.controller.events.ApplicationEvent;
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 	import com.creativebottle.starlingmvc.binding.Bindings;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.events.ClientEvent;

@@ -10,7 +10,7 @@ package com.bakalau.controller.commands
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
 	import com.bakalau.model.PlayersModel;
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 
 
 

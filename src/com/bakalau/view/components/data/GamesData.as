@@ -7,7 +7,7 @@
  */
 package com.bakalau.view.components.data
 {
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 
 
 

@@ -7,7 +7,7 @@
  */
 package com.bakalau.view.components
 {
-	import com.bakalau.model.vo.GameVO;
+	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.GamesData;
 	import com.bakalau.view.components.screens.GameLobbyScreen;
 	import com.bakalau.view.components.screens.GamesListScreen;
