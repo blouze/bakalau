@@ -7,12 +7,14 @@
  */
 package com.bakalau.view.components.data
 {
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 
 
 
 	public class GamesData
 	{
+		public var categories :Vector.<CategoryVO>;
 		public var games :Vector.<GameVO>;
 		public var currentGame :GameVO;
 	}

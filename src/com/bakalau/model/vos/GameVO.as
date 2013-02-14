@@ -10,6 +10,7 @@ package com.bakalau.model.VOs
 	public class GameVO
 	{
 		public var clientName :String;
+		public var players :Vector.<String>;
 
 
 		public function get label () :String

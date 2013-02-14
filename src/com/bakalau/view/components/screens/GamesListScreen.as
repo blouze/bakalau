@@ -29,6 +29,7 @@ package com.bakalau.view.components.screens
 	public class GamesListScreen extends PanelScreen
 	{
 		public var onJoinGame :Signal = new Signal(String);
+		public var onCreateGame :Signal = new Signal();
 
 
 		public function GamesListScreen ()
@@ -38,6 +39,7 @@ package com.bakalau.view.components.screens
 
 
 		private var _backButton :Button;
+		private var _createGameButton :Button;
 		private var _list :List;
 		private var _listData :ListCollection = new ListCollection(new Vector.<GameVO>());
 
@@ -59,12 +61,21 @@ package com.bakalau.view.components.screens
 			if (true) {
 //			if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
 				_backButton = new Button();
-				_backButton.label = "Back";
+				_backButton.label = "Retour";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
 				this.headerProperties.leftItems = new <DisplayObject>
 						[
 							this._backButton
+						];
+
+				_createGameButton = new Button();
+				_createGameButton.label = "Nouvelle";
+				_createGameButton.addEventListener(Event.TRIGGERED, createGameButton_triggeredHandler);
+
+				this.headerProperties.rightItems = new <DisplayObject>
+						[
+							this._createGameButton
 						];
 			}
 			backButtonHandler = onBackButton;
@@ -86,6 +97,12 @@ package com.bakalau.view.components.screens
 		private function backButton_triggeredHandler (event :Event) :void
 		{
 			onBackButton();
+		}
+
+
+		private function createGameButton_triggeredHandler (event :Event) :void
+		{
+			onCreateGame.dispatch();
 		}
 
 

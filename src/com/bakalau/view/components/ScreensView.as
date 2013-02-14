@@ -7,12 +7,13 @@
  */
 package com.bakalau.view.components
 {
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.screens.CreateGameScreen;
 	import com.bakalau.view.components.screens.GameLobbyScreen;
 	import com.bakalau.view.components.screens.GamesListScreen;
-	import com.bakalau.view.components.screens.GamesMainScreen;
-	import com.bakalau.view.components.screens.GamesListScreen;
+	import com.bakalau.view.components.screens.HomeScreen;
 
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
@@ -30,7 +31,7 @@ package com.bakalau.view.components
 	public class ScreensView extends Sprite
 	{
 		private static const PREFIX :String = "SCREENS_VIEW_";
-		public static const GAMES_MAIN :String = PREFIX + "GAMES_MAIN";
+		public static const HOME :String = PREFIX + "HOME";
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
 		public static const LIST_GAMES :String = PREFIX + "LIST_GAMES";
 		public static const GAME_LOBBY :String = PREFIX + "GAME_LOBBY";
@@ -74,22 +75,30 @@ package com.bakalau.view.components
 			addChild(_navigator);
 
 //			GamesMainScreen
-			_navigator.addScreen(GAMES_MAIN, new ScreenNavigatorItem(GamesMainScreen, {
-				onCreateGame: gamesMainScreen_onCreateGame,
-				onJoinGame: LIST_GAMES
+			_navigator.addScreen(HOME, new ScreenNavigatorItem(HomeScreen, {
+				onListGames: LIST_GAMES
 			}));
 
 //			JoinGameScreen
 			_navigator.addScreen(LIST_GAMES, new ScreenNavigatorItem(GamesListScreen, {
+				onCreateGame: CREATE_GAME,
 				onJoinGame: joinGameScreen_onJoinGame,
-				complete: GAMES_MAIN
+				complete: HOME
+			}, {
+				gamesData: _gamesData
+			}));
+
+//			CreateGameScreen
+			_navigator.addScreen(CREATE_GAME, new ScreenNavigatorItem(CreateGameScreen, {
+				onConfirm: createGameScreen_onCreateGame,
+				complete: LIST_GAMES
 			}, {
 				gamesData: _gamesData
 			}));
 
 //			GameLobbyScreen
 			_navigator.addScreen(GAME_LOBBY, new ScreenNavigatorItem(GameLobbyScreen, {
-				complete: GAMES_MAIN
+				complete: HOME
 			}, {
 				gamesData: _gamesData
 			}));
@@ -100,11 +109,11 @@ package com.bakalau.view.components
 			_transitionManager.ease = Transitions.EASE_OUT;
 
 
-			_navigator.showScreen(GAMES_MAIN);
+			_navigator.showScreen(HOME);
 		}
 
 
-		private function gamesMainScreen_onCreateGame () :void
+		private function createGameScreen_onCreateGame () :void
 		{
 			createGame.dispatch();
 		}
@@ -134,6 +143,12 @@ package com.bakalau.view.components
 			if (_navigator) {
 				_navigator.showScreen(GAME_LOBBY)
 			}
+		}
+
+
+		public function set categories (value :Vector.<CategoryVO>) :void
+		{
+			_gamesData.categories = value;
 		}
 	}
 }

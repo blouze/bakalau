@@ -21,13 +21,12 @@ package com.bakalau.view.components.screens
 
 
 
-	public class GamesMainScreen extends PanelScreen
+	public class HomeScreen extends PanelScreen
 	{
-		public var onCreateGame :Signal = new Signal();
-		public var onJoinGame :Signal = new Signal();
+		public var onListGames :Signal = new Signal();
 
 
-		public function GamesMainScreen ()
+		public function HomeScreen ()
 		{
 			this.addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
@@ -51,8 +50,7 @@ package com.bakalau.view.components.screens
 			_buttonGroup = new ButtonGroup();
 			_buttonGroup.dataProvider = new ListCollection(
 					[
-						{ label: "Créer une partie", triggered: onCreateTriggered },
-						{ label: "Rejoindre une partie", triggered: onJoinTriggered }
+						{ label: "Jouer", triggered: onListGamesTriggered }
 					]);
 			_buttonGroup.layoutData = buttonGroupLayoutData;
 
@@ -60,15 +58,9 @@ package com.bakalau.view.components.screens
 		}
 
 
-		private function onCreateTriggered (event :Event) :void
+		private function onListGamesTriggered (event :Event) :void
 		{
-			onCreateGame.dispatch();
-		}
-
-
-		private function onJoinTriggered (event :Event) :void
-		{
-			onJoinGame.dispatch();
+			onListGames.dispatch();
 		}
 	}
 }

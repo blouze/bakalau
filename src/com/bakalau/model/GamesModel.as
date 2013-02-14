@@ -50,6 +50,7 @@ package com.bakalau.model
 			channel.connect();
 
 			_currentGame = getGameById(gameID);
+			bindings.invalidate(this, "currentGame");
 		}
 
 
@@ -109,6 +110,7 @@ package com.bakalau.model
 				case ClientEvent.CLIENT_ADDED:
 					trace("[GamesModel] clientName: " + event.client.clientName);
 					trace("[GamesModel] peerID: " + event.client.peerID);
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.PLAYER_JOINS, event.client));
 					break;
 
 				case ClientEvent.CLIENT_UPDATE:

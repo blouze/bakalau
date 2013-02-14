@@ -8,6 +8,7 @@
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.ApplicationEvent;
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.ScreensView;
 
@@ -17,8 +18,16 @@ package com.bakalau.view
 
 	public class ScreensMediator
 	{
-		private var _games :Vector.<GameVO>;
+		private var _categories :Vector.<CategoryVO>;
+		[Inject(source="dataBaseModel.categories", bind="true", auto="false")]
+		public function set categories (value :Vector.<CategoryVO>) :void
+		{
+			_categories = value;
+			if (view) view.categories = _categories;
+		}
 
+
+		private var _games :Vector.<GameVO>;
 		[Inject(source="gamesModel.games", bind="true", auto="false")]
 		public function set games (value :Vector.<GameVO>) :void
 		{
@@ -28,7 +37,6 @@ package com.bakalau.view
 
 
 		private var _currentGame :GameVO;
-
 		[Inject(source="gamesModel.currentGame", bind="true", auto="false")]
 		public function set currentGame (value :GameVO) :void
 		{

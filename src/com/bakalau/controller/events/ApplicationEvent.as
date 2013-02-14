@@ -21,6 +21,8 @@ package com.bakalau.controller.events
 		public static const JOIN_GAME :String = PREFIX + "JOIN_GAME";
 		public static const GAME_CONNECTED :String = PREFIX + "GAME_CONNECTED";
 		public static const NEW_GAME_ADDED :String = PREFIX + "NEW_GAME_ADDED";
+		public static const PLAYER_JOINS :String = PREFIX + "PLAYER_JOINS";
+		public static const PLAYER_LEAVES :String = PREFIX + "PLAYER_LEAVES";
 		public static const DESTROY_GAME :String = PREFIX + "DESTROY_GAME";
 
 
