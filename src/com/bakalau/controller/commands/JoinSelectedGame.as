@@ -13,7 +13,7 @@ package com.bakalau.controller.commands
 
 
 
-	public class CreateGame
+	public class JoinSelectedGame
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -25,8 +25,8 @@ package com.bakalau.controller.commands
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			if (!gamesModel.getGameById(playersModel.currentPlayerName, false)) {
-				gamesModel.joinGame(playersModel.currentPlayerName, playersModel.currentPlayerName);
+			if (!gamesModel.currentGame || gamesModel.currentGame != gamesModel.selectedGame) {
+				gamesModel.joinGame(playersModel.currentPlayerName, gamesModel.selectedGame.clientName);
 			}
 		}
 	}

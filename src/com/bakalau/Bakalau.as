@@ -21,7 +21,7 @@ package com.bakalau
 	{
 		public function Bakalau ()
 		{
-			trace("[Pastonbak]");
+			trace("[Bakalau]");
 			registerClassAlias("com.bakalau.model.VOs.GameVO", GameVO);
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}

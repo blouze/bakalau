@@ -12,12 +12,15 @@ package com.bakalau.view.components.screens
 
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import feathers.controls.List;
 	import feathers.controls.PanelScreen;
+	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
-	import feathers.system.DeviceCapabilities;
+	import feathers.layout.AnchorLayoutData;
 
-	import starling.core.Starling;
+	import org.osflash.signals.Signal;
+
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 
@@ -25,6 +28,9 @@ package com.bakalau.view.components.screens
 
 	public class GameLobbyScreen extends PanelScreen
 	{
+		public var onJoinGame :Signal = new Signal();
+
+
 		public function GameLobbyScreen ()
 		{
 			this.addEventListener(FeathersEventType.INITIALIZE, onInitialize);
@@ -32,25 +38,41 @@ package com.bakalau.view.components.screens
 
 
 		private var _backButton :Button;
+		private var _joinButton :Button;
 		private var _game :GameVO;
+		private var _playersList :List;
+		private var _playersListData :ListCollection = new ListCollection(new Vector.<String>());
 
 
 		private function onInitialize (event :Event) :void
 		{
-			headerProperties.title = "Lobby de " + _game.label;
+			headerProperties.title = _game.label;
 			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
 
 			layout = new AnchorLayout();
 
+			_playersList = new List();
+			_playersList.dataProvider = _playersListData;
+			_playersList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			addChild(_playersList);
+
 			if (true) {
 //			if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
 				_backButton = new Button();
-				_backButton.label = "Back";
+				_backButton.label = "Retour";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
 				this.headerProperties.leftItems = new <DisplayObject>
 						[
 							this._backButton
+						];
+				_joinButton = new Button();
+				_joinButton.label = "Rejoindre";
+				_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
+
+				this.headerProperties.rightItems = new <DisplayObject>
+						[
+							this._joinButton
 						];
 			}
 			backButtonHandler = onBackButton;
@@ -69,9 +91,17 @@ package com.bakalau.view.components.screens
 		}
 
 
+		private function joinButton_triggeredHandler (event :Event) :void
+		{
+			onJoinGame.dispatch();
+		}
+
+
 		public function set gamesData (gamesData :GamesData) :void
 		{
-			_game = gamesData.currentGame;
+			_game = gamesData.selectedGame;
+			_playersListData.data = null;
+			_playersListData.data = _game.players;
 			invalidate(INVALIDATION_FLAG_DATA);
 		}
 	}

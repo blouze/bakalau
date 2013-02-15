@@ -1,8 +1,8 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Blouze
- * Date: 12/02/13
- * Time: 12:39
+ * Date: 14/02/13
+ * Time: 15:42
  * To change this template use File | Settings | File Templates.
  */
 package com.bakalau.controller.commands
@@ -10,11 +10,11 @@ package com.bakalau.controller.commands
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
 	import com.bakalau.model.PlayersModel;
-	import com.bakalau.model.VOs.GameVO;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 
 
-	public class OnGameAdded
+	public class PlayerUpdate
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -26,10 +26,16 @@ package com.bakalau.controller.commands
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			var game :GameVO = GameVO(event.data);
+			var player :ClientVO = ClientVO(event.data);
 
-			if (!gamesModel.getGameById(game.clientName, false)) {
-				gamesModel.addGame(game);
+			// if player not already added to current game players
+			var players :Vector.<Object> = gamesModel.currentGame.players.filter(function (playerID :String, index :int, vector :Vector.<Object>) :Boolean
+			{
+				return (playerID == player.clientName);
+			});
+
+			if (players.length == 0) {
+				gamesModel.addPlayerToCurrentGame(player.clientName);
 			}
 		}
 	}

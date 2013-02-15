@@ -1,8 +1,8 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Blouze
- * Date: 11/02/13
- * Time: 16:21
+ * Date: 14/02/13
+ * Time: 17:51
  * To change this template use File | Settings | File Templates.
  */
 package com.bakalau.controller.commands
@@ -13,7 +13,7 @@ package com.bakalau.controller.commands
 
 
 
-	public class JoinGame
+	public class SelectGame
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -26,7 +26,8 @@ package com.bakalau.controller.commands
 		public function execute (event :ApplicationEvent) :void
 		{
 			var gameID :String = String(event.data);
-			gamesModel.joinGame(gameID);
+
+			gamesModel.selectedGame = gamesModel.getGameById(gameID);
 		}
 	}
 }

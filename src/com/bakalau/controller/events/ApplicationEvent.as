@@ -15,14 +15,17 @@ package com.bakalau.controller.events
 	{
 		private static const PREFIX :String = "APPLICATION_";
 		public static const READY :String = PREFIX + "READY";
-		public static const NEW_PLAYER_ADDED :String = PREFIX + "NEW_PLAYER_ADDED";
-		public static const PLAYER_REMOVED :String = PREFIX + "PLAYER_REMOVED";
+		public static const CLIENT_ADDED :String = PREFIX + "CLIENT_ADDED";
+		public static const CLIENT_REMOVED :String = PREFIX + "CLIENT_REMOVED";
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
-		public static const JOIN_GAME :String = PREFIX + "JOIN_GAME";
-		public static const GAME_CONNECTED :String = PREFIX + "GAME_CONNECTED";
-		public static const NEW_GAME_ADDED :String = PREFIX + "NEW_GAME_ADDED";
-		public static const PLAYER_JOINS :String = PREFIX + "PLAYER_JOINS";
-		public static const PLAYER_LEAVES :String = PREFIX + "PLAYER_LEAVES";
+		public static const GAME_CREATED :String = PREFIX + "GAME_CREATED";
+		public static const GAME_JOINED :String = PREFIX + "GAME_JOINED";
+		public static const ADD_NEW_GAME_TO_GAMES_LIST :String = PREFIX + "ADD_NEW_GAME_TO_GAMES_LIST";
+		public static const SELECT_GAME :String = PREFIX + "SELECT_GAME";
+		public static const JOIN_SELECTED_GAME :String = PREFIX + "JOIN_SELECTED_GAME";
+		public static const PLAYER_ADDED :String = PREFIX + "PLAYER_ADDED";
+		public static const PLAYER_UPDATE :String = PREFIX + "PLAYER_UPDATE";
+		public static const PLAYER_REMOVED :String = PREFIX + "PLAYER_REMOVED";
 		public static const DESTROY_GAME :String = PREFIX + "DESTROY_GAME";
 
 

@@ -16,6 +16,7 @@ package com.bakalau.view.components.data
 	{
 		public var categories :Vector.<CategoryVO>;
 		public var games :Vector.<GameVO>;
+		public var selectedGame :GameVO;
 		public var currentGame :GameVO;
 	}
 }

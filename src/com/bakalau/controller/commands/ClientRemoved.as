@@ -10,10 +10,12 @@ package com.bakalau.controller.commands
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
 	import com.bakalau.model.PlayersModel;
+	import com.bakalau.model.VOs.GameVO;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 
 
-	public class CreateGame
+	public class ClientRemoved
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -25,8 +27,12 @@ package com.bakalau.controller.commands
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			if (!gamesModel.getGameById(playersModel.currentPlayerName, false)) {
-				gamesModel.joinGame(playersModel.currentPlayerName, playersModel.currentPlayerName);
+			var removedPlayer :ClientVO = ClientVO(event.data);
+			var removedPlayerGame :GameVO = gamesModel.getGameById(removedPlayer.clientName, false);
+
+			if (removedPlayerGame) {
+				trace("[ClientRemoved] removing client's game too");
+				gamesModel.removeGame(removedPlayerGame);
 			}
 		}
 	}

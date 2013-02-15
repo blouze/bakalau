@@ -28,7 +28,7 @@ package com.bakalau.view.components.screens
 
 	public class GamesListScreen extends PanelScreen
 	{
-		public var onJoinGame :Signal = new Signal(String);
+		public var onSelectGame :Signal = new Signal(String);
 		public var onCreateGame :Signal = new Signal();
 
 
@@ -55,7 +55,6 @@ package com.bakalau.view.components.screens
 			_list.dataProvider = _listData;
 			_list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			_list.addEventListener(Event.CHANGE, onListChange);
-
 			addChild(_list);
 
 			if (true) {
@@ -84,7 +83,7 @@ package com.bakalau.view.components.screens
 
 		private function onListChange (event :Event) :void
 		{
-			onJoinGame.dispatch(_list.selectedItem.value);
+			onSelectGame.dispatch(_list.selectedItem.value);
 		}
 
 

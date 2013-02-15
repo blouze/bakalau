@@ -10,7 +10,9 @@ package com.bakalau.model.VOs
 	public class GameVO
 	{
 		public var clientName :String;
-		public var players :Vector.<String>;
+		public var players :Vector.<Object> = new <Object>[];
+		// com.projectcocoon.p2p.vo.MessageVO
+		// obviously cannot handle Vector.<String> over p2p connection
 
 
 		public function get label () :String

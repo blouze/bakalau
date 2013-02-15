@@ -13,7 +13,7 @@ package com.bakalau.controller.commands
 
 
 
-	public class OnGameConnected
+	public class GameCreated
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -25,7 +25,7 @@ package com.bakalau.controller.commands
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			playersModel.channel.sendMessageToAll(gamesModel.currentGame);
+//			playersModel.channel.sendMessageToAll(gamesModel.currentGame);
 		}
 	}
 }

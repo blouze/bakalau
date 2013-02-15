@@ -36,12 +36,12 @@ package com.bakalau.view
 		}
 
 
-		private var _currentGame :GameVO;
-		[Inject(source="gamesModel.currentGame", bind="true", auto="false")]
-		public function set currentGame (value :GameVO) :void
+		private var _selectedGame :GameVO;
+		[Inject(source="gamesModel.selectedGame", bind="true", auto="false")]
+		public function set selectedGame (value :GameVO) :void
 		{
-			_currentGame = value;
-			if (view) view.currentGame = _currentGame;
+			_selectedGame = value;
+			if (view) view.selectedGame = _selectedGame;
 		}
 
 
@@ -61,12 +61,17 @@ package com.bakalau.view
 			{
 				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CREATE_GAME));
 			});
-			view.joinGame.add(function (gameID :String) :void
+			view.selectGame.add(function (gameID :String) :void
 			{
-				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_GAME, gameID));
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, gameID));
 			});
+			view.joinSelectedGame.add(function () :void
+			{
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
+			});
+
 			view.games = _games;
-			view.currentGame = _currentGame;
+			view.selectedGame = _selectedGame;
 		}
 
 
@@ -74,7 +79,7 @@ package com.bakalau.view
 		public function viewRemoved (screensView :ScreensView) :void
 		{
 			view.createGame.removeAll();
-			view.joinGame.removeAll();
+			view.joinSelectedGame.removeAll();
 			view = null;
 		}
 	}

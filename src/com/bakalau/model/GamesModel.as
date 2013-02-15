@@ -14,6 +14,10 @@ package com.bakalau.model
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;
 	import com.projectcocoon.p2p.events.MessageEvent;
+	import com.projectcocoon.p2p.vo.ClientVO;
+
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 
 	import starling.events.EventDispatcher;
 
@@ -31,25 +35,99 @@ package com.bakalau.model
 
 
 		private var _games :Vector.<GameVO> = new <GameVO>[];
+		private var _selectedGame :GameVO;
+		private var _currentChannel :LocalNetworkDiscovery;
 		private var _currentGame :GameVO;
 
 
-		public function joinGame (gameID :String) :void
+		private function onClientEvent (event :ClientEvent) :void
 		{
-			var channel :LocalNetworkDiscovery = new LocalNetworkDiscovery();
+			switch (event.type) {
+				case ClientEvent.CLIENT_ADDED:
+					break;
 
-			channel.clientName = gameID;
+				case ClientEvent.CLIENT_UPDATE:
+					trace("[GamesModel] CLIENT_UPDATE: " + event.client.clientName);
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.PLAYER_UPDATE, event.client));
+					break;
 
-			channel.groupName = gameID;
-			channel.loopback = true;
-			channel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
-			channel.addEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
-			channel.addEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
-			channel.addEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
-			channel.addEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
-			channel.connect();
+				case ClientEvent.CLIENT_REMOVED:
+					break;
 
-			_currentGame = getGameById(gameID);
+				default :
+					break;
+			}
+		}
+
+
+		private function onGroupEvent (event :GroupEvent) :void
+		{
+			switch (event.type) {
+				case GroupEvent.GROUP_CONNECTED:
+					var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
+					trace("[GamesModel] CONNECTED_TO_GROUP: " + channel.clientName);
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.GAME_JOINED, channel.clientName));
+					break;
+
+				default :
+					break;
+			}
+		}
+
+
+		private function onMessageEvent (event :MessageEvent) :void
+		{
+			var dataClass :Class = Class(getDefinitionByName(getQualifiedClassName(event.message.data)));
+
+			switch (dataClass) {
+				case GameVO :
+					break;
+
+				case ClientVO :
+					var clientVO :ClientVO = ClientVO(event.message.data);
+					if (_currentGame.players.lastIndexOf(clientVO.clientName) == -1) {
+						addPlayerToCurrentGame(clientVO.clientName);
+					}
+					break;
+
+				default :
+					trace("[GamesModel] " + event.type + ": " + event.message.data);
+					break;
+			}
+		}
+
+
+		public function joinGame (playerID :String, gameID :String) :void
+		{
+			_currentChannel = new LocalNetworkDiscovery();
+
+			_currentChannel.clientName = playerID;
+			_currentChannel.groupName = gameID;
+//			_currentChannel.loopback = true;
+
+			_currentChannel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
+			_currentChannel.addEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
+			_currentChannel.addEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
+			_currentChannel.addEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
+			_currentChannel.addEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
+
+			_currentChannel.connect();
+		}
+
+
+		public function leaveCurrentGame () :void
+		{
+			_currentChannel.close();
+
+			_currentChannel.removeEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
+			_currentChannel.removeEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
+			_currentChannel.removeEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
+			_currentChannel.removeEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
+			_currentChannel.removeEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
+
+			_currentChannel = null;
+
+			_currentGame = null;
 			bindings.invalidate(this, "currentGame");
 		}
 
@@ -103,49 +181,11 @@ package com.bakalau.model
 		}
 
 
-		private function onClientEvent (event :ClientEvent) :void
+		public function addPlayerToCurrentGame (playerID :String) :void
 		{
-			trace("[GamesModel] " + event.type);
-			switch (event.type) {
-				case ClientEvent.CLIENT_ADDED:
-					trace("[GamesModel] clientName: " + event.client.clientName);
-					trace("[GamesModel] peerID: " + event.client.peerID);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.PLAYER_JOINS, event.client));
-					break;
-
-				case ClientEvent.CLIENT_UPDATE:
-					trace("[GamesModel] clientName: " + event.client.clientName);
-					trace("[GamesModel] peerID: " + event.client.peerID);
-					break;
-
-				case ClientEvent.CLIENT_REMOVED:
-					break;
-
-				default :
-					break;
-			}
-		}
-
-
-		private function onGroupEvent (event :GroupEvent) :void
-		{
-			trace("[GamesModel] " + event.type);
-			switch (event.type) {
-				case GroupEvent.GROUP_CONNECTED:
-					var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.GAME_CONNECTED, channel.clientName));
-					break;
-
-
-				default :
-					break;
-			}
-		}
-
-
-		private function onMessageEvent (event :MessageEvent) :void
-		{
-			trace(event);
+			_selectedGame.players.push(playerID);
+			bindings.invalidate(this, "selectedGame");
+			currentGame = _selectedGame;
 		}
 
 
@@ -155,9 +195,35 @@ package com.bakalau.model
 		}
 
 
+		public function get selectedGame () :GameVO
+		{
+			return _selectedGame;
+		}
+
+
+		public function set selectedGame (value :GameVO) :void
+		{
+			_selectedGame = value;
+			bindings.invalidate(this, "selectedGame");
+		}
+
+
+		public function get currentChannel () :LocalNetworkDiscovery
+		{
+			return _currentChannel;
+		}
+
+
 		public function get currentGame () :GameVO
 		{
 			return _currentGame;
+		}
+
+
+		public function set currentGame (value :GameVO) :void
+		{
+			_currentGame = value;
+			bindings.invalidate(this, "currentGame");
 		}
 	}
 }

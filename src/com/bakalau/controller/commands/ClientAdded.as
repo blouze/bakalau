@@ -14,7 +14,7 @@ package com.bakalau.controller.commands
 
 
 
-	public class OnPlayerAdded
+	public class ClientAdded
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -28,13 +28,9 @@ package com.bakalau.controller.commands
 		{
 			var newPlayer :ClientVO = ClientVO(event.data);
 
-			// if added player is not current player
-			if (playersModel.channel.localClient) {
-				// and current player has own game running
-				if (gamesModel.currentGame) {
-					// then send current game to added player
-					playersModel.channel.sendMessageToClient(gamesModel.currentGame, newPlayer.groupID);
-				}
+			if (gamesModel.currentGame && gamesModel.currentGame.clientName == playersModel.currentPlayerName) {
+				trace("[ClientAdded] send game " + gamesModel.currentGame.clientName + " to " + newPlayer.groupID);
+				playersModel.channel.sendMessageToClient(gamesModel.currentGame, newPlayer.groupID);
 			}
 		}
 	}

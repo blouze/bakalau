@@ -36,7 +36,8 @@ package com.bakalau.model
 		public function PlayersModel ()
 		{
 			_channel = new LocalNetworkDiscovery();
-			_channel.clientName = BAKALAU_CLIENT_NAME + "_" + String(new Date().time);
+//			_channel.clientName = BAKALAU_CLIENT_NAME + "_" + String(new Date().time);
+			_channel.clientName = String(new Date().time);
 			_channel.groupName = BAKALAU_GROUP_NAME;
 			_channel.loopback = true;
 			_channel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
@@ -50,25 +51,18 @@ package com.bakalau.model
 
 		private function onClientEvent (event :ClientEvent) :void
 		{
-			trace("[PlayersModel] " + event.type);
 			switch (event.type) {
 				case ClientEvent.CLIENT_ADDED:
-					trace("[PlayersModel] clientName: " + event.client.clientName);
-					trace("[PlayersModel] peerID: " + event.client.peerID);
-					trace("[PlayersModel] groupID: " + event.client.groupID);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.NEW_PLAYER_ADDED, event.client));
+					trace("[PlayersModel] CLIENT_ADDED: " + event.client.groupID);
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CLIENT_ADDED, event.client));
 					break;
 
 				case ClientEvent.CLIENT_UPDATE:
-					trace("[PlayersModel] clientName: " + event.client.clientName);
-					trace("[PlayersModel] peerID: " + event.client.peerID);
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
-					trace("[PlayersModel] clientName: " + event.client.clientName);
-					trace("[PlayersModel] peerID: " + event.client.peerID);
-					trace("[PlayersModel] groupID: " + event.client.groupID);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.PLAYER_REMOVED, event.client));
+					trace("[PlayersModel] CLIENT_REMOVED: " + event.client.groupID);
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CLIENT_REMOVED, event.client));
 					break;
 
 				default :
@@ -79,9 +73,10 @@ package com.bakalau.model
 
 		private function onGroupEvent (event :GroupEvent) :void
 		{
-			trace("[PlayersModel] " + event.type);
 			switch (event.type) {
 				case GroupEvent.GROUP_CONNECTED:
+					var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
+					trace("[PlayersModel] CONNECTED_TO_GROUP: " + channel.groupName);
 					break;
 
 
@@ -97,15 +92,19 @@ package com.bakalau.model
 
 			switch (dataClass) {
 				case GameVO :
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.NEW_GAME_ADDED, event.message.data));
+					var gameVO :GameVO = GameVO(event.message.data);
+					trace("[PlayersModel] DATA_RECEIVED: Game " + gameVO.clientName + " has " + gameVO.players.length + " player(s)");
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.ADD_NEW_GAME_TO_GAMES_LIST, event.message.data));
 					break;
 
 				case ClientVO :
+					var clientVO :ClientVO = ClientVO(event.message.data);
+					trace("[PlayersModel] DATA_RECEIVED:" + clientVO.clientName);
 					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.DESTROY_GAME, event.message.data));
 					break;
 
 				default :
-					trace(event.message.data);
+					trace("[PlayersModel] " + event.type + ": " + event.message.data);
 					break;
 			}
 		}
@@ -114,6 +113,15 @@ package com.bakalau.model
 		public function get channel () :LocalNetworkDiscovery
 		{
 			return _channel;
+		}
+
+
+		public function get currentPlayerName () :String
+		{
+			if (channel.localClient) {
+				return channel.localClient.clientName;
+			}
+			return null;
 		}
 	}
 }

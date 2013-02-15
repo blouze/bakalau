@@ -43,7 +43,8 @@ package com.bakalau.view.components
 		private var _onScreenChange :Signal = new Signal(ScreenNavigator);
 
 		public var createGame :Signal = new Signal();
-		public var joinGame :Signal = new Signal(String);
+		public var selectGame :Signal = new Signal(String);
+		public var joinSelectedGame :Signal = new Signal();
 
 		private var _gamesData :GamesData = new GamesData();
 
@@ -82,7 +83,7 @@ package com.bakalau.view.components
 //			JoinGameScreen
 			_navigator.addScreen(LIST_GAMES, new ScreenNavigatorItem(GamesListScreen, {
 				onCreateGame: CREATE_GAME,
-				onJoinGame: joinGameScreen_onJoinGame,
+				onSelectGame: listGamesScreen_onSelectGame,
 				complete: HOME
 			}, {
 				gamesData: _gamesData
@@ -98,7 +99,8 @@ package com.bakalau.view.components
 
 //			GameLobbyScreen
 			_navigator.addScreen(GAME_LOBBY, new ScreenNavigatorItem(GameLobbyScreen, {
-				complete: HOME
+				onJoinGame: gameLobbyScreen_onJoinGame,
+				complete: LIST_GAMES
 			}, {
 				gamesData: _gamesData
 			}));
@@ -119,16 +121,21 @@ package com.bakalau.view.components
 		}
 
 
-		private function joinGameScreen_onJoinGame (gameID :String) :void
+		private function listGamesScreen_onSelectGame (gameID :String) :void
 		{
-			joinGame.dispatch(gameID);
+			selectGame.dispatch(gameID);
+		}
+
+
+		private function gameLobbyScreen_onJoinGame () :void
+		{
+			joinSelectedGame.dispatch();
 		}
 
 
 		public function set games (value :Vector.<GameVO>) :void
 		{
 			_gamesData.games = value;
-
 			if (_navigator) {
 				if (_navigator.activeScreenID == LIST_GAMES) {
 					GamesListScreen(_navigator.activeScreen).gamesData = _gamesData;
@@ -137,11 +144,16 @@ package com.bakalau.view.components
 		}
 
 
-		public function set currentGame (value :GameVO) :void
+		public function set selectedGame (value :GameVO) :void
 		{
-			_gamesData.currentGame = value;
+			_gamesData.selectedGame = value;
 			if (_navigator) {
-				_navigator.showScreen(GAME_LOBBY)
+				if (_navigator.activeScreenID == GAME_LOBBY) {
+					GameLobbyScreen(_navigator.activeScreen).gamesData = _gamesData;
+				}
+				else {
+					_navigator.showScreen(GAME_LOBBY);
+				}
 			}
 		}
 
