@@ -28,7 +28,7 @@ package com.bakalau.view.components.screens
 
 		public function HomeScreen ()
 		{
-			this.addEventListener(FeathersEventType.INITIALIZE, onInitialize);
+			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
 
 

@@ -16,7 +16,7 @@ package com.bakalau.view.components.screens
 	import feathers.controls.PanelScreen;
 	import feathers.controls.ScrollContainer;
 	import feathers.events.FeathersEventType;
-	import feathers.layout.VerticalLayout;
+	import feathers.layout.TiledRowsLayout;
 
 	import org.osflash.signals.Signal;
 
@@ -32,14 +32,14 @@ package com.bakalau.view.components.screens
 
 		public function CreateGameScreen ()
 		{
-			this.addEventListener(FeathersEventType.INITIALIZE, onInitialize);
+			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
 
 
 		private var _backButton :Button;
 		private var _confirmButton :Button;
 		private var _categories :Vector.<CategoryVO>;
-		private var _checkContainer :ScrollContainer;
+		private var _container :ScrollContainer;
 
 
 		private function onInitialize (event :Event) :void
@@ -47,26 +47,27 @@ package com.bakalau.view.components.screens
 			headerProperties.title = "Nouvelle partie";
 			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
 
-			const verticalLayout :VerticalLayout = new VerticalLayout();
-			verticalLayout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_LEFT;
-			verticalLayout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_MIDDLE;
-			verticalLayout.padding = 22 * dpiScale;
-			verticalLayout.paddingLeft = verticalLayout.paddingRight *= 2;
-			verticalLayout.gap = 44 * dpiScale;
-			layout = verticalLayout;
+			const layout :TiledRowsLayout = new TiledRowsLayout();
+			layout.horizontalAlign = TiledRowsLayout.HORIZONTAL_ALIGN_LEFT;
+			layout.verticalAlign = TiledRowsLayout.VERTICAL_ALIGN_MIDDLE;
+			layout.tileHorizontalAlign = TiledRowsLayout.TILE_HORIZONTAL_ALIGN_LEFT;
+			layout.padding = 22 * dpiScale;
+			layout.paddingLeft = layout.paddingRight *= 2;
+			layout.gap = 44 * dpiScale;
+			layout.useSquareTiles = false;
 
-			_checkContainer = new ScrollContainer();
-			_checkContainer.layout = verticalLayout;
-			_checkContainer.horizontalScrollPolicy = ScrollContainer.SCROLL_POLICY_OFF;
-			_checkContainer.verticalScrollPolicy = ScrollContainer.SCROLL_POLICY_OFF;
-			addChild(this._checkContainer);
+			_container = new ScrollContainer();
+			_container.layout = layout;
+			_container.horizontalScrollPolicy = ScrollContainer.SCROLL_POLICY_OFF;
+			_container.verticalScrollPolicy = ScrollContainer.SCROLL_POLICY_ON;
+			addChild(_container);
 
 			for each (var categoryVO :CategoryVO in _categories) {
-				var _check :Check = new Check();
-				_check.isSelected = false;
+				var check :Check = new Check();
+				check.isSelected = false;
 				var categoryName :String = String(String(categoryVO.name).substr(0, 1)).toUpperCase() + String(categoryVO.name).slice(1);
-				_check.label = categoryName;
-				_checkContainer.addChild(_check);
+				check.label = categoryName;
+				_container.addChild(check);
 			}
 
 			if (true) {
@@ -75,7 +76,7 @@ package com.bakalau.view.components.screens
 				_backButton.label = "Retour";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
-				this.headerProperties.leftItems = new <DisplayObject>
+				headerProperties.leftItems = new <DisplayObject>
 						[
 							this._backButton
 						];
@@ -84,12 +85,21 @@ package com.bakalau.view.components.screens
 				_confirmButton.label = "OK";
 				_confirmButton.addEventListener(Event.TRIGGERED, confirmButton_triggeredHandler);
 
-				this.headerProperties.rightItems = new <DisplayObject>
+				headerProperties.rightItems = new <DisplayObject>
 						[
 							this._confirmButton
 						];
 			}
 			backButtonHandler = onBackButton;
+		}
+
+
+		override protected function draw () :void
+		{
+			super.draw();
+
+			_container.width = actualWidth;
+			_container.height = actualHeight - header.height;
 		}
 
 
@@ -114,6 +124,7 @@ package com.bakalau.view.components.screens
 		public function set gamesData (gamesData :GamesData) :void
 		{
 			_categories = gamesData.categories;
+			invalidate(INVALIDATION_FLAG_DATA);
 		}
 	}
 }

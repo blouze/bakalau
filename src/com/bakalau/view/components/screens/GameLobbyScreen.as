@@ -33,7 +33,7 @@ package com.bakalau.view.components.screens
 
 		public function GameLobbyScreen ()
 		{
-			this.addEventListener(FeathersEventType.INITIALIZE, onInitialize);
+			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
 
 
@@ -62,17 +62,17 @@ package com.bakalau.view.components.screens
 				_backButton.label = "Retour";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
-				this.headerProperties.leftItems = new <DisplayObject>
+				headerProperties.leftItems = new <DisplayObject>
 						[
-							this._backButton
+							_backButton
 						];
 				_joinButton = new Button();
 				_joinButton.label = "Rejoindre";
 				_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
 
-				this.headerProperties.rightItems = new <DisplayObject>
+				headerProperties.rightItems = new <DisplayObject>
 						[
-							this._joinButton
+							_joinButton
 						];
 			}
 			backButtonHandler = onBackButton;

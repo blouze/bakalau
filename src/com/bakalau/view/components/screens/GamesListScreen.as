@@ -34,7 +34,7 @@ package com.bakalau.view.components.screens
 
 		public function GamesListScreen ()
 		{
-			this.addEventListener(FeathersEventType.INITIALIZE, onInitialize);
+			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
 
 
@@ -63,18 +63,18 @@ package com.bakalau.view.components.screens
 				_backButton.label = "Retour";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
-				this.headerProperties.leftItems = new <DisplayObject>
+				headerProperties.leftItems = new <DisplayObject>
 						[
-							this._backButton
+							_backButton
 						];
 
 				_createGameButton = new Button();
 				_createGameButton.label = "Nouvelle";
 				_createGameButton.addEventListener(Event.TRIGGERED, createGameButton_triggeredHandler);
 
-				this.headerProperties.rightItems = new <DisplayObject>
+				headerProperties.rightItems = new <DisplayObject>
 						[
-							this._createGameButton
+							_createGameButton
 						];
 			}
 			backButtonHandler = onBackButton;
