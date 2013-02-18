@@ -15,7 +15,7 @@ package com.bakalau.controller.commands.game
 
 
 
-	public class AddPlayer
+	public class UpdatePlayers
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -33,11 +33,17 @@ package com.bakalau.controller.commands.game
 			var playerGroupID :String = clientEvent.client.groupID;
 
 			if (gameID) {
-				trace("[AddPlayer] adding player " + playerGroupID + " to game " + gameID);
-
 				var game :GameVO = gamesModel.getGameByID(gameID);
-				if (game && !game.hasPlayerByGroupID(playerGroupID)) {
-					game.players.push(playerGroupID);
+				if (game) {
+					if (!game.hasPlayerByGroupID(playerGroupID)) {
+						trace("[UpdatePlayers] adding " + playerGroupID + " in game " + gameID);
+						game.players.push(playerGroupID);
+					}
+					else {
+						trace("[UpdatePlayers] removing " + playerGroupID + " from game " + gameID);
+						var playerIndex :int = game.players.lastIndexOf(playerGroupID);
+						game.players.splice(playerIndex, 1);
+					}
 					playersModel.channel.sendMessageToAll(game);
 				}
 			}

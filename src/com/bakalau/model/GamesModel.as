@@ -41,17 +41,20 @@ package com.bakalau.model
 
 		private function onClientEvent (event :ClientEvent) :void
 		{
+			var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
+
 			switch (event.type) {
 				case ClientEvent.CLIENT_ADDED:
-					var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
 					trace("[GamesModel] CLIENT_ADDED: on game " + channel.clientName);
-					dispatcher.dispatchEvent(new GameEvent(GameEvent.ADD_PLAYER, event.clone()));
+					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE_PLAYERS, event.clone()));
 					break;
 
 				case ClientEvent.CLIENT_UPDATE:
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
+					trace("[GamesModel] CLIENT_REMOVED: on game " + channel.clientName);
+					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE_PLAYERS, event.clone()));
 					break;
 
 				default :
@@ -176,12 +179,6 @@ package com.bakalau.model
 		{
 			_selectedGame = value;
 			bindings.invalidate(this, "selectedGame");
-		}
-
-
-		public function get currentChannel () :LocalNetworkDiscovery
-		{
-			return _currentChannel;
 		}
 
 

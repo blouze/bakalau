@@ -20,11 +20,8 @@ package com.bakalau.controller.events
 		public static const GAME_DATA_RECEIVED :String = PREFIX + "GAME_DATA_RECEIVED";
 
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
-		public static const GAME_JOINED :String = PREFIX + "GAME_JOINED";
 		public static const SELECT_GAME :String = PREFIX + "SELECT_GAME";
 		public static const JOIN_SELECTED_GAME :String = PREFIX + "JOIN_SELECTED_GAME";
-		public static const PLAYER_ADDED :String = PREFIX + "PLAYER_ADDED";
-		public static const PLAYER_UPDATE :String = PREFIX + "PLAYER_UPDATE";
 		public static const DESTROY_GAME :String = PREFIX + "DESTROY_GAME";
 
 
