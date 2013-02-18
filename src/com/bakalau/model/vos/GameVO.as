@@ -11,6 +11,7 @@ package com.bakalau.model.VOs
 	{
 		public var gameID :String;
 		public var players :Vector.<Object> = new <Object>[];
+		public var gameOwner :String;
 		// com.projectcocoon.p2p.vo.MessageVO
 		// obviously cannot handle Vector.<String> over p2p connection
 

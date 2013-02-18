@@ -8,6 +8,7 @@
 package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
+	import com.bakalau.controller.events.GameEvent;
 	import com.bakalau.model.GamesModel;
 	import com.bakalau.model.PlayersModel;
 	import com.bakalau.model.VOs.GameVO;
@@ -32,27 +33,12 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			var gameVO :GameVO = GameVO(event.data);
-			var game :GameVO = gamesModel.getGameByID(gameVO.gameID);
 
-			if (!game) {
-				trace("[GameDataReceived] new game: " + gameVO.gameID);
-
-				gamesModel.addGame(gameVO);
-
-				// select & join if current player created this game
-				if (gameVO.gameID == playersModel.currentPlayerName) {
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, gameVO.gameID));
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
-				}
+			if (!gamesModel.getGameByID(gameVO.gameID)) {
+				dispatcher.dispatchEvent(new GameEvent(GameEvent.NEW_GAME, gameVO));
 			}
 			else {
-				trace("[GameDataReceived] update game: " + game.gameID);
-
-				game.players = gameVO.players;
-				gamesModel.bindings.invalidate(gamesModel, "games");
-				if (game == gamesModel.selectedGame) {
-					gamesModel.bindings.invalidate(gamesModel, "selectedGame");
-				}
+				dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE_GAME, gameVO));
 			}
 		}
 	}

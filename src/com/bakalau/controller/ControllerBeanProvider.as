@@ -15,9 +15,10 @@ package com.bakalau.controller
 	import com.bakalau.controller.commands.application.GameDataReceived;
 	import com.bakalau.controller.commands.application.JoinSelectedGame;
 	import com.bakalau.controller.commands.application.SelectGame;
-	import com.bakalau.controller.commands.game.UpdatePlayers;
 	import com.bakalau.controller.commands.game.NewGame;
 	import com.bakalau.controller.commands.game.RemovePlayer;
+	import com.bakalau.controller.commands.game.UpdateGame;
+	import com.bakalau.controller.commands.game.UpdatePlayers;
 	import com.bakalau.controller.commands.navigation.NavigateToView;
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.controller.events.GameEvent;
@@ -43,6 +44,7 @@ package com.bakalau.controller
 				new Command(ApplicationEvent.DESTROY_GAME, DestroyGame),
 
 				new Command(GameEvent.NEW_GAME, NewGame),
+				new Command(GameEvent.UPDATE_GAME, UpdateGame),
 				new Command(GameEvent.UPDATE_PLAYERS, UpdatePlayers),
 				new Command(GameEvent.REMOVE_PLAYER, RemovePlayer),
 
