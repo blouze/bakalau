@@ -5,7 +5,7 @@
  * Time: 17:51
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.controller.commands
+package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
@@ -27,7 +27,7 @@ package com.bakalau.controller.commands
 		{
 			var gameID :String = String(event.data);
 
-			gamesModel.selectedGame = gamesModel.getGameById(gameID);
+			gamesModel.selectedGame = gamesModel.getGameByID(gameID);
 		}
 	}
 }

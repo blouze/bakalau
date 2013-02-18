@@ -5,7 +5,7 @@
  * Time: 16:21
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.controller.commands
+package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
@@ -13,7 +13,7 @@ package com.bakalau.controller.commands
 
 
 
-	public class CreateGame
+	public class JoinSelectedGame
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -25,8 +25,8 @@ package com.bakalau.controller.commands
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			if (!gamesModel.getGameById(playersModel.currentPlayerName, false)) {
-				gamesModel.joinGame(playersModel.currentPlayerName, playersModel.currentPlayerName);
+			if (gamesModel.selectedGame != gamesModel.currentGame) {
+				gamesModel.joinGame(playersModel.currentPlayerName, gamesModel.selectedGame.clientName);
 			}
 		}
 	}

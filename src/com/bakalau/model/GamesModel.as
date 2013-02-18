@@ -7,14 +7,13 @@
  */
 package com.bakalau.model
 {
-	import com.bakalau.controller.events.ApplicationEvent;
+	import com.bakalau.controller.events.GameEvent;
 	import com.bakalau.model.VOs.GameVO;
 	import com.creativebottle.starlingmvc.binding.Bindings;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;
 	import com.projectcocoon.p2p.events.MessageEvent;
-	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
@@ -44,11 +43,12 @@ package com.bakalau.model
 		{
 			switch (event.type) {
 				case ClientEvent.CLIENT_ADDED:
+					trace("[GamesModel] CLIENT_ADDED: " + event.client.clientName);
+					dispatcher.dispatchEvent(new GameEvent(GameEvent.ADD_PLAYER, event.clone()));
 					break;
 
 				case ClientEvent.CLIENT_UPDATE:
 					trace("[GamesModel] CLIENT_UPDATE: " + event.client.clientName);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.PLAYER_UPDATE, event.client));
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
@@ -64,9 +64,6 @@ package com.bakalau.model
 		{
 			switch (event.type) {
 				case GroupEvent.GROUP_CONNECTED:
-					var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
-					trace("[GamesModel] CONNECTED_TO_GROUP: " + channel.clientName);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.GAME_JOINED, channel.clientName));
 					break;
 
 				default :
@@ -80,16 +77,6 @@ package com.bakalau.model
 			var dataClass :Class = Class(getDefinitionByName(getQualifiedClassName(event.message.data)));
 
 			switch (dataClass) {
-				case GameVO :
-					break;
-
-				case ClientVO :
-					var clientVO :ClientVO = ClientVO(event.message.data);
-					if (_currentGame.players.lastIndexOf(clientVO.clientName) == -1) {
-						addPlayerToCurrentGame(clientVO.clientName);
-					}
-					break;
-
 				default :
 					trace("[GamesModel] " + event.type + ": " + event.message.data);
 					break;
@@ -103,7 +90,7 @@ package com.bakalau.model
 
 			_currentChannel.clientName = playerID;
 			_currentChannel.groupName = gameID;
-//			_currentChannel.loopback = true;
+			_currentChannel.loopback = true;
 
 			_currentChannel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
 			_currentChannel.addEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
@@ -126,9 +113,6 @@ package com.bakalau.model
 			_currentChannel.removeEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
 
 			_currentChannel = null;
-
-			_currentGame = null;
-			bindings.invalidate(this, "currentGame");
 		}
 
 
@@ -149,7 +133,7 @@ package com.bakalau.model
 		}
 
 
-		public function getGameById (gameID :String, newGame :Boolean = true) :GameVO
+		public function getGameByID (gameID :String) :GameVO
 		{
 			var gameVOs :Vector.<GameVO> = _games.filter(function (gameVO :GameVO, index :int, vector :Vector.<GameVO>) :Boolean
 			{
@@ -158,11 +142,6 @@ package com.bakalau.model
 
 			if (gameVOs.length > 0) {
 				return gameVOs[0];
-			}
-			else if (newGame) {
-				var game :GameVO = new GameVO();
-				game.clientName = gameID;
-				return game;
 			}
 
 			return null;
@@ -178,14 +157,6 @@ package com.bakalau.model
 				}
 			}
 			return index;
-		}
-
-
-		public function addPlayerToCurrentGame (playerID :String) :void
-		{
-			_selectedGame.players.push(playerID);
-			bindings.invalidate(this, "selectedGame");
-			currentGame = _selectedGame;
 		}
 
 

@@ -13,7 +13,6 @@ package com.bakalau.model
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;
 	import com.projectcocoon.p2p.events.MessageEvent;
-	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
@@ -92,15 +91,7 @@ package com.bakalau.model
 
 			switch (dataClass) {
 				case GameVO :
-					var gameVO :GameVO = GameVO(event.message.data);
-					trace("[PlayersModel] DATA_RECEIVED: Game " + gameVO.clientName + " has " + gameVO.players.length + " player(s)");
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.ADD_NEW_GAME_TO_GAMES_LIST, event.message.data));
-					break;
-
-				case ClientVO :
-					var clientVO :ClientVO = ClientVO(event.message.data);
-					trace("[PlayersModel] DATA_RECEIVED:" + clientVO.clientName);
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.DESTROY_GAME, event.message.data));
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.GAME_DATA_RECEIVED, event.message.data));
 					break;
 
 				default :

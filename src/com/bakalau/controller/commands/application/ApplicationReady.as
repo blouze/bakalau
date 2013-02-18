@@ -5,7 +5,7 @@
  * Time: 02:35
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.controller.commands
+package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.controller.events.NavigationEvent;

@@ -25,5 +25,16 @@ package com.bakalau.model.VOs
 		{
 			return clientName;
 		}
+
+
+		public function hasPlayerByGroupID (playerID :String) :Boolean
+		{
+			var players :Vector.<Object> = players.filter(function (playerName :String, index :int, vector :Vector.<Object>) :Boolean
+			{
+				return (playerName == playerID);
+			});
+
+			return players.length > 0;
+		}
 	}
 }

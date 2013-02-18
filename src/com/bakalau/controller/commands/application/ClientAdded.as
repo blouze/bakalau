@@ -1,20 +1,21 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Blouze
- * Date: 14/02/13
- * Time: 15:42
+ * Date: 11/02/13
+ * Time: 16:21
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.controller.commands
+package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
 	import com.bakalau.model.PlayersModel;
+	import com.bakalau.model.VOs.GameVO;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
 
 
-	public class PlayerUpdate
+	public class ClientAdded
 	{
 		[Inject(source="playersModel")]
 		public var playersModel :PlayersModel;
@@ -26,16 +27,13 @@ package com.bakalau.controller.commands
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			var player :ClientVO = ClientVO(event.data);
+			var newPlayer :ClientVO = ClientVO(event.data);
 
-			// if player not already added to current game players
-			var players :Vector.<Object> = gamesModel.currentGame.players.filter(function (playerID :String, index :int, vector :Vector.<Object>) :Boolean
-			{
-				return (playerID == player.clientName);
-			});
+			var currentPlayerGame :GameVO = gamesModel.getGameByID(playersModel.currentPlayerName);
 
-			if (players.length == 0) {
-				gamesModel.addPlayerToCurrentGame(player.clientName);
+			if (currentPlayerGame) {
+				trace("[ClientAdded] send game " + currentPlayerGame.clientName + " to " + newPlayer.groupID);
+				playersModel.channel.sendMessageToClient(currentPlayerGame, newPlayer.groupID);
 			}
 		}
 	}

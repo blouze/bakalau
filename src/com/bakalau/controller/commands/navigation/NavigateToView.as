@@ -5,7 +5,7 @@
  * Time: 21:42
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.controller.commands
+package com.bakalau.controller.commands.navigation
 {
 	import com.bakalau.controller.events.NavigationEvent;
 	import com.creativebottle.starlingmvc.views.ViewManager;

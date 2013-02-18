@@ -136,6 +136,7 @@ package com.bakalau.view.components
 		public function set games (value :Vector.<GameVO>) :void
 		{
 			_gamesData.games = value;
+
 			if (_navigator) {
 				if (_navigator.activeScreenID == LIST_GAMES) {
 					GamesListScreen(_navigator.activeScreen).gamesData = _gamesData;
@@ -153,6 +154,17 @@ package com.bakalau.view.components
 				}
 				else {
 					_navigator.showScreen(GAME_LOBBY);
+				}
+			}
+		}
+
+
+		public function set currentGame (value :GameVO) :void
+		{
+			_gamesData.currentGame = value;
+			if (_navigator) {
+				if (_navigator.activeScreenID == GAME_LOBBY) {
+					GamesListScreen(_navigator.activeScreen).gamesData = _gamesData;
 				}
 			}
 		}

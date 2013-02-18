@@ -82,7 +82,7 @@ package com.bakalau.view.components.screens
 						];
 
 				_confirmButton = new Button();
-				_confirmButton.label = "OK";
+				_confirmButton.label = "Créer";
 				_confirmButton.addEventListener(Event.TRIGGERED, confirmButton_triggeredHandler);
 
 				headerProperties.rightItems = new <DisplayObject>
