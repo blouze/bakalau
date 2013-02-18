@@ -43,12 +43,12 @@ package com.bakalau.model
 		{
 			switch (event.type) {
 				case ClientEvent.CLIENT_ADDED:
-					trace("[GamesModel] CLIENT_ADDED: " + event.client.clientName);
+					var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
+					trace("[GamesModel] CLIENT_ADDED: on game " + channel.clientName);
 					dispatcher.dispatchEvent(new GameEvent(GameEvent.ADD_PLAYER, event.clone()));
 					break;
 
 				case ClientEvent.CLIENT_UPDATE:
-					trace("[GamesModel] CLIENT_UPDATE: " + event.client.clientName);
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
@@ -84,11 +84,11 @@ package com.bakalau.model
 		}
 
 
-		public function joinGame (playerID :String, gameID :String) :void
+		public function joinGame (gameID :String) :void
 		{
 			_currentChannel = new LocalNetworkDiscovery();
 
-			_currentChannel.clientName = playerID;
+			_currentChannel.clientName = gameID;
 			_currentChannel.groupName = gameID;
 			_currentChannel.loopback = true;
 
@@ -137,7 +137,7 @@ package com.bakalau.model
 		{
 			var gameVOs :Vector.<GameVO> = _games.filter(function (gameVO :GameVO, index :int, vector :Vector.<GameVO>) :Boolean
 			{
-				return (gameVO.clientName == gameID);
+				return (gameVO.gameID == gameID);
 			});
 
 			if (gameVOs.length > 0) {
@@ -152,7 +152,7 @@ package com.bakalau.model
 		{
 			var index :int = _games.length;
 			while (--index) {
-				if (_games[index].clientName == game.clientName) {
+				if (_games[index].gameID == game.gameID) {
 					return index;
 				}
 			}

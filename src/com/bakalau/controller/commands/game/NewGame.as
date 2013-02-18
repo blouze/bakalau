@@ -35,13 +35,13 @@ package com.bakalau.controller.commands.game
 
 			if (!gamesModel.getGameByID(gameID)) {
 				var game :GameVO = new GameVO();
-				game.clientName = gameID;
+				game.gameID = gameID;
 				gamesModel.addGame(game);
 			}
 
 			// add current player to his own newly added game
-			if (game.clientName == playersModel.currentPlayerName) {
-				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game.clientName));
+			if (game.gameID == playersModel.currentPlayerName) {
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game.gameID));
 				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
 			}
 		}

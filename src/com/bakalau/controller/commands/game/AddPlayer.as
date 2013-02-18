@@ -32,10 +32,14 @@ package com.bakalau.controller.commands.game
 			var gameID :String = clientEvent.client.clientName;
 			var playerGroupID :String = clientEvent.client.groupID;
 
-			var game :GameVO = gamesModel.getGameByID(gameID);
-			if (game && !game.hasPlayerByGroupID(playerGroupID)) {
-				game.players.push(playerGroupID);
-				playersModel.channel.sendMessageToAll(game);
+			if (gameID) {
+				trace("[AddPlayer] adding player " + playerGroupID + " to game " + gameID);
+
+				var game :GameVO = gamesModel.getGameByID(gameID);
+				if (game && !game.hasPlayerByGroupID(playerGroupID)) {
+					game.players.push(playerGroupID);
+					playersModel.channel.sendMessageToAll(game);
+				}
 			}
 		}
 	}

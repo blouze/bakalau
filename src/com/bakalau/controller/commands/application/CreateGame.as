@@ -32,7 +32,7 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			var game :GameVO = new GameVO();
-			game.clientName = playersModel.currentPlayerName;
+			game.gameID = playersModel.currentPlayerName;
 
 			playersModel.channel.sendMessageToAll(game);
 		}

@@ -26,7 +26,7 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			if (gamesModel.selectedGame != gamesModel.currentGame) {
-				gamesModel.joinGame(playersModel.currentPlayerName, gamesModel.selectedGame.clientName);
+				gamesModel.joinGame(gamesModel.selectedGame.gameID);
 			}
 		}
 	}

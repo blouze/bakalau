@@ -32,21 +32,21 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			var gameVO :GameVO = GameVO(event.data);
-			var game :GameVO = gamesModel.getGameByID(gameVO.clientName);
+			var game :GameVO = gamesModel.getGameByID(gameVO.gameID);
 
 			if (!game) {
-				trace("[GameDataReceived] new game");
+				trace("[GameDataReceived] new game: " + gameVO.gameID);
 
 				gamesModel.addGame(gameVO);
 
 				// select & join if current player created this game
-				if (gameVO.clientName == playersModel.currentPlayerName) {
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, gameVO.clientName));
+				if (gameVO.gameID == playersModel.currentPlayerName) {
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, gameVO.gameID));
 					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
 				}
 			}
 			else {
-				trace("[GameDataReceived] update game");
+				trace("[GameDataReceived] update game: " + game.gameID);
 
 				game.players = gameVO.players;
 				gamesModel.bindings.invalidate(gamesModel, "games");
