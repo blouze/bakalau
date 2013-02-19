@@ -22,7 +22,8 @@ package com.bakalau.controller.commands.application
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			var newGame :GameVO = new GameVO();
+//			var newGame :GameVO = new GameVO();
+			var newGame :GameVO = GameVO(event.data);
 			newGame.gameID = String(new Date().time);
 			newGame.owner = localNetworkModel.channel.localClient;
 			localNetworkModel.channel.sendMessageToAll(newGame);

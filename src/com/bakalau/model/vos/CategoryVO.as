@@ -9,6 +9,7 @@ package com.bakalau.model.VOs
 {
 	public class CategoryVO
 	{
+		public var rowid :int;
 		public var name :String;
 	}
 }

@@ -1,2 +1,2 @@
-SELECT name
+SELECT rowid,*
 FROM main.categories

@@ -17,7 +17,8 @@ package com.bakalau.view
 		public function ViewBeanProvider ()
 		{
 			beans = [
-				new Bean(new ScreensMediator(), "screensMediator")
+				new Bean(new MenuMediator(), "menuMediator"),
+				new Bean(new GameMediator(), "gameMediator")
 			];
 		}
 	}

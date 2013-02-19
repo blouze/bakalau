@@ -10,7 +10,7 @@ package com.bakalau.controller.commands.application
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.controller.events.NavigationEvent;
 	import com.bakalau.model.DataBaseModel;
-	import com.bakalau.view.components.ScreensView;
+	import com.bakalau.view.components.MenuView;
 
 	import starling.events.EventDispatcher;
 
@@ -28,7 +28,7 @@ package com.bakalau.controller.commands.application
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, ScreensView));
+			dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, MenuView));
 			dataBaseModel.getCategories();
 		}
 	}

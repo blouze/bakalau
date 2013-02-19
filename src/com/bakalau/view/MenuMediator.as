@@ -10,14 +10,13 @@ package com.bakalau.view
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
-	import com.bakalau.view.components.ScreensView;
-	import com.projectcocoon.p2p.vo.ClientVO;
+	import com.bakalau.view.components.MenuView;
 
 	import starling.events.EventDispatcher;
 
 
 
-	public class ScreensMediator
+	public class MenuMediator
 	{
 		private var _categories :Vector.<CategoryVO>;
 		[Inject(source="dataBaseModel.categories", bind="true", auto="false")]
@@ -50,26 +49,34 @@ package com.bakalau.view
 		public var dispatcher :EventDispatcher;
 
 
-		private var view :ScreensView;
+		private var view :MenuView;
 
 
 		[ViewAdded]
-		public function viewAdded (screensView :ScreensView) :void
+		public function viewAdded (menuView :MenuView) :void
 		{
-			view = screensView;
+			view = menuView;
 
-			view.createGame.add(function () :void
+			view.createGame.add(function (categoryIDs :Vector.<int>) :void
 			{
-				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CREATE_NEW_GAME));
+				var newGame :GameVO = new GameVO();
+				newGame.categories = _categories.filter(function (categoryVO :CategoryVO, index :int, vector :Vector.<CategoryVO>) :Boolean
+				{
+					return categoryIDs.lastIndexOf(categoryVO.rowid) >= 0;
+				});
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CREATE_NEW_GAME, newGame));
 			});
-			view.selectGame.add(function (game :GameVO) :void
+
+			view.selectGame.add(function (gameID :String) :void
 			{
-				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game));
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, gameID));
 			});
+
 			view.startSelectedGame.add(function () :void
 			{
 				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.START_SELECTED_GAME));
 			});
+
 			view.joinSelectedGame.add(function () :void
 			{
 				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
@@ -81,10 +88,16 @@ package com.bakalau.view
 
 
 		[ViewRemoved]
-		public function viewRemoved (screensView :ScreensView) :void
+		public function viewRemoved (screensView :MenuView) :void
 		{
 			view.createGame.removeAll();
+			view.selectGame.removeAll();
+			view.startSelectedGame.removeAll();
 			view.joinSelectedGame.removeAll();
+
+			view.games = null;
+			view.selectedGame = null;
+
 			view = null;
 		}
 	}

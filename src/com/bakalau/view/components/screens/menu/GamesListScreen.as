@@ -5,10 +5,10 @@
  * Time: 11:35
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens
+package com.bakalau.view.components.screens.menu
 {
-	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.data.ListData;
 
 	import feathers.controls.Button;
 	import feathers.controls.Header;
@@ -28,7 +28,7 @@ package com.bakalau.view.components.screens
 
 	public class GamesListScreen extends PanelScreen
 	{
-		public var onSelectGame :Signal = new Signal(GameVO);
+		public var onSelectGame :Signal = new Signal(String);
 		public var onCreateGame :Signal = new Signal();
 
 
@@ -41,7 +41,7 @@ package com.bakalau.view.components.screens
 		private var _backButton :Button;
 		private var _createGameButton :Button;
 		private var _list :List;
-		private var _listData :ListCollection = new ListCollection(new Vector.<GameVO>());
+		private var _listData :ListCollection = new ListCollection(new Vector.<ListData>());
 
 
 		private function onInitialize (event :Event) :void
@@ -83,7 +83,7 @@ package com.bakalau.view.components.screens
 
 		private function onListChange (event :Event) :void
 		{
-			onSelectGame.dispatch(_list.selectedItem);
+			onSelectGame.dispatch(_list.selectedItem.value);
 		}
 
 

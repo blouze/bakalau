@@ -40,7 +40,7 @@ package com.bakalau.controller.commands.application
 
 				if (game.owner == localNetworkModel.channel.localClient) {
 					gamesModel.localGame = game;
-					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game));
+					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game.gameID));
 					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
 				}
 			}

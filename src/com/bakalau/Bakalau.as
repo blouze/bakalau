@@ -7,6 +7,7 @@
  */
 package com.bakalau
 {
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 
 	import flash.display.Sprite;
@@ -22,6 +23,7 @@ package com.bakalau
 		public function Bakalau ()
 		{
 			trace("[Bakalau]");
+			registerClassAlias("com.bakalau.model.VOs.CategoryVO", CategoryVO);
 			registerClassAlias("com.bakalau.model.VOs.GameVO", GameVO);
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}

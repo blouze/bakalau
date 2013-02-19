@@ -23,12 +23,12 @@ package com.bakalau.model.managers.gameChannel
 		private var _dispatcher :EventDispatcher;
 
 
-		public function GameChannelManager (gameID :String, dispatcher :EventDispatcher)
+		public function GameChannelManager (playerID :String, gameID :String, dispatcher :EventDispatcher)
 		{
 			_dispatcher = dispatcher;
 
 			_channel = new LocalNetworkDiscovery();
-			_channel.clientName = gameID;
+			_channel.clientName = playerID;
 			_channel.groupName = gameID;
 			_channel.loopback = true;
 

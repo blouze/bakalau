@@ -9,7 +9,6 @@ package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
-	import com.bakalau.model.VOs.GameVO;
 
 
 
@@ -22,9 +21,9 @@ package com.bakalau.controller.commands.application
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			var game :GameVO = GameVO(event.data);
+			var gameID :String = String(event.data);
 
-			gamesModel.selectedGame = game;
+			gamesModel.selectedGame = gamesModel.getGameByID(gameID);
 			gamesModel.bindings.invalidate(gamesModel, "selectedGame");
 		}
 	}

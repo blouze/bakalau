@@ -5,10 +5,10 @@
  * Time: 12:58
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens
+package com.bakalau.view.components.screens.menu
 {
-	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.data.ListData;
 
 	import feathers.controls.Button;
 	import feathers.controls.Check;
@@ -27,7 +27,7 @@ package com.bakalau.view.components.screens
 
 	public class CreateGameScreen extends PanelScreen
 	{
-		public var onConfirm :Signal = new Signal();
+		public var onCreate :Signal = new Signal(Vector.<int>);
 
 
 		public function CreateGameScreen ()
@@ -38,7 +38,7 @@ package com.bakalau.view.components.screens
 
 		private var _backButton :Button;
 		private var _confirmButton :Button;
-		private var _categories :Vector.<CategoryVO>;
+		private var _categories :Array;
 		private var _container :ScrollContainer;
 
 
@@ -62,11 +62,9 @@ package com.bakalau.view.components.screens
 			_container.verticalScrollPolicy = ScrollContainer.SCROLL_POLICY_ON;
 			addChild(_container);
 
-			for each (var categoryVO :CategoryVO in _categories) {
+			for each (var listData :ListData in _categories) {
 				var check :Check = new Check();
-				check.isSelected = false;
-				var categoryName :String = String(String(categoryVO.name).substr(0, 1)).toUpperCase() + String(categoryVO.name).slice(1);
-				check.label = categoryName;
+				check.label = listData.label;
 				_container.addChild(check);
 			}
 
@@ -117,7 +115,15 @@ package com.bakalau.view.components.screens
 
 		private function confirmButton_triggeredHandler (event :Event) :void
 		{
-			onConfirm.dispatch();
+			var categoryIDs :Vector.<int> = new <int>[];
+			var index :int = 0;
+			for each (var listData :ListData in _categories) {
+				if (Check(_container.getChildAt(index)).isSelected)
+					categoryIDs.push(listData.value);
+				index++;
+			}
+
+			onCreate.dispatch(categoryIDs);
 		}
 
 

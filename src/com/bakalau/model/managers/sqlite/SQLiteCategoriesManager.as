@@ -13,6 +13,7 @@ package com.bakalau.model.managers.sqlite
 
 	import flash.data.SQLResult;
 	import flash.errors.SQLError;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
@@ -53,7 +54,7 @@ package com.bakalau.model.managers.sqlite
 		private function onError (error :SQLError) :void
 		{
 			_error = error;
-			dispatchEvent(new Event(Event.COMPLETE));
+			dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
 		}
 
 

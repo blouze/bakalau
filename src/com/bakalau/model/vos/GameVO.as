@@ -15,31 +15,7 @@ package com.bakalau.model.VOs
 	{
 		public var gameID :String;
 		public var owner :ClientVO;
+		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
 		public var players :Vector.<ClientVO> = new <ClientVO>[];
-		// com.projectcocoon.p2p.vo.MessageVO
-		// obviously cannot handle Vector.<String> over p2p connection
-
-
-		public function get label () :String
-		{
-			return gameID;
-		}
-
-
-		public function get value () :String
-		{
-			return gameID;
-		}
-
-
-		public function hasPlayerByGroupID (playerGroupID :String) :Boolean
-		{
-			var players :Vector.<ClientVO> = players.filter(function (player :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
-			{
-				return (player.groupID == playerGroupID);
-			});
-
-			return players.length > 0;
-		}
 	}
 }

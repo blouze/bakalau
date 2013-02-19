@@ -5,7 +5,7 @@
  * Time: 10:18
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens
+package com.bakalau.view.components.screens.menu
 {
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Header;

@@ -8,19 +8,23 @@
 package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
-	import com.bakalau.model.GamesModel;
+	import com.bakalau.controller.events.NavigationEvent;
+	import com.bakalau.view.components.GameView;
+
+	import starling.events.EventDispatcher;
 
 
 
 	public class StartSelectedGame
 	{
-		[Inject(source="gamesModel")]
-		public var gamesModel :GamesModel;
+		[Dispatcher]
+		public var dispatcher :EventDispatcher;
 
 
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
+			dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, GameView));
 		}
 	}
 }

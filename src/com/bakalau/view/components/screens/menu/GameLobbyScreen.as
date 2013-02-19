@@ -5,17 +5,17 @@
  * Time: 11:35
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens
+package com.bakalau.view.components.screens.menu
 {
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.GamesData;
-	import com.bakalau.view.components.data.PlayersData;
 
 	import feathers.controls.Button;
+	import feathers.controls.GroupedList;
 	import feathers.controls.Header;
-	import feathers.controls.List;
 	import feathers.controls.PanelScreen;
-	import feathers.data.ListCollection;
+	import feathers.data.HierarchicalCollection;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -42,22 +42,24 @@ package com.bakalau.view.components.screens
 		private var _backButton :Button;
 		private var _joinButton :Button;
 		private var _startButton :Button;
+		private var _groupedList :GroupedList;
+		private var _groupedListData :HierarchicalCollection = new HierarchicalCollection(new Vector.<CategoryVO>());
 		private var _game :GameVO;
-		private var _playersList :List;
-		private var _playersListData :ListCollection = new ListCollection(new Vector.<String>());
 
 
 		private function onInitialize (event :Event) :void
 		{
-			headerProperties.title = _game.label;
+//			headerProperties.title = _game.label;
 			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
 
 			layout = new AnchorLayout();
 
-			_playersList = new List();
-			_playersList.dataProvider = _playersListData;
-			_playersList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			addChild(_playersList);
+			_groupedList = new GroupedList();
+			_groupedList.dataProvider = _groupedListData;
+//			_groupedList.nameList.add(GroupedList.ALTERNATE_NAME_INSET_GROUPED_LIST);
+			_groupedList.isSelectable = false;
+			_groupedList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			addChild(_groupedList);
 
 			if (true) {
 //			if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
@@ -119,16 +121,22 @@ package com.bakalau.view.components.screens
 		}
 
 
-		public function set playersData (value :PlayersData) :void
-		{
-		}
-
-
 		public function set gamesData (value :GamesData) :void
 		{
 			_game = value.selectedGame;
-			_playersListData.data = null;
-			_playersListData.data = _game.players;
+
+			_groupedListData.data = null;
+			_groupedListData.data = [
+				{
+					header: "Joueurs :",
+					children: value.players
+				},
+				{
+					header: "Catégories :",
+					children: value.categories
+				}
+			];
+
 			invalidate(INVALIDATION_FLAG_DATA);
 		}
 	}

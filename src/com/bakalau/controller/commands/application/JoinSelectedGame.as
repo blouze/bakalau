@@ -9,11 +9,15 @@ package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
+	import com.bakalau.model.LocalNetworkModel;
 
 
 
 	public class JoinSelectedGame
 	{
+		[Inject(source="localNetworkModel")]
+		public var localNetworkModel :LocalNetworkModel;
+
 		[Inject(source="gamesModel")]
 		public var gamesModel :GamesModel;
 
@@ -22,7 +26,7 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			if (gamesModel.selectedGame != gamesModel.currentGame) {
-				gamesModel.joinGame(gamesModel.selectedGame);
+				gamesModel.joinGame(gamesModel.selectedGame, localNetworkModel.channel.clientName);
 				gamesModel.currentGame = gamesModel.selectedGame;
 			}
 		}
