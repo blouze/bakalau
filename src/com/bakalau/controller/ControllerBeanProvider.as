@@ -10,15 +10,12 @@ package com.bakalau.controller
 	import com.bakalau.controller.commands.application.ApplicationReady;
 	import com.bakalau.controller.commands.application.ClientAdded;
 	import com.bakalau.controller.commands.application.ClientRemoved;
-	import com.bakalau.controller.commands.application.CreateGame;
-	import com.bakalau.controller.commands.application.DestroyGame;
+	import com.bakalau.controller.commands.application.CreateNewGame;
 	import com.bakalau.controller.commands.application.GameDataReceived;
 	import com.bakalau.controller.commands.application.JoinSelectedGame;
 	import com.bakalau.controller.commands.application.SelectGame;
-	import com.bakalau.controller.commands.game.NewGame;
-	import com.bakalau.controller.commands.game.RemovePlayer;
-	import com.bakalau.controller.commands.game.UpdateGame;
-	import com.bakalau.controller.commands.game.UpdatePlayers;
+	import com.bakalau.controller.commands.application.StartSelectedGame;
+	import com.bakalau.controller.commands.game.GameUpdate;
 	import com.bakalau.controller.commands.navigation.NavigateToView;
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.controller.events.GameEvent;
@@ -38,15 +35,12 @@ package com.bakalau.controller
 				new Command(ApplicationEvent.CLIENT_REMOVED, ClientRemoved),
 				new Command(ApplicationEvent.GAME_DATA_RECEIVED, GameDataReceived),
 
-				new Command(ApplicationEvent.CREATE_GAME, CreateGame),
+				new Command(ApplicationEvent.CREATE_NEW_GAME, CreateNewGame),
 				new Command(ApplicationEvent.SELECT_GAME, SelectGame),
+				new Command(ApplicationEvent.START_SELECTED_GAME, StartSelectedGame),
 				new Command(ApplicationEvent.JOIN_SELECTED_GAME, JoinSelectedGame),
-				new Command(ApplicationEvent.DESTROY_GAME, DestroyGame),
 
-				new Command(GameEvent.NEW_GAME, NewGame),
-				new Command(GameEvent.UPDATE_GAME, UpdateGame),
-				new Command(GameEvent.UPDATE_PLAYERS, UpdatePlayers),
-				new Command(GameEvent.REMOVE_PLAYER, RemovePlayer),
+				new Command(GameEvent.GAME_UPDATE, GameUpdate),
 
 				new Command(NavigationEvent.NAVIGATE_TO_VIEW, NavigateToView)
 			];

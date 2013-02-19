@@ -14,15 +14,18 @@ package com.bakalau.controller.events
 	public class ApplicationEvent extends Event
 	{
 		private static const PREFIX :String = "APPLICATION_";
+
 		public static const READY :String = PREFIX + "READY";
 		public static const CLIENT_ADDED :String = PREFIX + "CLIENT_ADDED";
 		public static const CLIENT_REMOVED :String = PREFIX + "CLIENT_REMOVED";
 		public static const GAME_DATA_RECEIVED :String = PREFIX + "GAME_DATA_RECEIVED";
 
-		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
 		public static const SELECT_GAME :String = PREFIX + "SELECT_GAME";
+		public static const START_SELECTED_GAME :String = PREFIX + "START_SELECTED_GAME";
 		public static const JOIN_SELECTED_GAME :String = PREFIX + "JOIN_SELECTED_GAME";
-		public static const DESTROY_GAME :String = PREFIX + "DESTROY_GAME";
+
+		public static const CREATE_NEW_GAME :String = PREFIX + "CREATE_NEW_GAME";
+		public static const NEW_GAME_CREATED :String = PREFIX + "NEW_GAME_CREATED";
 
 
 		public function ApplicationEvent (type :String, data :Object = null, bubbles :Boolean = false)

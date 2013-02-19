@@ -8,32 +8,24 @@
 package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
-	import com.bakalau.model.GamesModel;
 	import com.bakalau.model.LocalNetworkModel;
 	import com.bakalau.model.VOs.GameVO;
-	import com.projectcocoon.p2p.vo.ClientVO;
 
 
 
-	public class ClientRemoved
+	public class CreateNewGame
 	{
 		[Inject(source="localNetworkModel")]
 		public var localNetworkModel :LocalNetworkModel;
-
-		[Inject(source="gamesModel")]
-		public var gamesModel :GamesModel;
 
 
 		[Execute]
 		public function execute (event :ApplicationEvent) :void
 		{
-			var removedPlayer :ClientVO = ClientVO(event.data);
-			var removedPlayerGame :GameVO = gamesModel.getGameByID(removedPlayer.clientName);
-
-			if (removedPlayerGame) {
-				trace("[ClientRemoved] removing client's game too");
-				gamesModel.removeGame(removedPlayerGame);
-			}
+			var newGame :GameVO = new GameVO();
+			newGame.gameID = String(new Date().time);
+			newGame.owner = localNetworkModel.channel.localClient;
+			localNetworkModel.channel.sendMessageToAll(newGame);
 		}
 	}
 }

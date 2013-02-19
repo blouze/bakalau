@@ -7,16 +7,10 @@
  */
 package com.bakalau.model
 {
-	import com.bakalau.controller.events.GameEvent;
 	import com.bakalau.model.VOs.GameVO;
+	import com.bakalau.model.managers.gameChannel.GameChannelManager;
 	import com.creativebottle.starlingmvc.binding.Bindings;
-	import com.projectcocoon.p2p.LocalNetworkDiscovery;
-	import com.projectcocoon.p2p.events.ClientEvent;
-	import com.projectcocoon.p2p.events.GroupEvent;
-	import com.projectcocoon.p2p.events.MessageEvent;
-
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
 
@@ -24,8 +18,6 @@ package com.bakalau.model
 
 	public class GamesModel
 	{
-		private static var CLIENT_NAME :String = "CLIENT_NAME";
-
 		[Bindings]
 		public var bindings :Bindings;
 
@@ -33,96 +25,45 @@ package com.bakalau.model
 		public var dispatcher :EventDispatcher;
 
 
+		private var _manager :GameChannelManager;
 		private var _games :Vector.<GameVO> = new <GameVO>[];
 		private var _selectedGame :GameVO;
-		private var _currentChannel :LocalNetworkDiscovery;
+		private var _localGame :GameVO;
 		private var _currentGame :GameVO;
 
 
-		private function onClientEvent (event :ClientEvent) :void
+		public function joinGame (game :GameVO) :void
 		{
-			var channel :LocalNetworkDiscovery = LocalNetworkDiscovery(event.target);
-
-			switch (event.type) {
-				case ClientEvent.CLIENT_ADDED:
-					trace("[GamesModel] CLIENT_ADDED: on game " + channel.clientName);
-					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE_PLAYERS, event.clone()));
-					break;
-
-				case ClientEvent.CLIENT_UPDATE:
-					break;
-
-				case ClientEvent.CLIENT_REMOVED:
-					trace("[GamesModel] CLIENT_REMOVED: on game " + channel.clientName);
-					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE_PLAYERS, event.clone()));
-					break;
-
-				default :
-					break;
-			}
+			_manager = new GameChannelManager(game.gameID, dispatcher);
+			_manager.channel.connect();
 		}
 
 
-		private function onGroupEvent (event :GroupEvent) :void
+		public function leaveGame () :void
 		{
-			switch (event.type) {
-				case GroupEvent.GROUP_CONNECTED:
-					break;
-
-				default :
-					break;
-			}
+			_manager.dispose();
 		}
 
 
-		private function onMessageEvent (event :MessageEvent) :void
-		{
-			var dataClass :Class = Class(getDefinitionByName(getQualifiedClassName(event.message.data)));
-
-			switch (dataClass) {
-				default :
-					trace("[GamesModel] " + event.type + ": " + event.message.data);
-					break;
-			}
-		}
-
-
-		public function joinGame (gameID :String) :void
-		{
-			_currentChannel = new LocalNetworkDiscovery();
-
-			_currentChannel.clientName = gameID;
-			_currentChannel.groupName = gameID;
-			_currentChannel.loopback = true;
-
-			_currentChannel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
-			_currentChannel.addEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
-			_currentChannel.addEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
-			_currentChannel.addEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
-			_currentChannel.addEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
-
-			_currentChannel.connect();
-		}
-
-
-		public function leaveCurrentGame () :void
-		{
-			_currentChannel.close();
-
-			_currentChannel.removeEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
-			_currentChannel.removeEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
-			_currentChannel.removeEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
-			_currentChannel.removeEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
-			_currentChannel.removeEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
-
-			_currentChannel = null;
-		}
-
-
-		public function addGame (game :GameVO) :void
+		public function addNewGame (game :GameVO) :void
 		{
 			_games.push(game);
 			bindings.invalidate(this, "games");
+		}
+
+
+		public function get manager () :GameChannelManager
+		{
+			return _manager;
+		}
+
+
+		public function get players () :Vector.<ClientVO>
+		{
+			if (_manager)
+				return _manager.channel.clients;
+
+			return null;
 		}
 
 
@@ -131,7 +72,6 @@ package com.bakalau.model
 			var gameIndex :int = getGameIndex(game);
 			if (gameIndex >= 0) {
 				_games.splice(gameIndex, 1);
-				bindings.invalidate(this, "games");
 			}
 		}
 
@@ -178,7 +118,6 @@ package com.bakalau.model
 		public function set selectedGame (value :GameVO) :void
 		{
 			_selectedGame = value;
-			bindings.invalidate(this, "selectedGame");
 		}
 
 
@@ -191,7 +130,18 @@ package com.bakalau.model
 		public function set currentGame (value :GameVO) :void
 		{
 			_currentGame = value;
-			bindings.invalidate(this, "currentGame");
+		}
+
+
+		public function get localGame () :GameVO
+		{
+			return _localGame;
+		}
+
+
+		public function set localGame (value :GameVO) :void
+		{
+			_localGame = value;
 		}
 	}
 }

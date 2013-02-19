@@ -16,8 +16,9 @@ package com.bakalau.controller.events
 		private static const PREFIX :String = "GAME_";
 		public static const NEW_GAME :String = PREFIX + "NEW_GAME";
 		public static const UPDATE_GAME :String = PREFIX + "UPDATE_GAME";
-		public static const UPDATE_PLAYERS :String = PREFIX + "UPDATE_PLAYERS";
 		public static const REMOVE_PLAYER :String = PREFIX + "REMOVE_PLAYER";
+
+		public static const GAME_UPDATE :String = PREFIX + "GAME_UPDATE";
 
 
 		public function GameEvent (type :String, data :Object = null, bubbles :Boolean = false)

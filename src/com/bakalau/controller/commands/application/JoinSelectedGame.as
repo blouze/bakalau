@@ -9,15 +9,11 @@ package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
-	import com.bakalau.model.PlayersModel;
 
 
 
 	public class JoinSelectedGame
 	{
-		[Inject(source="playersModel")]
-		public var playersModel :PlayersModel;
-
 		[Inject(source="gamesModel")]
 		public var gamesModel :GamesModel;
 
@@ -26,7 +22,8 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			if (gamesModel.selectedGame != gamesModel.currentGame) {
-				gamesModel.joinGame(gamesModel.selectedGame.gameID);
+				gamesModel.joinGame(gamesModel.selectedGame);
+				gamesModel.currentGame = gamesModel.selectedGame;
 			}
 		}
 	}

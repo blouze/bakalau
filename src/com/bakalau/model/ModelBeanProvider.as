@@ -18,7 +18,7 @@ package com.bakalau.model
 		{
 			beans = [
 				new Bean(new DataBaseModel(), "dataBaseModel"),
-				new Bean(new PlayersModel(), "playersModel"),
+				new Bean(new LocalNetworkModel(), "localNetworkModel"),
 				new Bean(new GamesModel(), "gamesModel")
 			];
 		}

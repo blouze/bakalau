@@ -9,6 +9,7 @@ package com.bakalau.view.components.screens
 {
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.data.PlayersData;
 
 	import feathers.controls.Button;
 	import feathers.controls.Header;
@@ -28,6 +29,7 @@ package com.bakalau.view.components.screens
 
 	public class GameLobbyScreen extends PanelScreen
 	{
+		public var onStartGame :Signal = new Signal();
 		public var onJoinGame :Signal = new Signal();
 
 
@@ -39,6 +41,7 @@ package com.bakalau.view.components.screens
 
 		private var _backButton :Button;
 		private var _joinButton :Button;
+		private var _startButton :Button;
 		private var _game :GameVO;
 		private var _playersList :List;
 		private var _playersListData :ListCollection = new ListCollection(new Vector.<String>());
@@ -66,14 +69,27 @@ package com.bakalau.view.components.screens
 						[
 							_backButton
 						];
-				_joinButton = new Button();
-				_joinButton.label = "Rejoindre";
-				_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
 
-				headerProperties.rightItems = new <DisplayObject>
-						[
-							_joinButton
-						];
+				if (_game.owner.isLocal) {
+					_startButton = new Button();
+					_startButton.label = "Commencer";
+					_startButton.addEventListener(Event.TRIGGERED, startButton_triggeredHandler);
+
+					headerProperties.rightItems = new <DisplayObject>
+							[
+								_startButton
+							];
+				}
+				else {
+					_joinButton = new Button();
+					_joinButton.label = "Rejoindre";
+					_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
+
+					headerProperties.rightItems = new <DisplayObject>
+							[
+								_joinButton
+							];
+				}
 			}
 			backButtonHandler = onBackButton;
 		}
@@ -91,15 +107,26 @@ package com.bakalau.view.components.screens
 		}
 
 
+		private function startButton_triggeredHandler (event :Event) :void
+		{
+			onStartGame.dispatch();
+		}
+
+
 		private function joinButton_triggeredHandler (event :Event) :void
 		{
 			onJoinGame.dispatch();
 		}
 
 
-		public function set gamesData (gamesData :GamesData) :void
+		public function set playersData (value :PlayersData) :void
 		{
-			_game = gamesData.selectedGame;
+		}
+
+
+		public function set gamesData (value :GamesData) :void
+		{
+			_game = value.selectedGame;
 			_playersListData.data = null;
 			_playersListData.data = _game.players;
 			invalidate(INVALIDATION_FLAG_DATA);

@@ -7,11 +7,15 @@
  */
 package com.bakalau.model.VOs
 {
+	import com.projectcocoon.p2p.vo.ClientVO;
+
+
+
 	public class GameVO
 	{
 		public var gameID :String;
-		public var players :Vector.<Object> = new <Object>[];
-		public var gameOwner :String;
+		public var owner :ClientVO;
+		public var players :Vector.<ClientVO> = new <ClientVO>[];
 		// com.projectcocoon.p2p.vo.MessageVO
 		// obviously cannot handle Vector.<String> over p2p connection
 
@@ -28,11 +32,11 @@ package com.bakalau.model.VOs
 		}
 
 
-		public function hasPlayerByGroupID (playerID :String) :Boolean
+		public function hasPlayerByGroupID (playerGroupID :String) :Boolean
 		{
-			var players :Vector.<Object> = players.filter(function (playerName :String, index :int, vector :Vector.<Object>) :Boolean
+			var players :Vector.<ClientVO> = players.filter(function (player :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
 			{
-				return (playerName == playerID);
+				return (player.groupID == playerGroupID);
 			});
 
 			return players.length > 0;

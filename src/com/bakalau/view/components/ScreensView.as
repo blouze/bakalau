@@ -43,7 +43,8 @@ package com.bakalau.view.components
 		private var _onScreenChange :Signal = new Signal(ScreenNavigator);
 
 		public var createGame :Signal = new Signal();
-		public var selectGame :Signal = new Signal(String);
+		public var selectGame :Signal = new Signal(GameVO);
+		public var startSelectedGame :Signal = new Signal();
 		public var joinSelectedGame :Signal = new Signal();
 
 		private var _gamesData :GamesData = new GamesData();
@@ -99,6 +100,7 @@ package com.bakalau.view.components
 
 //			GameLobbyScreen
 			_navigator.addScreen(GAME_LOBBY, new ScreenNavigatorItem(GameLobbyScreen, {
+				onStartGame: gameLobbyScreen_onStartGame,
 				onJoinGame: gameLobbyScreen_onJoinGame,
 				complete: LIST_GAMES
 			}, {
@@ -121,9 +123,15 @@ package com.bakalau.view.components
 		}
 
 
-		private function listGamesScreen_onSelectGame (gameID :String) :void
+		private function listGamesScreen_onSelectGame (game :GameVO) :void
 		{
-			selectGame.dispatch(gameID);
+			selectGame.dispatch(game);
+		}
+
+
+		private function gameLobbyScreen_onStartGame () :void
+		{
+			startSelectedGame.dispatch();
 		}
 
 

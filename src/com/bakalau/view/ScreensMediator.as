@@ -11,6 +11,7 @@ package com.bakalau.view
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.ScreensView;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
 
@@ -59,11 +60,15 @@ package com.bakalau.view
 
 			view.createGame.add(function () :void
 			{
-				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CREATE_GAME));
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.CREATE_NEW_GAME));
 			});
-			view.selectGame.add(function (gameID :String) :void
+			view.selectGame.add(function (game :GameVO) :void
 			{
-				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, gameID));
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game));
+			});
+			view.startSelectedGame.add(function () :void
+			{
+				dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.START_SELECTED_GAME));
 			});
 			view.joinSelectedGame.add(function () :void
 			{

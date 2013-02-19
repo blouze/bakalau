@@ -13,6 +13,7 @@ package com.bakalau.model
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;
 	import com.projectcocoon.p2p.events.MessageEvent;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
@@ -21,22 +22,22 @@ package com.bakalau.model
 
 
 
-	public class PlayersModel
+	public class LocalNetworkModel
 	{
-		private const BAKALAU_CLIENT_NAME :String = "BAKALAU_CLIENT";
-		private const BAKALAU_GROUP_NAME :String = "BAKALAU_GROUP";
+		private const BAKALAU_CLIENT_NAME :String = "CLIENT";
+		private const BAKALAU_GROUP_NAME :String = "BAKALAU";
 
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
 
+		private var _players :Vector.<ClientVO> = new <ClientVO>[];
 		private var _channel :LocalNetworkDiscovery;
 
 
-		public function PlayersModel ()
+		public function LocalNetworkModel ()
 		{
 			_channel = new LocalNetworkDiscovery();
-//			_channel.clientName = BAKALAU_CLIENT_NAME + "_" + String(new Date().time);
-			_channel.clientName = String(new Date().time);
+			_channel.clientName = BAKALAU_CLIENT_NAME + "_" + String(new Date().time);
 			_channel.groupName = BAKALAU_GROUP_NAME;
 			_channel.loopback = true;
 			_channel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
@@ -107,7 +108,7 @@ package com.bakalau.model
 		}
 
 
-		public function get currentPlayerName () :String
+		public function get localClientName () :String
 		{
 			if (channel.localClient) {
 				return channel.localClient.clientName;

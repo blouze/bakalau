@@ -9,16 +9,15 @@ package com.bakalau.controller.commands.application
 {
 	import com.bakalau.controller.events.ApplicationEvent;
 	import com.bakalau.model.GamesModel;
-	import com.bakalau.model.PlayersModel;
-	import com.bakalau.model.VOs.GameVO;
+	import com.bakalau.model.LocalNetworkModel;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
 
 
 	public class ClientAdded
 	{
-		[Inject(source="playersModel")]
-		public var playersModel :PlayersModel;
+		[Inject(source="localNetworkModel")]
+		public var localNetworkModel :LocalNetworkModel;
 
 		[Inject(source="gamesModel")]
 		public var gamesModel :GamesModel;
@@ -29,11 +28,9 @@ package com.bakalau.controller.commands.application
 		{
 			var newPlayer :ClientVO = ClientVO(event.data);
 
-			var currentPlayerGame :GameVO = gamesModel.getGameByID(playersModel.currentPlayerName);
-
-			if (currentPlayerGame) {
-				trace("[ClientAdded] send game " + currentPlayerGame.gameID + " to " + newPlayer.groupID);
-				playersModel.channel.sendMessageToClient(currentPlayerGame, newPlayer.groupID);
+			if (gamesModel.localGame) {
+				trace("[ClientAdded] send game " + gamesModel.localGame.gameID + " to " + newPlayer.groupID);
+				localNetworkModel.channel.sendMessageToClient(gamesModel.localGame, newPlayer.groupID);
 			}
 		}
 	}
