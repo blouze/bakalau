@@ -38,22 +38,22 @@ package com.bakalau.controller.commands.application
 			if (!existingGame) {
 				gamesModel.addNewGame(game);
 
-				if (game.owner == localNetworkModel.channel.localClient) {
+				existingGame = gamesModel.getGameByID(game.gameID);
+
+				if (game.owner.isLocal) {
 					gamesModel.localGame = game;
 					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.SELECT_GAME, game.gameID));
 					dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.JOIN_SELECTED_GAME));
 				}
 			}
-			else {
 
-				if (existingGame.players.length != game.players.length) {
-					existingGame.players = game.players;
-					gamesModel.bindings.invalidate(gamesModel, "games");
-				}
+			if (existingGame.players.length != game.players.length) {
+				existingGame.players = game.players;
+				gamesModel.bindings.invalidate(gamesModel, "games");
+			}
 
-				if (game == gamesModel.selectedGame) {
-					gamesModel.bindings.invalidate(gamesModel, "selectedGame");
-				}
+			if (game == gamesModel.selectedGame) {
+				gamesModel.bindings.invalidate(gamesModel, "selectedGame");
 			}
 		}
 	}

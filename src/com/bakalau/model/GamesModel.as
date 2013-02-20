@@ -34,7 +34,7 @@ package com.bakalau.model
 
 		public function joinGame (game :GameVO, playerID :String) :void
 		{
-			_manager = new GameChannelManager(game.gameID, playerID, dispatcher);
+			_manager = new GameChannelManager(playerID, game.gameID, dispatcher);
 			_manager.channel.connect();
 		}
 

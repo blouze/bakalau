@@ -56,7 +56,7 @@ package com.bakalau.view.components.screens.menu
 
 			_groupedList = new GroupedList();
 			_groupedList.dataProvider = _groupedListData;
-//			_groupedList.nameList.add(GroupedList.ALTERNATE_NAME_INSET_GROUPED_LIST);
+			_groupedList.nameList.add(GroupedList.ALTERNATE_NAME_INSET_GROUPED_LIST);
 			_groupedList.isSelectable = false;
 			_groupedList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			addChild(_groupedList);

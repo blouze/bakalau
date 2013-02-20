@@ -165,20 +165,6 @@ package com.bakalau.view.components
 		}
 
 
-		public function set currentGame (value :GameVO) :void
-		{
-			if (!value) return;
-
-			_gamesData.currentGame = value;
-
-			if (_navigator) {
-				if (_navigator.activeScreenID == GAME_LOBBY) {
-					GamesListScreen(_navigator.activeScreen).gamesData = _gamesData;
-				}
-			}
-		}
-
-
 		public function set categories (value :Vector.<CategoryVO>) :void
 		{
 			if (!value) return;

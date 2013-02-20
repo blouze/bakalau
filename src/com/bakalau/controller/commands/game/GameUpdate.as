@@ -26,7 +26,7 @@ package com.bakalau.controller.commands.game
 		[Execute]
 		public function execute (event :GameEvent) :void
 		{
-			var gameID :String = gamesModel.manager.channel.clientName;
+			var gameID :String = gamesModel.manager.channel.groupName;
 			var game :GameVO = gamesModel.getGameByID(gameID);
 
 			if (game.players.length != gamesModel.manager.channel.clients.length) {

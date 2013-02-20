@@ -65,6 +65,8 @@ package com.bakalau.model.managers.gameChannel
 			_channel.removeEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
 			_channel.removeEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
 			_channel.removeEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
+
+			_channel = null;
 		}
 
 

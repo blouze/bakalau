@@ -9,9 +9,11 @@ package com.bakalau.view.components
 {
 	import com.bakalau.model.VOs.GameVO;
 
+	import starling.display.Sprite;
 
 
-	public class GameView
+
+	public class GameView extends Sprite
 	{
 		private var _game :GameVO;
 

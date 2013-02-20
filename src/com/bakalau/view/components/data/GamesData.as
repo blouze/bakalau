@@ -19,7 +19,6 @@ package com.bakalau.view.components.data
 		public var games :Vector.<ListData>;
 		public var players :Array;
 		public var selectedGame :GameVO;
-		public var currentGame :GameVO;
 
 
 		public function updateCategories (value :Vector.<CategoryVO>) :void
