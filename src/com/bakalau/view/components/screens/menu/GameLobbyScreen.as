@@ -31,6 +31,7 @@ package com.bakalau.view.components.screens.menu
 	{
 		public var onStartGame :Signal = new Signal();
 		public var onJoinGame :Signal = new Signal();
+		public var onQuitGame :Signal = new Signal();
 
 
 		public function GameLobbyScreen ()
@@ -40,11 +41,13 @@ package com.bakalau.view.components.screens.menu
 
 
 		private var _backButton :Button;
-		private var _joinButton :Button;
 		private var _startButton :Button;
+		private var _joinButton :Button;
+		private var _quitButton :Button;
 		private var _groupedList :GroupedList;
 		private var _groupedListData :HierarchicalCollection = new HierarchicalCollection(new Vector.<CategoryVO>());
 		private var _game :GameVO;
+		private var _playerHasJoined :Boolean;
 
 
 		private function onInitialize (event :Event) :void
@@ -121,9 +124,16 @@ package com.bakalau.view.components.screens.menu
 		}
 
 
+		private function quitButton_triggeredHandler (event :Event) :void
+		{
+			onQuitGame.dispatch();
+		}
+
+
 		public function set gamesData (value :GamesData) :void
 		{
 			_game = value.selectedGame;
+			_playerHasJoined = value.hasPlayerJoined();
 
 			_groupedListData.data = null;
 			_groupedListData.data = [

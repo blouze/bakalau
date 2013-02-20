@@ -42,6 +42,7 @@ package com.bakalau.model.managers.gameChannel
 
 		private function onClientEvent (event :ClientEvent) :void
 		{
+//			trace(event);
 			_dispatcher.dispatchEvent(new GameEvent(GameEvent.GAME_UPDATE));
 		}
 

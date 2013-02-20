@@ -153,6 +153,7 @@ package com.bakalau.view.components
 			_gamesData.selectedGame = value;
 			_gamesData.updateCategories(value.categories);
 			_gamesData.updatePlayers(value.players);
+			_gamesData.currentPlayerID = value.localPlayerID;
 
 			if (_navigator) {
 				if (_navigator.activeScreenID == GAME_LOBBY) {

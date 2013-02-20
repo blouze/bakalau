@@ -32,12 +32,10 @@ package com.bakalau.controller.commands.application
 		public function execute (event :ApplicationEvent) :void
 		{
 			var game :GameVO = GameVO(event.data);
-
 			var existingGame :GameVO = gamesModel.getGameByID(game.gameID);
 
 			if (!existingGame) {
 				gamesModel.addNewGame(game);
-
 				existingGame = gamesModel.getGameByID(game.gameID);
 
 				if (game.owner.isLocal) {
@@ -49,7 +47,6 @@ package com.bakalau.controller.commands.application
 
 			if (existingGame.players.length != game.players.length) {
 				existingGame.players = game.players;
-				gamesModel.bindings.invalidate(gamesModel, "games");
 			}
 
 			if (game == gamesModel.selectedGame) {

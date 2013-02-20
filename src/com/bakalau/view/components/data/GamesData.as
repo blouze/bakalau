@@ -17,8 +17,9 @@ package com.bakalau.view.components.data
 	{
 		public var categories :Array;
 		public var games :Vector.<ListData>;
-		public var players :Array;
 		public var selectedGame :GameVO;
+		public var players :Array;
+		public var currentPlayerID :String;
 
 
 		public function updateCategories (value :Vector.<CategoryVO>) :void
@@ -49,6 +50,15 @@ package com.bakalau.view.components.data
 			for each (var clientVO :ClientVO in value) {
 				players.push(new ListData(clientVO.clientName, clientVO.groupID));
 			}
+		}
+
+
+		public function hasPlayerJoined () :Boolean
+		{
+			return (players.filter(function (player :ListData, index :int, array :Array) :Boolean
+			{
+				return player.value == currentPlayerID;
+			}).length) > 0;
 		}
 
 

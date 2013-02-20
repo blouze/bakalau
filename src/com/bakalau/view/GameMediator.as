@@ -34,7 +34,7 @@ package com.bakalau.view
 
 
 		[ViewRemoved]
-		public function viewRemoved (screensView :GameView) :void
+		public function viewRemoved (gameView :GameView) :void
 		{
 			view = null;
 		}
