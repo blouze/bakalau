@@ -28,8 +28,8 @@ package com.bakalau.view.components.screens.menu
 
 	public class GamesListScreen extends PanelScreen
 	{
-		public var onSelectGame :Signal = new Signal(String);
-		public var onCreateGame :Signal = new Signal();
+		public var onSelect :Signal = new Signal(String);
+		public var onCreate :Signal = new Signal();
 
 
 		public function GamesListScreen ()
@@ -81,12 +81,6 @@ package com.bakalau.view.components.screens.menu
 		}
 
 
-		private function onListChange (event :Event) :void
-		{
-			onSelectGame.dispatch(_list.selectedItem.value);
-		}
-
-
 		private function onBackButton () :void
 		{
 			dispatchEventWith(Event.COMPLETE);
@@ -101,7 +95,13 @@ package com.bakalau.view.components.screens.menu
 
 		private function createGameButton_triggeredHandler (event :Event) :void
 		{
-			onCreateGame.dispatch();
+			onCreate.dispatch();
+		}
+
+
+		private function onListChange (event :Event) :void
+		{
+			onSelect.dispatch(_list.selectedItem.value);
 		}
 
 

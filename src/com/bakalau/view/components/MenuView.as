@@ -14,6 +14,7 @@ package com.bakalau.view.components
 	import com.bakalau.view.components.screens.menu.GameLobbyScreen;
 	import com.bakalau.view.components.screens.menu.GamesListScreen;
 	import com.bakalau.view.components.screens.menu.HomeScreen;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
@@ -41,9 +42,10 @@ package com.bakalau.view.components
 		private var _transitionManager :ScreenSlidingStackTransitionManager;
 
 		public var createGame :Signal = new Signal(Vector.<int>);
-		public var selectGame :Signal = new Signal(String);
-		public var startSelectedGame :Signal = new Signal();
-		public var joinSelectedGame :Signal = new Signal();
+		public var joinGame :Signal = new Signal(String);
+		public var leaveGame :Signal = new Signal();
+		public var startGame :Signal = new Signal();
+		public var quitGame :Signal = new Signal();
 
 		private var _gamesData :GamesData = new GamesData();
 
@@ -63,9 +65,13 @@ package com.bakalau.view.components
 			_theme = new MetalWorksMobileTheme(stage, false);
 //			_theme = new MinimalMobileTheme(stage, false);
 
-//			Navigator
 			_navigator = new ScreenNavigator();
 			addChild(_navigator);
+
+			_transitionManager = new ScreenSlidingStackTransitionManager(_navigator);
+			_transitionManager.duration = 0.5;
+			_transitionManager.ease = Transitions.EASE_OUT;
+
 
 //			GamesMainScreen
 			_navigator.addScreen(HOME, new ScreenNavigatorItem(HomeScreen, {
@@ -74,8 +80,8 @@ package com.bakalau.view.components
 
 //			JoinGameScreen
 			_navigator.addScreen(LIST_GAMES, new ScreenNavigatorItem(GamesListScreen, {
-				onCreateGame: CREATE_GAME,
-				onSelectGame: listGamesScreen_onSelectGame,
+				onCreate: CREATE_GAME,
+				onSelect: listGamesScreen_onSelect,
 				complete: HOME
 			}, {
 				gamesData: _gamesData
@@ -83,7 +89,7 @@ package com.bakalau.view.components
 
 //			CreateGameScreen
 			_navigator.addScreen(CREATE_GAME, new ScreenNavigatorItem(CreateGameScreen, {
-				onCreate: createGameScreen_onCreateGame,
+				onCreate: createGameScreen_onCreate,
 				complete: LIST_GAMES
 			}, {
 				gamesData: _gamesData
@@ -91,51 +97,48 @@ package com.bakalau.view.components
 
 //			GameLobbyScreen
 			_navigator.addScreen(GAME_LOBBY, new ScreenNavigatorItem(GameLobbyScreen, {
-				onStartGame: gameLobbyScreen_onStartGame,
-				onJoinGame: gameLobbyScreen_onJoinGame,
-				complete: LIST_GAMES
+				onStart: gameLobbyScreen_onStart,
+				onQuit: gameLobbyScreen_onLeave,
+				complete: gameLobbyScreen_onLeave
 			}, {
 				gamesData: _gamesData
 			}));
-
-//			TransitionManager
-			_transitionManager = new ScreenSlidingStackTransitionManager(_navigator);
-			_transitionManager.duration = 0.5;
-			_transitionManager.ease = Transitions.EASE_OUT;
 
 
 			_navigator.showScreen(HOME);
 		}
 
 
-		private function createGameScreen_onCreateGame (categoryIDs :Vector.<int>) :void
+		private function createGameScreen_onCreate (categoryIDs :Vector.<int>) :void
 		{
 			createGame.dispatch(categoryIDs);
+			_navigator.showScreen(GAME_LOBBY);
+//			_navigator.showScreen(LIST_GAMES);
 		}
 
 
-		private function listGamesScreen_onSelectGame (gameID :String) :void
+		private function listGamesScreen_onSelect (gameID :String) :void
 		{
-			selectGame.dispatch(gameID);
+			joinGame.dispatch(gameID);
+			_navigator.showScreen(GAME_LOBBY);
 		}
 
 
-		private function gameLobbyScreen_onStartGame () :void
+		private function gameLobbyScreen_onStart () :void
 		{
-			startSelectedGame.dispatch();
+			startGame.dispatch();
 		}
 
 
-		private function gameLobbyScreen_onJoinGame () :void
+		private function gameLobbyScreen_onLeave () :void
 		{
-			joinSelectedGame.dispatch();
+			leaveGame.dispatch();
+			_navigator.showScreen(LIST_GAMES);
 		}
 
 
 		public function set games (value :Vector.<GameVO>) :void
 		{
-			if (!value) return;
-
 			_gamesData.updateGames(value);
 
 			if (_navigator) {
@@ -146,31 +149,30 @@ package com.bakalau.view.components
 		}
 
 
-		public function set selectedGame (value :GameVO) :void
+		public function set categories (value :Vector.<CategoryVO>) :void
 		{
-			if (!value) return;
+			_gamesData.updateCategories(value);
+		}
 
-			_gamesData.selectedGame = value;
-			_gamesData.updateCategories(value.categories);
+
+		public function set game (value :GameVO) :void
+		{
+			_gamesData.gameID = value.gameID;
+			_gamesData.updateGameCategories(value.categories);
 			_gamesData.updatePlayers(value.players);
-			_gamesData.currentPlayerID = value.localPlayerID;
+			_gamesData.gameOwner = value.owner;
 
 			if (_navigator) {
 				if (_navigator.activeScreenID == GAME_LOBBY) {
 					GameLobbyScreen(_navigator.activeScreen).gamesData = _gamesData;
 				}
-				else {
-					_navigator.showScreen(GAME_LOBBY);
-				}
 			}
 		}
 
 
-		public function set categories (value :Vector.<CategoryVO>) :void
+		public function set localPlayer (value :ClientVO) :void
 		{
-			if (!value) return;
-
-			_gamesData.updateCategories(value);
+			_gamesData.localPlayer = value;
 		}
 	}
 }

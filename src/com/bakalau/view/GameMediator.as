@@ -14,13 +14,13 @@ package com.bakalau.view
 
 	public class GameMediator
 	{
-		private var _game :GameVO;
-		[Inject(source="gamesModel.currentGame", bind="true", auto="false")]
-		public function set game (value :GameVO) :void
-		{
-			_game = value;
-			if (view) view.game = _game;
-		}
+//		private var _game :GameVO;
+//		[Inject(source="gameModel.game", bind="true", auto="false")]
+//		public function set game (value :GameVO) :void
+//		{
+//			_game = value;
+//			if (view) view.game = _game;
+//		}
 
 
 		private var view :GameView;

@@ -5,9 +5,9 @@
  * Time: 17:49
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.model.managers.gameChannel
+package com.bakalau.model.managers.app
 {
-	import com.bakalau.controller.events.GameEvent;
+	import com.bakalau.controller.events.AppEvent;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;
@@ -17,19 +17,19 @@ package com.bakalau.model.managers.gameChannel
 
 
 
-	public class GameChannelManager
+	public class AppManager
 	{
 		private var _channel :LocalNetworkDiscovery;
 		private var _dispatcher :EventDispatcher;
 
 
-		public function GameChannelManager (playerID :String, gameID :String, dispatcher :EventDispatcher)
+		public function AppManager (dispatcher :EventDispatcher)
 		{
 			_dispatcher = dispatcher;
 
 			_channel = new LocalNetworkDiscovery();
-			_channel.clientName = playerID;
-			_channel.groupName = gameID;
+			_channel.clientName = "CLIENT_" + String(new Date().time);
+			_channel.groupName = "BAKALAU";
 			_channel.loopback = true;
 
 			_channel.addEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
@@ -37,13 +37,28 @@ package com.bakalau.model.managers.gameChannel
 			_channel.addEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
 			_channel.addEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
 			_channel.addEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
+
+			_channel.connect();
 		}
 
 
 		private function onClientEvent (event :ClientEvent) :void
 		{
-//			trace(event);
-			_dispatcher.dispatchEvent(new GameEvent(GameEvent.GAME_UPDATE));
+			switch (event.type) {
+				case ClientEvent.CLIENT_ADDED:
+					_dispatcher.dispatchEvent(new AppEvent(AppEvent.CLIENT_ADDED, event.client));
+					break;
+
+				case ClientEvent.CLIENT_UPDATE:
+					break;
+
+				case ClientEvent.CLIENT_REMOVED:
+					_dispatcher.dispatchEvent(new AppEvent(AppEvent.CLIENT_REMOVED, event.client));
+					break;
+
+				default :
+					break;
+			}
 		}
 
 
@@ -55,19 +70,7 @@ package com.bakalau.model.managers.gameChannel
 
 		private function onMessageEvent (event :MessageEvent) :void
 		{
-//			trace(event);
-		}
-
-
-		public function dispose () :void
-		{
-			_channel.removeEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
-			_channel.removeEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
-			_channel.removeEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
-			_channel.removeEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
-			_channel.removeEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
-
-			_channel = null;
+			_dispatcher.dispatchEvent(new AppEvent(AppEvent.APP_DATA_RECEIVED, event.message.data));
 		}
 
 

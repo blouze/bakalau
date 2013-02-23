@@ -5,7 +5,7 @@
  * Time: 11:36
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.model.managers
+package com.bakalau.model.managers.categories
 {
 	import com.bakalau.model.VOs.CategoryVO;
 

@@ -8,14 +8,12 @@
 package com.bakalau
 {
 	import com.bakalau.controller.ControllerBeanProvider;
-	import com.bakalau.controller.events.ApplicationEvent;
+	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.ModelBeanProvider;
 	import com.bakalau.view.ViewBeanProvider;
 	import com.creativebottle.starlingmvc.StarlingMVC;
 	import com.creativebottle.starlingmvc.config.StarlingMVCConfig;
 	import com.creativebottle.starlingmvc.views.ViewManager;
-
-	import mx.utils.RpcClassAliasInitializer;
 
 	import starling.display.Sprite;
 
@@ -30,8 +28,6 @@ package com.bakalau
 		{
 			super();
 
-			RpcClassAliasInitializer.registerClassAliases();
-
 			var config :StarlingMVCConfig = new StarlingMVCConfig();
 			config.eventPackages = ["com.bakalau.controller.events"];
 			config.viewPackages = ["com.bakalau.view", "com.bakalau.view.components"];
@@ -44,7 +40,7 @@ package com.bakalau
 			];
 
 			starlingMVC = new StarlingMVC(this, config, beans);
-			starlingMVC.dispatcher.dispatchEvent(new ApplicationEvent(ApplicationEvent.READY));
+			starlingMVC.dispatcher.dispatchEvent(new AppEvent(AppEvent.READY));
 		}
 	}
 }

@@ -8,8 +8,8 @@
 package com.bakalau.model
 {
 	import com.bakalau.model.VOs.CategoryVO;
-	import com.bakalau.model.managers.ICategoriesManager;
-	import com.bakalau.model.managers.sqlite.SQLiteCategoriesManager;
+	import com.bakalau.model.managers.categories.ICategoriesManager;
+	import com.bakalau.model.managers.categories.sqlite.SQLiteCategoriesManager;
 	import com.creativebottle.starlingmvc.binding.Bindings;
 
 	import flash.events.ErrorEvent;

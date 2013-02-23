@@ -5,10 +5,10 @@
  * Time: 11:24
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.model.managers.sqlite
+package com.bakalau.model.managers.categories.sqlite
 {
 	import com.bakalau.model.VOs.CategoryVO;
-	import com.bakalau.model.managers.ICategoriesManager;
+	import com.bakalau.model.managers.categories.ICategoriesManager;
 	import com.probertson.data.SQLRunner;
 
 	import flash.data.SQLResult;

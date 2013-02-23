@@ -15,20 +15,25 @@ package com.bakalau.view.components.data
 
 	public class GamesData
 	{
-		public var categories :Array;
-		public var games :Vector.<ListData>;
-		public var selectedGame :GameVO;
-		public var players :Array;
-		public var currentPlayerID :String;
+		public var categories :Array = [];
+		public var games :Vector.<ListData> = new <ListData>[];
+		public var gameID :String;
+		public var gameOwner :ClientVO;
+		public var gameCategories :Array = [];
+		public var players :Array = [];
+		public var localPlayer :ClientVO;
+		private var _isJoined :Boolean = false;
 
 
 		public function updateCategories (value :Vector.<CategoryVO>) :void
 		{
 			categories = [];
 
-			for each (var categoryVO :CategoryVO in value) {
-				var categoryName :String = capitalize(categoryVO.name);
-				categories.push(new ListData(categoryName, String(categoryVO.rowid)));
+			if (value) {
+				for each (var categoryVO :CategoryVO in value) {
+					var categoryName :String = capitalize(categoryVO.name);
+					categories.push(new ListData(categoryName, String(categoryVO.rowid)));
+				}
 			}
 		}
 
@@ -37,8 +42,23 @@ package com.bakalau.view.components.data
 		{
 			games = new <ListData>[];
 
-			for each (var gameVO :GameVO in value) {
-				games.push(new ListData("Partie " + gameVO.gameID, gameVO.gameID));
+			if (value) {
+				for each (var game :GameVO in value) {
+					games.push(new ListData("Partie " + game.gameID, game.gameID));
+				}
+			}
+		}
+
+
+		public function updateGameCategories (value :Vector.<CategoryVO>) :void
+		{
+			gameCategories = [];
+
+			if (value) {
+				for each (var categoryVO :CategoryVO in value) {
+					var categoryName :String = capitalize(categoryVO.name);
+					gameCategories.push(new ListData(categoryName, String(categoryVO.rowid)));
+				}
 			}
 		}
 
@@ -47,18 +67,16 @@ package com.bakalau.view.components.data
 		{
 			players = [];
 
-			for each (var clientVO :ClientVO in value) {
-				players.push(new ListData(clientVO.clientName, clientVO.groupID));
+			if (value) {
+				for each (var playerVO :ClientVO in value) {
+					players.push(new ListData(playerVO.clientName, playerVO.groupID));
+				}
+
+				_isJoined = value.some(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
+				{
+					return clientVO == localPlayer;
+				});
 			}
-		}
-
-
-		public function hasPlayerJoined () :Boolean
-		{
-			return (players.filter(function (player :ListData, index :int, array :Array) :Boolean
-			{
-				return player.value == currentPlayerID;
-			}).length) > 0;
 		}
 
 
@@ -69,6 +87,12 @@ package com.bakalau.view.components.data
 				categoryBit = String(String(categoryBit).substr(0, 1)).toUpperCase() + String(categoryBit).slice(1);
 			}
 			return categoryBits.join("/");
+		}
+
+
+		public function get isJoined () :Boolean
+		{
+			return _isJoined;
 		}
 	}
 }

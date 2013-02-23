@@ -18,8 +18,8 @@ package com.bakalau.model
 		{
 			beans = [
 				new Bean(new DataBaseModel(), "dataBaseModel"),
-				new Bean(new LocalNetworkModel(), "localNetworkModel"),
-				new Bean(new GamesModel(), "gamesModel")
+				new Bean(new AppModel(), "appModel"),
+				new Bean(new GameModel(), "gameModel")
 			];
 		}
 	}

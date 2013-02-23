@@ -7,12 +7,16 @@
  */
 package com.bakalau
 {
+	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.CategoryVO;
+	import com.bakalau.model.VOs.GameMessageVO;
 	import com.bakalau.model.VOs.GameVO;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.net.registerClassAlias;
+
+	import mx.utils.RpcClassAliasInitializer;
 
 	import starling.core.Starling;
 
@@ -23,8 +27,13 @@ package com.bakalau
 		public function Bakalau ()
 		{
 			trace("[Bakalau]");
+
+			registerClassAlias("com.bakalau.model.VOs.AppMessageVO", AppMessageVO);
+			registerClassAlias("com.bakalau.model.VOs.GameMessageVO", GameMessageVO);
 			registerClassAlias("com.bakalau.model.VOs.CategoryVO", CategoryVO);
 			registerClassAlias("com.bakalau.model.VOs.GameVO", GameVO);
+			RpcClassAliasInitializer.registerClassAliases();
+
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 
