@@ -72,10 +72,12 @@ package com.bakalau.view.components.data
 					players.push(new ListData(playerVO.clientName, playerVO.groupID));
 				}
 
-				_isJoined = value.some(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
-				{
-					return clientVO == localPlayer;
-				});
+				if (localPlayer) {
+					_isJoined = value.some(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
+					{
+						return clientVO.groupID == localPlayer.groupID;
+					});
+				}
 			}
 		}
 
@@ -93,6 +95,16 @@ package com.bakalau.view.components.data
 		public function get isJoined () :Boolean
 		{
 			return _isJoined;
+		}
+
+
+		public function get gameOwnerIsLocalPlayer () :Boolean
+		{
+			if (localPlayer) {
+				return gameOwner.groupID == localPlayer.groupID;
+			}
+
+			return false;
 		}
 	}
 }

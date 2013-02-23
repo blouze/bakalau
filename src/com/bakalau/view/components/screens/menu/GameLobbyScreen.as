@@ -135,7 +135,7 @@ package com.bakalau.view.components.screens.menu
 		public function set gamesData (value :GamesData) :void
 		{
 			_gameID = value.gameID;
-			_ownerIsLocalPlayer = value.gameOwner ? value.gameOwner.isLocal : false;
+			_ownerIsLocalPlayer = value.gameOwnerIsLocalPlayer;
 			_isJoined = value.isJoined;
 
 			_groupedListData.data = null;
