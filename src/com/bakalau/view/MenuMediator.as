@@ -46,10 +46,10 @@ package com.bakalau.view
 		}
 
 
-		[Inject(source="gameModel.localPlayer", bind="true", auto="false")]
-		public function set localPlayer (value :ClientVO) :void
+		[Inject(source="gameModel.clients", bind="true", auto="false")]
+		public function set clients (value :Vector.<ClientVO>) :void
 		{
-			if (_view) _view.localPlayer = value;
+			if (_view) _view.clients = value;
 		}
 
 

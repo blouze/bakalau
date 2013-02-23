@@ -7,7 +7,7 @@
  */
 package com.bakalau.view.components.screens.menu
 {
-	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.data.GamesListData;
 	import com.bakalau.view.components.data.ListData;
 
 	import feathers.controls.Button;
@@ -105,10 +105,10 @@ package com.bakalau.view.components.screens.menu
 		}
 
 
-		public function set gamesData (gamesData :GamesData) :void
+		public function set gamesListData (value :GamesListData) :void
 		{
 			_listData.data = null;
-			_listData.data = gamesData.games;
+			_listData.data = value.games;
 		}
 	}
 }

@@ -30,26 +30,44 @@ package com.bakalau.controller.commands.game
 		public function execute (event :GameEvent) :void
 		{
 			var gameMessage :GameMessageVO = GameMessageVO(event.data);
-
 			var appMessage :AppMessageVO = new AppMessageVO();
-			appMessage.type = AppMessageVO.GAME_UPDATE;
-
 			var game :GameVO = gameModel.game;
+			var player :ClientVO;
+
+
 			switch (gameMessage.type) {
 				case GameMessageVO.INITIALIZE :
 					game.owner = gameModel.localPlayer;
 					game.isInitialized = true;
+
+					appMessage.type = AppMessageVO.NEW_GAME;
 					appMessage.data = game;
 					appModel.channel.sendMessageToAll(appMessage);
 					break;
 
 				case GameMessageVO.NEW_PLAYER :
-					var player :ClientVO = ClientVO(gameMessage.data);
+					player = ClientVO(gameMessage.data);
 					if (!game.hasPlayer(player)) {
 						game.players.push(player);
+
+						appMessage.type = AppMessageVO.GAME_UPDATE;
 						appMessage.data = game;
 						appModel.channel.sendMessageToAll(appMessage);
 					}
+					break;
+
+				case GameMessageVO.PLAYER_QUIT :
+					player = ClientVO(gameMessage.data);
+					if (game.hasPlayer(player)) {
+						game.removePlayer(player);
+
+						appMessage.type = AppMessageVO.GAME_UPDATE;
+						appMessage.data = game;
+						appModel.channel.sendMessageToAll(appMessage);
+					}
+					break;
+
+				case GameMessageVO.GAME_QUIT :
 					break;
 
 				default :

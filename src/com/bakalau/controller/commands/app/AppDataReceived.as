@@ -48,8 +48,7 @@ package com.bakalau.controller.commands.app
 					game = GameVO(message.data);
 					appModel.updateGame(game);
 					if (gameModel.game && gameModel.game.gameID == game.gameID) {
-						gameModel.game = game;
-						gameModel.bindings.invalidate(gameModel, "game");
+						gameModel.updateGame(game);
 					}
 					break;
 

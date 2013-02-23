@@ -7,7 +7,7 @@
  */
 package com.bakalau.view.components.screens.menu
 {
-	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.data.GameData;
 
 	import feathers.controls.Button;
 	import feathers.controls.GroupedList;
@@ -132,25 +132,27 @@ package com.bakalau.view.components.screens.menu
 		}
 
 
-		public function set gamesData (value :GamesData) :void
+		public function set gameData (value :GameData) :void
 		{
-			_gameID = value.gameID;
-			_ownerIsLocalPlayer = value.gameOwnerIsLocalPlayer;
-			_isJoined = value.isJoined;
+			if (value.game) {
+				_gameID = value.game.gameID;
+				_ownerIsLocalPlayer = value.gameOwnerIsLocalPlayer;
+				_isJoined = value.isJoined;
 
-			_groupedListData.data = null;
-			_groupedListData.data = [
-				{
-					header: "Joueurs :",
-					children: value.players
-				},
-				{
-					header: "Catégories :",
-					children: value.gameCategories
-				}
-			];
+				_groupedListData.data = null;
+				_groupedListData.data = [
+					{
+						header: "Joueurs :",
+						children: value.players
+					},
+					{
+						header: "Catégories :",
+						children: value.categories
+					}
+				];
 
-			invalidate(INVALIDATION_FLAG_DATA);
+				invalidate(INVALIDATION_FLAG_DATA);
+			}
 		}
 	}
 }

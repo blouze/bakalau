@@ -13,6 +13,7 @@ package com.bakalau.model.VOs
 		public static const INITIALIZE :String = PREFIX + "INITIALIZE";
 		public static const NEW_PLAYER :String = PREFIX + "NEW_PLAYER";
 		public static const PLAYER_QUIT :String = PREFIX + "PLAYER_QUIT";
+		public static const GAME_QUIT :String = PREFIX + "GAME_QUIT";
 
 		public var type :String;
 		public var data :*;

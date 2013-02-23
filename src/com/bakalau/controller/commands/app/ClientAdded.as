@@ -30,7 +30,7 @@ package com.bakalau.controller.commands.app
 		{
 			var newPlayer :ClientVO = ClientVO(event.data);
 
-			var localGame :GameVO = appModel.getLocalGame();
+			var localGame :GameVO = gameModel.localGame;
 			if (localGame) {
 				trace("[ClientAdded] sending game " + localGame.gameID + " to " + newPlayer.groupID);
 				var message :AppMessageVO = new AppMessageVO();

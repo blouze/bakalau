@@ -31,23 +31,20 @@ package com.bakalau.model.VOs
 		{
 			return players.some(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
 			{
-				return clientVO.groupID == player.groupID;
+				return player.groupID == clientVO.groupID;
 			});
 		}
 
 
-		public function get localPlayer () :ClientVO
+		public function removePlayer (player :ClientVO) :void
 		{
-			var localPlayers :Vector.<ClientVO> = players.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
-			{
-				return clientVO.isLocal;
-			});
-
-			if (localPlayers.length > 0) {
-				return localPlayers.pop();
+			var index :int = players.length;
+			while (--index >= 0 && players[index].groupID != player.groupID) {
 			}
 
-			return null;
+			if (index >= 0) {
+				players.splice(index, 1);
+			}
 		}
 	}
 }

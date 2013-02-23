@@ -71,10 +71,12 @@ package com.bakalau.model
 		public function updateGame (gameVO :GameVO) :void
 		{
 			var gameIndex :int = getGameIndex(gameVO);
-//			var game :GameVO = _games[gameIndex];
-//			game.categories = gameVO.categories;
-//			game.players = gameVO.players;
-			_games[gameIndex] = gameVO;
+			if (gameIndex >= 0) {
+				var game :GameVO = _games[gameIndex];
+				game.categories = gameVO.categories;
+				game.players = gameVO.players;
+//				_games[gameIndex] = gameVO;
+			}
 		}
 
 
@@ -99,21 +101,6 @@ package com.bakalau.model
 			while (--index >= 0 && _games[index].gameID != game.gameID) {
 			}
 			return index;
-		}
-
-
-		public function getLocalGame () :GameVO
-		{
-			var localGames :Vector.<GameVO> = _games.filter(function (gameVO :GameVO, index :int, vector :Vector.<GameVO>) :Boolean
-			{
-				return gameVO.owner.isLocal;
-			});
-
-			if (localGames.length > 0) {
-				return localGames.pop();
-			}
-
-			return null;
 		}
 	}
 }

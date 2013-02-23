@@ -37,6 +37,8 @@ package com.bakalau.model
 
 			_manager = new GameManager(playerID, _game.gameID, dispatcher);
 			_manager.channel.connect();
+
+			bindings.invalidate(this, "clients");
 		}
 
 
@@ -50,12 +52,18 @@ package com.bakalau.model
 
 		public function playGame () :void
 		{
-			bindings.invalidate(this, "localPlayer");
-
 			var message :GameMessageVO = new GameMessageVO();
 			message.type = GameMessageVO.NEW_PLAYER;
 			message.data = localPlayer;
 			_manager.channel.sendMessageToAll(message);
+		}
+
+
+		public function updateGame (gameVO :GameVO) :void
+		{
+			_game.categories = gameVO.categories;
+			_game.players = gameVO.players;
+			bindings.invalidate(this, "game");
 		}
 
 
@@ -66,9 +74,18 @@ package com.bakalau.model
 		}
 
 
+		public function playerQuit (player :ClientVO) :void
+		{
+			var message :GameMessageVO = new GameMessageVO();
+			message.type = GameMessageVO.PLAYER_QUIT;
+			message.data = player;
+			_manager.channel.sendMessageToAll(message);
+		}
+
+
 		public function get localPlayer () :ClientVO
 		{
-			if (_manager) {
+			if (_manager && _manager.channel) {
 				if (_manager.channel.localClient) {
 					return _manager.channel.localClient;
 				}
@@ -80,6 +97,18 @@ package com.bakalau.model
 			}
 
 			return null;
+		}
+
+
+		public function get localGame () :GameVO
+		{
+			return (localPlayer && _game.owner.groupID == localPlayer.groupID) ? _game : null;
+		}
+
+
+		public function get clients () :Vector.<ClientVO>
+		{
+			return _manager ? _manager.channel.clients : null;
 		}
 
 

@@ -10,7 +10,6 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.GameModel;
-	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.GameVO;
 
 	import starling.events.EventDispatcher;
@@ -34,11 +33,6 @@ package com.bakalau.controller.commands.app
 		{
 			var game :GameVO = GameVO(event.data);
 			game.gameID = String(new Date().time);
-
-			var message :AppMessageVO = new AppMessageVO();
-			message.type = AppMessageVO.NEW_GAME;
-			message.data = game;
-			appModel.channel.sendMessageToAll(message);
 
 			gameModel.joinGame(game, appModel.player.clientName);
 		}

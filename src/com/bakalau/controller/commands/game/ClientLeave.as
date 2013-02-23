@@ -33,7 +33,9 @@ package com.bakalau.controller.commands.game
 		{
 			var leavingClient :ClientVO = ClientVO(event.data);
 
-
+			if (gameModel.game.hasPlayer(leavingClient)) {
+				gameModel.playerQuit(leavingClient);
+			}
 		}
 	}
 }

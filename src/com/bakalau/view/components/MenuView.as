@@ -9,7 +9,9 @@ package com.bakalau.view.components
 {
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
-	import com.bakalau.view.components.data.GamesData;
+	import com.bakalau.view.components.data.CategoriesData;
+	import com.bakalau.view.components.data.GameData;
+	import com.bakalau.view.components.data.GamesListData;
 	import com.bakalau.view.components.screens.menu.CreateGameScreen;
 	import com.bakalau.view.components.screens.menu.GameLobbyScreen;
 	import com.bakalau.view.components.screens.menu.GamesListScreen;
@@ -37,7 +39,6 @@ package com.bakalau.view.components
 		public static const LIST_GAMES :String = PREFIX + "LIST_GAMES";
 		public static const GAME_LOBBY :String = PREFIX + "GAME_LOBBY";
 
-		private var _theme :MetalWorksMobileTheme;
 		private var _navigator :ScreenNavigator;
 		private var _transitionManager :ScreenSlidingStackTransitionManager;
 
@@ -47,7 +48,9 @@ package com.bakalau.view.components
 		public var startGame :Signal = new Signal();
 		public var quitGame :Signal = new Signal();
 
-		private var _gamesData :GamesData = new GamesData();
+		private var _categoriesData :CategoriesData = new CategoriesData();
+		private var _gamesListData :GamesListData = new GamesListData();
+		private var _gameData :GameData = new GameData();
 
 
 		public function MenuView ()
@@ -62,7 +65,7 @@ package com.bakalau.view.components
 
 //			_theme = new AeonDesktopTheme(stage);
 //			_theme = new AzureMobileTheme(stage, false);
-			_theme = new MetalWorksMobileTheme(stage, false);
+			var _theme :MetalWorksMobileTheme = new MetalWorksMobileTheme(stage, false);
 //			_theme = new MinimalMobileTheme(stage, false);
 
 			_navigator = new ScreenNavigator();
@@ -84,7 +87,7 @@ package com.bakalau.view.components
 				onSelect: listGamesScreen_onSelect,
 				complete: HOME
 			}, {
-				gamesData: _gamesData
+				gamesListData: _gamesListData
 			}));
 
 //			CreateGameScreen
@@ -92,7 +95,7 @@ package com.bakalau.view.components
 				onCreate: createGameScreen_onCreate,
 				complete: LIST_GAMES
 			}, {
-				gamesData: _gamesData
+				categoriesData: _categoriesData
 			}));
 
 //			GameLobbyScreen
@@ -101,7 +104,7 @@ package com.bakalau.view.components
 				onQuit: gameLobbyScreen_onLeave,
 				complete: gameLobbyScreen_onLeave
 			}, {
-				gamesData: _gamesData
+				gameData: _gameData
 			}));
 
 
@@ -137,42 +140,39 @@ package com.bakalau.view.components
 		}
 
 
-		public function set games (value :Vector.<GameVO>) :void
+		public function set categories (value :Vector.<CategoryVO>) :void
 		{
-			_gamesData.updateGames(value);
-
-			if (_navigator) {
-				if (_navigator.activeScreenID == LIST_GAMES) {
-					GamesListScreen(_navigator.activeScreen).gamesData = _gamesData;
-				}
-			}
+			_categoriesData.setCategories(value);
 		}
 
 
-		public function set categories (value :Vector.<CategoryVO>) :void
+		public function set games (value :Vector.<GameVO>) :void
 		{
-			_gamesData.updateCategories(value);
+			_gamesListData.setGames(value);
+
+			if (_navigator) {
+				if (_navigator.activeScreenID == LIST_GAMES) {
+					GamesListScreen(_navigator.activeScreen).gamesListData = _gamesListData;
+				}
+			}
 		}
 
 
 		public function set game (value :GameVO) :void
 		{
-			_gamesData.gameID = value.gameID;
-			_gamesData.updateGameCategories(value.categories);
-			_gamesData.updatePlayers(value.players);
-			_gamesData.gameOwner = value.owner;
+			_gameData.game = value;
 
 			if (_navigator) {
 				if (_navigator.activeScreenID == GAME_LOBBY) {
-					GameLobbyScreen(_navigator.activeScreen).gamesData = _gamesData;
+					GameLobbyScreen(_navigator.activeScreen).gameData = _gameData;
 				}
 			}
 		}
 
 
-		public function set localPlayer (value :ClientVO) :void
+		public function set clients (value :Vector.<ClientVO>) :void
 		{
-			_gamesData.localPlayer = value;
+			_gameData.clients = value;
 		}
 	}
 }
