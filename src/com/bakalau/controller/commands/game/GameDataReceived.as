@@ -25,45 +25,45 @@ package com.bakalau.controller.commands.game
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
 
+		private var _appMessage :AppMessageVO = new AppMessageVO();
+		private var _game :GameVO;
+
 
 		[Execute]
 		public function execute (event :GameEvent) :void
 		{
 			var gameMessage :GameMessageVO = GameMessageVO(event.data);
-			var appMessage :AppMessageVO = new AppMessageVO();
-			var game :GameVO = gameModel.game;
+			_game = gameModel.game;
+
 			var player :ClientVO;
 
-
 			switch (gameMessage.type) {
-				case GameMessageVO.INITIALIZE :
-					game.owner = gameModel.localPlayer;
-					game.isInitialized = true;
-
-					appMessage.type = AppMessageVO.NEW_GAME;
-					appMessage.data = game;
-					appModel.channel.sendMessageToAll(appMessage);
-					break;
 
 				case GameMessageVO.NEW_PLAYER :
 					player = ClientVO(gameMessage.data);
-					if (!game.hasPlayer(player)) {
-						game.players.push(player);
+					if (!_game.hasPlayer(player)) {
+						_game.players.push(player);
+						sendMessage(AppMessageVO.GAME_UPDATE);
+					}
 
-						appMessage.type = AppMessageVO.GAME_UPDATE;
-						appMessage.data = game;
-						appModel.channel.sendMessageToAll(appMessage);
+					if (!_game.isInitialized) {
+						_game.owner = gameModel.localPlayer;
+						_game.isInitialized = true;
+						sendMessage(AppMessageVO.NEW_GAME);
 					}
 					break;
 
 				case GameMessageVO.PLAYER_QUIT :
 					player = ClientVO(gameMessage.data);
-					if (game.hasPlayer(player)) {
-						game.removePlayer(player);
+					if (_game.hasPlayer(player)) {
+						_game.removePlayer(player);
 
-						appMessage.type = AppMessageVO.GAME_UPDATE;
-						appMessage.data = game;
-						appModel.channel.sendMessageToAll(appMessage);
+						if (player.groupID == _game.owner.groupID) {
+							sendMessage(AppMessageVO.END_GAME);
+						}
+						else {
+							sendMessage(AppMessageVO.GAME_UPDATE);
+						}
 					}
 					break;
 
@@ -73,6 +73,23 @@ package com.bakalau.controller.commands.game
 				default :
 					break;
 			}
+
+			dispose();
+		}
+
+
+		private function sendMessage (messageType :String) :void
+		{
+			_appMessage.type = messageType;
+			_appMessage.data = _game;
+			appModel.channel.sendMessageToAll(_appMessage);
+		}
+
+
+		private function dispose () :void
+		{
+			_appMessage = null;
+			_game = null;
 		}
 	}
 }

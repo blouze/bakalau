@@ -13,6 +13,7 @@ package com.bakalau.model.VOs
 		public static const NEW_GAME :String = PREFIX + "NEW_GAME";
 		public static const GAME_UPDATE :String = PREFIX + "GAME_UPDATE";
 		public static const START_GAME :String = PREFIX + "START_GAME";
+		public static const END_GAME :String = PREFIX + "END_GAME";
 
 		public var type :String;
 		public var data :*;

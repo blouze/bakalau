@@ -25,7 +25,6 @@ package com.bakalau.controller.commands.game
 			var newClient :ClientVO = ClientVO(event.data);
 
 			if (!gameModel.game.isInitialized) {
-				gameModel.initGame();
 				gameModel.playGame();
 			}
 		}

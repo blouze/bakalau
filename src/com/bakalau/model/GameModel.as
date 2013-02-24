@@ -42,14 +42,6 @@ package com.bakalau.model
 		}
 
 
-		public function initGame () :void
-		{
-			var initMessage :GameMessageVO = new GameMessageVO();
-			initMessage.type = GameMessageVO.INITIALIZE;
-			_manager.channel.sendMessageToAll(initMessage);
-		}
-
-
 		public function playGame () :void
 		{
 			var message :GameMessageVO = new GameMessageVO();
@@ -80,6 +72,12 @@ package com.bakalau.model
 			message.type = GameMessageVO.PLAYER_QUIT;
 			message.data = player;
 			_manager.channel.sendMessageToAll(message);
+		}
+
+
+		public function isCurrentGame (game :GameVO) :Boolean
+		{
+			return _game && _game.gameID == game.gameID;
 		}
 
 

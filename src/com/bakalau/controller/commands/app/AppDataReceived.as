@@ -36,24 +36,29 @@ package com.bakalau.controller.commands.app
 		{
 			var message :AppMessageVO = AppMessageVO(event.data);
 
-			var game :GameVO;
+			var game :GameVO = GameVO(message.data);
 
 			switch (message.type) {
 				case AppMessageVO.NEW_GAME :
-					game = GameVO(message.data);
 					appModel.addNewGame(game);
 					break;
 
 				case AppMessageVO.GAME_UPDATE :
-					game = GameVO(message.data);
-					appModel.updateGame(game);
-					if (gameModel.game && gameModel.game.gameID == game.gameID) {
+					if (gameModel.isCurrentGame(game)) {
 						gameModel.updateGame(game);
 					}
+					appModel.updateGame(game);
 					break;
 
 				case AppMessageVO.START_GAME :
 					dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, GameView));
+					break;
+
+				case AppMessageVO.END_GAME :
+					if (gameModel.isCurrentGame(game)) {
+						gameModel.playerQuit(gameModel.localPlayer);
+					}
+					appModel.removeGame(game);
 					break;
 
 				default :

@@ -68,14 +68,24 @@ package com.bakalau.model
 		}
 
 
-		public function updateGame (gameVO :GameVO) :void
+		public function updateGame (game :GameVO) :void
 		{
-			var gameIndex :int = getGameIndex(gameVO);
+			var gameIndex :int = getGameIndex(game);
 			if (gameIndex >= 0) {
-				var game :GameVO = _games[gameIndex];
-				game.categories = gameVO.categories;
-				game.players = gameVO.players;
+				var existingGame :GameVO = _games[gameIndex];
+				existingGame.categories = game.categories;
+				existingGame.players = game.players;
 //				_games[gameIndex] = gameVO;
+			}
+		}
+
+
+		public function removeGame (game :GameVO) :void
+		{
+			var gameIndex :int = getGameIndex(game);
+			if (gameIndex >= 0) {
+				_games.splice(gameIndex, 1);
+				bindings.invalidate(this, "games");
 			}
 		}
 
