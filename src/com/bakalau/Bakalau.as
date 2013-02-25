@@ -21,7 +21,6 @@ package com.bakalau
 	import starling.core.Starling;
 
 
-
 	public class Bakalau extends Sprite
 	{
 		public function Bakalau ()
@@ -43,6 +42,7 @@ package com.bakalau
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 
 			var starling :Starling = new Starling(BakalauStarling, stage);
+//			starling.showStats = true;
 			starling.start();
 		}
 	}

@@ -8,8 +8,9 @@
 package com.bakalau.controller.commands.app
 {
 	import com.bakalau.controller.events.AppEvent;
-	import com.bakalau.model.GameModel;
 	import com.bakalau.model.AppModel;
+	import com.bakalau.model.GameModel;
+	import com.bakalau.model.VOs.GameVO;
 
 	import starling.events.EventDispatcher;
 
@@ -30,7 +31,15 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
-			gameModel.leaveGame();
+			var gameID :String = String(event.data);
+			var game :GameVO = GameVO(appModel.getGameByID(gameID));
+
+			if (gameModel.isCurrentGame(game)) {
+				gameModel.quitGame();
+			}
+			else {
+				gameModel.leaveGame();
+			}
 		}
 	}
 }

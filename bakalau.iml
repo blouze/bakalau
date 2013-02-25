@@ -30,10 +30,14 @@
           <sdk name="apache_flex_sdk_4.9" />
         </dependencies>
         <compiler-options>
-          <option name="additionalOptions" value="-default-frame-rate=60" />
+          <option name="additionalOptions" value="-default-frame-rate=61 -default-background-color=#ff2255" />
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau.xml" package-file-name="bakalau" />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau.xml" package-file-name="bakalau">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/db" path-in-package="db" />
+          </files-to-package>
+        </packaging-android>
         <packaging-ios package-file-name="bakalau" />
       </configuration>
     </configurations>

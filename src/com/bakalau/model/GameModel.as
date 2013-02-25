@@ -28,6 +28,7 @@ package com.bakalau.model
 
 		private var _manager :GameManager;
 		private var _game :GameVO;
+		private var _localPlayer :ClientVO;
 
 
 		public function joinGame (game :GameVO, playerID :String) :void
@@ -42,11 +43,36 @@ package com.bakalau.model
 		}
 
 
+		public function leaveGame () :void
+		{
+			_manager.dispose();
+
+			_localPlayer = null;
+			_game = null;
+			bindings.invalidate(this, "game");
+		}
+
+
 		public function playGame () :void
 		{
+			// _manager.channel.localClient is not updated quick enough, so...
+			_localPlayer = _manager.channel.clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
+			{
+				return clientVO.isLocal;
+			}).pop();
+
 			var message :GameMessageVO = new GameMessageVO();
 			message.type = GameMessageVO.NEW_PLAYER;
-			message.data = localPlayer;
+			message.data = _localPlayer;
+			_manager.channel.sendMessageToAll(message);
+		}
+
+
+		public function quitGame () :void
+		{
+			var message :GameMessageVO = new GameMessageVO();
+			message.type = GameMessageVO.PLAYER_QUIT;
+			message.data = _localPlayer;
 			_manager.channel.sendMessageToAll(message);
 		}
 
@@ -59,22 +85,6 @@ package com.bakalau.model
 		}
 
 
-		public function leaveGame () :void
-		{
-			_manager.dispose();
-			_game = null;
-		}
-
-
-		public function playerQuit (player :ClientVO) :void
-		{
-			var message :GameMessageVO = new GameMessageVO();
-			message.type = GameMessageVO.PLAYER_QUIT;
-			message.data = player;
-			_manager.channel.sendMessageToAll(message);
-		}
-
-
 		public function isCurrentGame (game :GameVO) :Boolean
 		{
 			return _game && _game.gameID == game.gameID;
@@ -83,24 +93,13 @@ package com.bakalau.model
 
 		public function get localPlayer () :ClientVO
 		{
-			if (_manager && _manager.channel) {
-				if (_manager.channel.localClient) {
-					return _manager.channel.localClient;
-				}
-
-				return _manager.channel.clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
-				{
-					return clientVO.isLocal;
-				}).pop();
-			}
-
-			return null;
+			return _localPlayer;
 		}
 
 
-		public function get localGame () :GameVO
+		public function get selfOwnedGame () :GameVO
 		{
-			return (localPlayer && _game.owner.groupID == localPlayer.groupID) ? _game : null;
+			return (_localPlayer && _game.owner.groupID == _localPlayer.groupID) ? _game : null;
 		}
 
 

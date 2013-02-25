@@ -135,8 +135,8 @@ package com.bakalau.view.components
 
 		private function gameLobbyScreen_onLeave () :void
 		{
-			leaveGame.dispatch();
-			_navigator.showScreen(LIST_GAMES);
+			leaveGame.dispatch(_gameData.game.gameID);
+//			_navigator.showScreen(LIST_GAMES);
 		}
 
 
@@ -163,8 +163,13 @@ package com.bakalau.view.components
 			_gameData.game = value;
 
 			if (_navigator) {
-				if (_navigator.activeScreenID == GAME_LOBBY) {
-					GameLobbyScreen(_navigator.activeScreen).gameData = _gameData;
+				if (value) {
+					if (_navigator.activeScreenID == GAME_LOBBY) {
+						GameLobbyScreen(_navigator.activeScreen).gameData = _gameData;
+					}
+				}
+				else {
+					_navigator.showScreen(LIST_GAMES);
 				}
 			}
 		}

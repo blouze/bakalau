@@ -81,9 +81,9 @@ package com.bakalau.view
 				dispatcher.dispatchEvent(new AppEvent(AppEvent.START_GAME));
 			});
 
-			_view.leaveGame.add(function () :void
+			_view.leaveGame.add(function (gameID :String) :void
 			{
-				dispatcher.dispatchEvent(new AppEvent(AppEvent.LEAVE_GAME));
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.LEAVE_GAME, gameID));
 			});
 		}
 

@@ -39,9 +39,16 @@ package com.bakalau.view.components.data
 		{
 			_game = value;
 
-			setGameCategories(value.categories);
-			setGamePlayers(value.players);
-			setLocalPlayer();
+			if (value) {
+				setGameCategories(value.categories);
+				setGamePlayers(value.players);
+				setLocalPlayer();
+			}
+			else {
+				_categories = [];
+				_players = [];
+				_localPlayer = null;
+			}
 		}
 
 

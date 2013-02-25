@@ -30,12 +30,12 @@ package com.bakalau.controller.commands.app
 		{
 			var newPlayer :ClientVO = ClientVO(event.data);
 
-			var localGame :GameVO = gameModel.localGame;
-			if (localGame) {
-				trace("[ClientAdded] sending game " + localGame.gameID + " to " + newPlayer.groupID);
+			var selfOwnedGame :GameVO = gameModel.selfOwnedGame;
+			if (selfOwnedGame) {
+				trace("[ClientAdded] sending game " + selfOwnedGame.gameID + " to " + newPlayer.groupID);
 				var message :AppMessageVO = new AppMessageVO();
 				message.type = AppMessageVO.NEW_GAME;
-				message.data = localGame;
+				message.data = selfOwnedGame;
 				appModel.channel.sendMessageToClient(message, newPlayer.groupID);
 			}
 		}

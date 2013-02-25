@@ -15,7 +15,6 @@ package com.bakalau.controller
 	import com.bakalau.controller.commands.app.JoinGame;
 	import com.bakalau.controller.commands.app.LeaveGame;
 	import com.bakalau.controller.commands.app.StartGame;
-	import com.bakalau.controller.commands.game.ClientLeave;
 	import com.bakalau.controller.commands.game.GameDataReceived;
 	import com.bakalau.controller.commands.game.NewClient;
 	import com.bakalau.controller.commands.navigation.NavigateToView;
@@ -44,7 +43,6 @@ package com.bakalau.controller
 				new Command(AppEvent.LEAVE_GAME, LeaveGame),
 
 				new Command(GameEvent.NEW_CLIENT, NewClient),
-				new Command(GameEvent.CLIENT_LEAVE, ClientLeave),
 				new Command(GameEvent.GAME_DATA_RECEIVED, GameDataReceived),
 
 				new Command(NavigationEvent.NAVIGATE_TO_VIEW, NavigateToView)

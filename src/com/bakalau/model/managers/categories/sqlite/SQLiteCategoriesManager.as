@@ -34,6 +34,7 @@ package com.bakalau.model.managers.categories.sqlite
 		public function SQLiteCategoriesManager ()
 		{
 			var dbFile :File = File.userDirectory.resolvePath("Workspace/bakalau/db/bakalau.sqlite");
+//			var dbFile :File = File.applicationDirectory.resolvePath("db/bakalau.sqlite");
 			_sqlRunner = new SQLRunner(dbFile);
 		}
 

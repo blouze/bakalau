@@ -48,15 +48,16 @@ package com.bakalau.controller.commands.app
 						gameModel.updateGame(game);
 					}
 					appModel.updateGame(game);
+
 					break;
 
 				case AppMessageVO.START_GAME :
 					dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, GameView));
 					break;
 
-				case AppMessageVO.END_GAME :
+				case AppMessageVO.REMOVE_GAME :
 					if (gameModel.isCurrentGame(game)) {
-						gameModel.playerQuit(gameModel.localPlayer);
+						gameModel.leaveGame();
 					}
 					appModel.removeGame(game);
 					break;

@@ -55,19 +55,13 @@ package com.bakalau.controller.commands.game
 
 				case GameMessageVO.PLAYER_QUIT :
 					player = ClientVO(gameMessage.data);
-					if (_game.hasPlayer(player)) {
-						_game.removePlayer(player);
-
-						if (player.groupID == _game.owner.groupID) {
-							sendMessage(AppMessageVO.END_GAME);
-						}
-						else {
-							sendMessage(AppMessageVO.GAME_UPDATE);
-						}
+					if (player.groupID == _game.owner.groupID) {
+						sendMessage(AppMessageVO.REMOVE_GAME);
 					}
-					break;
-
-				case GameMessageVO.GAME_QUIT :
+					else {
+						_game.removePlayer(player);
+						sendMessage(AppMessageVO.GAME_UPDATE);
+					}
 					break;
 
 				default :

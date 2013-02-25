@@ -52,7 +52,6 @@ package com.bakalau.model.managers.games
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
-					_dispatcher.dispatchEvent(new GameEvent(GameEvent.CLIENT_LEAVE, event.client));
 					break;
 
 				default :
@@ -75,15 +74,16 @@ package com.bakalau.model.managers.games
 
 		public function dispose () :void
 		{
-			_channel.close();
-
 			_channel.removeEventListener(ClientEvent.CLIENT_ADDED, onClientEvent);
 			_channel.removeEventListener(ClientEvent.CLIENT_UPDATE, onClientEvent);
 			_channel.removeEventListener(ClientEvent.CLIENT_REMOVED, onClientEvent);
 			_channel.removeEventListener(GroupEvent.GROUP_CONNECTED, onGroupEvent);
 			_channel.removeEventListener(MessageEvent.DATA_RECEIVED, onMessageEvent);
 
+			_channel.close();
+
 			_channel = null;
+			_dispatcher = null;
 		}
 
 
