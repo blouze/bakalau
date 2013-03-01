@@ -14,23 +14,33 @@ package com.bakalau
 	import com.creativebottle.starlingmvc.StarlingMVC;
 	import com.creativebottle.starlingmvc.config.StarlingMVCConfig;
 	import com.creativebottle.starlingmvc.views.ViewManager;
+	import com.demonsters.debugger.MonsterDebugger;
 
 	import starling.display.Sprite;
+	import starling.events.Event;
 
 
 
 	public class BakalauStarling extends Sprite
 	{
-		private var starlingMVC :StarlingMVC;
+		public static var starlingMVC :StarlingMVC;
 
 
 		public function BakalauStarling ()
 		{
 			super();
 
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+
+
+		private function onAddedToStage (event :Event) :void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+
 			var config :StarlingMVCConfig = new StarlingMVCConfig();
 			config.eventPackages = ["com.bakalau.controller.events"];
-			config.viewPackages = ["com.bakalau.view", "com.bakalau.view.components"];
+			config.viewPackages = ["com.bakalau.view", "com.bakalau.view.components", "com.bakalau.view.components.screens"];
 
 			var beans :Array = [
 				new ModelBeanProvider(),

@@ -31,7 +31,7 @@ package com.bakalau.model
 		private var _localPlayer :ClientVO;
 
 
-		public function joinGame (game :GameVO, playerID :String) :void
+		public function visitGame (game :GameVO, playerID :String) :void
 		{
 			_game = game;
 			bindings.invalidate(this, "game");
@@ -53,7 +53,7 @@ package com.bakalau.model
 		}
 
 
-		public function playGame () :void
+		public function joinGame () :void
 		{
 			// _manager.channel.localClient is not updated quick enough, so...
 			_localPlayer = _manager.channel.clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
@@ -62,8 +62,16 @@ package com.bakalau.model
 			}).pop();
 
 			var message :GameMessageVO = new GameMessageVO();
-			message.type = GameMessageVO.NEW_PLAYER;
+			message.type = GameMessageVO.PLAYER_JOIN;
 			message.data = _localPlayer;
+			_manager.channel.sendMessageToAll(message);
+		}
+
+
+		public function startGame () :void
+		{
+			var message :GameMessageVO = new GameMessageVO();
+			message.type = GameMessageVO.START_GAME;
 			_manager.channel.sendMessageToAll(message);
 		}
 
@@ -74,14 +82,6 @@ package com.bakalau.model
 			message.type = GameMessageVO.PLAYER_QUIT;
 			message.data = _localPlayer;
 			_manager.channel.sendMessageToAll(message);
-		}
-
-
-		public function updateGame (gameVO :GameVO) :void
-		{
-			_game.categories = gameVO.categories;
-			_game.players = gameVO.players;
-			bindings.invalidate(this, "game");
 		}
 
 
@@ -99,7 +99,7 @@ package com.bakalau.model
 
 		public function get selfOwnedGame () :GameVO
 		{
-			return (_localPlayer && _game.owner.groupID == _localPlayer.groupID) ? _game : null;
+			return (_localPlayer && _game.owner == _localPlayer) ? _game : null;
 		}
 
 

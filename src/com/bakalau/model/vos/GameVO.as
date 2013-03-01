@@ -19,6 +19,7 @@ package com.bakalau.model.VOs
 		public var owner :ClientVO;
 		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
 		public var players :Vector.<ClientVO> = new <ClientVO>[];
+		public var started :Boolean = false;
 
 
 		public function get playersConnected () :int

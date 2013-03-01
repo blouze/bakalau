@@ -38,8 +38,6 @@ package com.bakalau.view.components.screens.menu
 		}
 
 
-		private var _backButton :Button;
-		private var _createGameButton :Button;
 		private var _list :List;
 		private var _listData :ListCollection = new ListCollection(new Vector.<ListData>());
 
@@ -59,7 +57,7 @@ package com.bakalau.view.components.screens.menu
 
 			if (true) {
 //			if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
-				_backButton = new Button();
+				var _backButton :Button = new Button();
 				_backButton.label = "Retour";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
@@ -68,7 +66,7 @@ package com.bakalau.view.components.screens.menu
 							_backButton
 						];
 
-				_createGameButton = new Button();
+				var _createGameButton :Button = new Button();
 				_createGameButton.label = "Nouvelle";
 				_createGameButton.addEventListener(Event.TRIGGERED, createGameButton_triggeredHandler);
 

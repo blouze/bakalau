@@ -34,7 +34,7 @@ package com.bakalau.controller.commands.app
 			var game :GameVO = GameVO(event.data);
 			game.gameID = String(new Date().time);
 
-			gameModel.joinGame(game, appModel.player.clientName);
+			gameModel.visitGame(game, appModel.player.clientName);
 		}
 	}
 }

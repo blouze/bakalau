@@ -61,10 +61,8 @@ package com.bakalau.model
 
 		public function addNewGame (game :GameVO) :void
 		{
-			if (!getGameByID(game.gameID)) {
-				_games.push(game);
-				bindings.invalidate(this, "games");
-			}
+			_games.push(game);
+			bindings.invalidate(this, "games");
 		}
 
 
@@ -72,10 +70,7 @@ package com.bakalau.model
 		{
 			var gameIndex :int = getGameIndex(game);
 			if (gameIndex >= 0) {
-				var existingGame :GameVO = _games[gameIndex];
-				existingGame.categories = game.categories;
-				existingGame.players = game.players;
-//				_games[gameIndex] = gameVO;
+				_games[gameIndex] = game;
 			}
 		}
 

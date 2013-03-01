@@ -42,7 +42,8 @@ package com.bakalau.model.managers.games
 
 		private function onClientEvent (event :ClientEvent) :void
 		{
-			trace(event);
+//			MonsterDebugger.log(_channel);
+//			MonsterDebugger.log(event);
 			switch (event.type) {
 				case ClientEvent.CLIENT_ADDED:
 					_dispatcher.dispatchEvent(new GameEvent(GameEvent.NEW_CLIENT, event.client));

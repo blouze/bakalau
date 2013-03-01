@@ -11,6 +11,7 @@ package com.bakalau.model
 	import com.bakalau.model.managers.categories.ICategoriesManager;
 	import com.bakalau.model.managers.categories.sqlite.SQLiteCategoriesManager;
 	import com.creativebottle.starlingmvc.binding.Bindings;
+	import com.demonsters.debugger.MonsterDebugger;
 
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -48,6 +49,7 @@ package com.bakalau.model
 
 		private function onManagerError (event :ErrorEvent) :void
 		{
+			MonsterDebugger.log(event);
 			trace(categoriesManager.error);
 		}
 

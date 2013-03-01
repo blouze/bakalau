@@ -34,7 +34,7 @@ package com.bakalau.controller.commands.app
 			if (selfOwnedGame) {
 				trace("[ClientAdded] sending game " + selfOwnedGame.gameID + " to " + newPlayer.groupID);
 				var message :AppMessageVO = new AppMessageVO();
-				message.type = AppMessageVO.NEW_GAME;
+				message.type = AppMessageVO.ADD_GAME;
 				message.data = selfOwnedGame;
 				appModel.channel.sendMessageToClient(message, newPlayer.groupID);
 			}

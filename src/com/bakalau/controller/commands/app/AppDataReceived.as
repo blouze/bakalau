@@ -8,14 +8,10 @@
 package com.bakalau.controller.commands.app
 {
 	import com.bakalau.controller.events.AppEvent;
-	import com.bakalau.controller.events.NavigationEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.GameModel;
 	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.GameVO;
-	import com.bakalau.view.components.GameView;
-
-	import starling.events.EventDispatcher;
 
 
 
@@ -27,9 +23,6 @@ package com.bakalau.controller.commands.app
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
 
-		[Dispatcher]
-		public var dispatcher :EventDispatcher;
-
 
 		[Execute]
 		public function execute (event :AppEvent) :void
@@ -39,20 +32,14 @@ package com.bakalau.controller.commands.app
 			var game :GameVO = GameVO(message.data);
 
 			switch (message.type) {
-				case AppMessageVO.NEW_GAME :
-					appModel.addNewGame(game);
-					break;
-
-				case AppMessageVO.GAME_UPDATE :
-					if (gameModel.isCurrentGame(game)) {
-						gameModel.updateGame(game);
+				case AppMessageVO.ADD_GAME :
+					if (!appModel.getGameByID(game.gameID)) {
+						appModel.addNewGame(game);
 					}
-					appModel.updateGame(game);
-
 					break;
 
-				case AppMessageVO.START_GAME :
-					dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, GameView));
+				case AppMessageVO.UPDATE_GAME :
+					appModel.updateGame(game);
 					break;
 
 				case AppMessageVO.REMOVE_GAME :

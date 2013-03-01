@@ -106,7 +106,7 @@ package com.bakalau.view.components.data
 		public function get gameOwnerIsLocalPlayer () :Boolean
 		{
 			if (_localPlayer) {
-				return _game.owner.groupID == _localPlayer.groupID;
+				return _game.owner == _localPlayer;
 			}
 
 			return false;

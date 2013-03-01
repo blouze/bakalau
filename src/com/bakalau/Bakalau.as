@@ -14,15 +14,21 @@ package com.bakalau
 
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Rectangle;
 	import flash.net.registerClassAlias;
 
 	import mx.utils.RpcClassAliasInitializer;
 
 	import starling.core.Starling;
+	import starling.events.ResizeEvent;
+
 
 
 	public class Bakalau extends Sprite
 	{
+		private var _starling :Starling;
+
+
 		public function Bakalau ()
 		{
 			trace("[Bakalau]");
@@ -41,9 +47,23 @@ package com.bakalau
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 
-			var starling :Starling = new Starling(BakalauStarling, stage);
-//			starling.showStats = true;
-			starling.start();
+			Starling.handleLostContext = true;
+
+			_starling = new Starling(BakalauStarling, stage);
+			_starling.showStats = true;
+			_starling.stage.addEventListener(Event.RESIZE, onResize);
+			_starling.start();
+		}
+
+
+		private function onResize (event :ResizeEvent) :void
+		{
+			var scale :Number = Starling.current.contentScaleFactor;
+			var viewPort :Rectangle = new Rectangle(0, 0, event.width, event.height);
+
+			Starling.current.viewPort = viewPort;
+			_starling.stage.stageWidth = viewPort.width / scale;
+			_starling.stage.stageHeight = viewPort.height / scale;
 		}
 	}
 }

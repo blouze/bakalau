@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="bakalau">
     <configurations>
-      <configuration name="bakalau" target-platform="Mobile" main-class="Bakalau" output-file="Bakalau.swf" output-folder="$MODULE_DIR$/out/production/bakalau">
+      <configuration name="bakalau" target-platform="Mobile" main-class="Bakalau" output-file="bakalau.swf" output-folder="$MODULE_DIR$/out/production/bakalau">
         <dependencies>
           <entries>
             <entry library-name="starlingMVC-1.2" library-level="project">
@@ -26,11 +26,14 @@
             <entry library-name="air-sqlite" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="MonsterDebuggerMobile" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="apache_flex_sdk_4.9" />
         </dependencies>
         <compiler-options>
-          <option name="additionalOptions" value="-default-frame-rate=61 -default-background-color=#ff2255" />
+          <option name="additionalOptions" value="-keep-as3-metadata+=Bindings -keep-as3-metadata+=Dispatcher -keep-as3-metadata+=EventHandler -keep-as3-metadata+=Execute -keep-as3-metadata+=Inject -keep-as3-metadata+=Juggler -keep-as3-metadata+=PostConstruct -keep-as3-metadata+=ViewAdded -keep-as3-metadata+=ViewRemoved" />
         </compiler-options>
         <packaging-air-desktop />
         <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau.xml" package-file-name="bakalau">
@@ -39,6 +42,47 @@
           </files-to-package>
         </packaging-android>
         <packaging-ios package-file-name="bakalau" />
+      </configuration>
+      <configuration name="bakalau-desktop" target-platform="Desktop" main-class="Bakalau" output-file="bakalau-desktop.swf" output-folder="$MODULE_DIR$/out/production/bakalau">
+        <dependencies>
+          <entries>
+            <entry library-name="air-sqlite" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="as3-signals-0.9" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="CocoonP2P-0.8.4" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="feathers-themes" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="feathersUI-1.1.0 PRERELEASE" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="starling-framework-1.3-SNAPSHOT" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="starlingMVC-1.2" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="MonsterDebuggerMobile" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="apache_flex_sdk_4.9" />
+        </dependencies>
+        <compiler-options>
+          <option name="additionalOptions" value="-keep-as3-metadata+=Bindings -keep-as3-metadata+=Dispatcher -keep-as3-metadata+=EventHandler -keep-as3-metadata+=Execute -keep-as3-metadata+=Inject -keep-as3-metadata+=Juggler -keep-as3-metadata+=PostConstruct -keep-as3-metadata+=ViewAdded -keep-as3-metadata+=ViewRemoved -default-size 800 480" />
+        </compiler-options>
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau-desktop.xml" package-file-name="bakalau-desktop">
+          <files-to-package>
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/db" path-in-package="db" />
+          </files-to-package>
+        </packaging-air-desktop>
+        <packaging-android />
+        <packaging-ios />
       </configuration>
     </configurations>
     <compiler-options />
@@ -60,6 +104,9 @@
     <orderEntry type="library" exported="" name="as3-signals-0.9" level="project" />
     <orderEntry type="library" exported="" name="feathersUI-1.1.0 PRERELEASE" level="project" />
     <orderEntry type="library" exported="" name="air-sqlite" level="project" />
+    <orderEntry type="library" exported="" name="TheMiner_en" level="project" />
+    <orderEntry type="library" exported="" name="MonsterDebuggerMobile" level="project" />
+    <orderEntry type="library" exported="" name="MonsterDebugger" level="project" />
   </component>
 </module>
 

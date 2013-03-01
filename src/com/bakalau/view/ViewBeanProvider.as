@@ -7,7 +7,6 @@
  */
 package com.bakalau.view
 {
-	import com.creativebottle.starlingmvc.beans.Bean;
 	import com.creativebottle.starlingmvc.beans.BeanProvider;
 
 
@@ -17,8 +16,8 @@ package com.bakalau.view
 		public function ViewBeanProvider ()
 		{
 			beans = [
-				new Bean(new MenuMediator(), "menuMediator"),
-				new Bean(new GameMediator(), "gameMediator")
+				new MenuMediator(),
+				new GameMediator()
 			];
 		}
 	}

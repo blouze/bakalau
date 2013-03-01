@@ -7,6 +7,8 @@
  */
 package com.bakalau.controller.events
 {
+	import com.demonsters.debugger.MonsterDebugger;
+
 	import starling.events.Event;
 
 

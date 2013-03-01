@@ -12,16 +12,17 @@ package com.bakalau.view.components
 	import com.bakalau.view.components.data.CategoriesData;
 	import com.bakalau.view.components.data.GameData;
 	import com.bakalau.view.components.data.GamesListData;
+	import com.bakalau.view.components.screens.game.GameMainScreen;
 	import com.bakalau.view.components.screens.menu.CreateGameScreen;
 	import com.bakalau.view.components.screens.menu.GameLobbyScreen;
 	import com.bakalau.view.components.screens.menu.GamesListScreen;
 	import com.bakalau.view.components.screens.menu.HomeScreen;
+	import com.demonsters.debugger.MonsterDebugger;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
-	import feathers.themes.MetalWorksMobileTheme;
 
 	import org.osflash.signals.Signal;
 
@@ -38,9 +39,9 @@ package com.bakalau.view.components
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
 		public static const LIST_GAMES :String = PREFIX + "LIST_GAMES";
 		public static const GAME_LOBBY :String = PREFIX + "GAME_LOBBY";
+		public static const GAME_MAIN_SCREEN :String = PREFIX + "GAME_MAIN_SCREEN";
 
 		private var _navigator :ScreenNavigator;
-		private var _transitionManager :ScreenSlidingStackTransitionManager;
 
 		public var createGame :Signal = new Signal(Vector.<int>);
 		public var joinGame :Signal = new Signal(String);
@@ -63,15 +64,10 @@ package com.bakalau.view.components
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 
-//			_theme = new AeonDesktopTheme(stage);
-//			_theme = new AzureMobileTheme(stage, false);
-			var _theme :MetalWorksMobileTheme = new MetalWorksMobileTheme(stage, false);
-//			_theme = new MinimalMobileTheme(stage, false);
-
 			_navigator = new ScreenNavigator();
 			addChild(_navigator);
 
-			_transitionManager = new ScreenSlidingStackTransitionManager(_navigator);
+			var _transitionManager :ScreenSlidingStackTransitionManager = new ScreenSlidingStackTransitionManager(_navigator);
 			_transitionManager.duration = 0.5;
 			_transitionManager.ease = Transitions.EASE_OUT;
 
@@ -100,6 +96,15 @@ package com.bakalau.view.components
 
 //			GameLobbyScreen
 			_navigator.addScreen(GAME_LOBBY, new ScreenNavigatorItem(GameLobbyScreen, {
+				onStart: gameLobbyScreen_onStart,
+				onQuit: gameLobbyScreen_onLeave,
+				complete: gameLobbyScreen_onLeave
+			}, {
+				gameData: _gameData
+			}));
+
+//			GameScreen
+			_navigator.addScreen(GAME_MAIN_SCREEN, new ScreenNavigatorItem(GameMainScreen, {
 				onStart: gameLobbyScreen_onStart,
 				onQuit: gameLobbyScreen_onLeave,
 				complete: gameLobbyScreen_onLeave
@@ -136,16 +141,17 @@ package com.bakalau.view.components
 		private function gameLobbyScreen_onLeave () :void
 		{
 			leaveGame.dispatch(_gameData.game.gameID);
-//			_navigator.showScreen(LIST_GAMES);
 		}
 
 
+		[Inject(source="dataBaseModel.categories", bind="true", auto="false")]
 		public function set categories (value :Vector.<CategoryVO>) :void
 		{
 			_categoriesData.setCategories(value);
 		}
 
 
+		[Inject(source="appModel.games", bind="true", auto="false")]
 		public function set games (value :Vector.<GameVO>) :void
 		{
 			_gamesListData.setGames(value);
@@ -158,6 +164,7 @@ package com.bakalau.view.components
 		}
 
 
+		[Inject(source="gameModel.game", bind="true", auto="false")]
 		public function set game (value :GameVO) :void
 		{
 			_gameData.game = value;
@@ -175,6 +182,7 @@ package com.bakalau.view.components
 		}
 
 
+		[Inject(source="gameModel.clients", bind="true", auto="false")]
 		public function set clients (value :Vector.<ClientVO>) :void
 		{
 			_gameData.clients = value;

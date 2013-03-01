@@ -11,7 +11,6 @@ package com.bakalau.view
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.MenuView;
-	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
 
@@ -29,27 +28,6 @@ package com.bakalau.view
 		{
 			_categories = value;
 			if (_view) _view.categories = value;
-		}
-
-
-		[Inject(source="appModel.games", bind="true", auto="false")]
-		public function set games (value :Vector.<GameVO>) :void
-		{
-			if (_view) _view.games = value;
-		}
-
-
-		[Inject(source="gameModel.game", bind="true", auto="false")]
-		public function set game (value :GameVO) :void
-		{
-			if (_view) _view.game = value;
-		}
-
-
-		[Inject(source="gameModel.clients", bind="true", auto="false")]
-		public function set clients (value :Vector.<ClientVO>) :void
-		{
-			if (_view) _view.clients = value;
 		}
 
 

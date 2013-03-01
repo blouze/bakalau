@@ -12,7 +12,7 @@
                xmlns:s="library://ns.adobe.com/flex/spark"
                minWidth="955" minHeight="600"
                splashScreenImage="@Embed('assets/ErrorIndicator.png')" splashScreenScaleMode="none"
-               backgroundAlpha="0"
+               backgroundAlpha="0" backgroundColor="0x1A1A1A" frameRate="60"
                creationComplete="init()"
         >
     <fx:Declarations>

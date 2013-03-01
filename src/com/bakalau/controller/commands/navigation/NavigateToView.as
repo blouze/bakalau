@@ -10,16 +10,10 @@ package com.bakalau.controller.commands.navigation
 	import com.bakalau.controller.events.NavigationEvent;
 	import com.creativebottle.starlingmvc.views.ViewManager;
 
-	import starling.events.EventDispatcher;
-
 
 
 	public class NavigateToView
 	{
-		[Dispatcher]
-		public var dispatcher :EventDispatcher;
-
-
 		[Inject]
 		public var viewManager :ViewManager;
 
@@ -28,7 +22,6 @@ package com.bakalau.controller.commands.navigation
 		public function execute (event :NavigationEvent) :void
 		{
 			var viewClass :Class = event.viewClass;
-
 			viewManager.setView(viewClass);
 		}
 	}

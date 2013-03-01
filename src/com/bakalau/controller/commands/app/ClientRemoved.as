@@ -8,10 +8,8 @@
 package com.bakalau.controller.commands.app
 {
 	import com.bakalau.controller.events.AppEvent;
-	import com.bakalau.model.GameModel;
 	import com.bakalau.model.AppModel;
-	import com.bakalau.model.VOs.GameVO;
-	import com.projectcocoon.p2p.vo.ClientVO;
+	import com.bakalau.model.GameModel;
 
 
 

@@ -12,7 +12,13 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.DataBaseModel;
 	import com.bakalau.view.components.MenuView;
+	import com.demonsters.debugger.MonsterDebugger;
 
+	import feathers.themes.MetalWorksMobileTheme;
+
+	import flash.system.Capabilities;
+
+	import starling.core.Starling;
 	import starling.events.EventDispatcher;
 
 
@@ -32,6 +38,15 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
+			if (Capabilities.cpuArchitecture != "ARM") {
+				MonsterDebugger.initialize(this);
+			}
+
+//			new AeonDesktopTheme(Starling.current.stage);
+//			new AzureMobileTheme(Starling.current.stage);
+			new MetalWorksMobileTheme(Starling.current.stage, false);
+//			new MinimalMobileTheme(Starling.current.stage);
+
 			appModel.init();
 			dataBaseModel.getCategories();
 			dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, MenuView));

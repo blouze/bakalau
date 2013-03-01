@@ -8,6 +8,7 @@
 package com.bakalau.model.managers.app
 {
 	import com.bakalau.controller.events.AppEvent;
+	import com.demonsters.debugger.MonsterDebugger;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.events.ClientEvent;
 	import com.projectcocoon.p2p.events.GroupEvent;
@@ -44,6 +45,8 @@ package com.bakalau.model.managers.app
 
 		private function onClientEvent (event :ClientEvent) :void
 		{
+			MonsterDebugger.log(_channel);
+			MonsterDebugger.log(event);
 			switch (event.type) {
 				case ClientEvent.CLIENT_ADDED:
 					_dispatcher.dispatchEvent(new AppEvent(AppEvent.CLIENT_ADDED, event.client));

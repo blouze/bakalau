@@ -10,7 +10,6 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.GameModel;
-	import com.bakalau.model.VOs.AppMessageVO;
 
 	import starling.events.EventDispatcher;
 
@@ -31,14 +30,11 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
-			if (gameModel.game.owner != appModel.player) {
-				gameModel.playGame();
+			if (gameModel.game.owner != gameModel.localPlayer) {
+				gameModel.joinGame();
 			}
 			else {
-				var appMessage :AppMessageVO = new AppMessageVO();
-				appMessage.type = AppMessageVO.START_GAME;
-				appMessage.data = gameModel.game;
-				appModel.channel.sendMessageToAll(appMessage);
+				gameModel.startGame();
 			}
 		}
 	}

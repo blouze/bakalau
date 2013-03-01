@@ -71,7 +71,7 @@ package com.bakalau.view.components.screens.menu
 			if (true) {
 //			if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
 				_backButton = new Button();
-				_backButton.label = "Retour";
+				_backButton.label = "Annuler";
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
 				headerProperties.leftItems = new <DisplayObject>

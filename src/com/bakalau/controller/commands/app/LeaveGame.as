@@ -34,7 +34,7 @@ package com.bakalau.controller.commands.app
 			var gameID :String = String(event.data);
 			var game :GameVO = GameVO(appModel.getGameByID(gameID));
 
-			if (gameModel.isCurrentGame(game)) {
+			if (gameModel.localPlayer && game.hasPlayer(gameModel.localPlayer)) {
 				gameModel.quitGame();
 			}
 			else {
