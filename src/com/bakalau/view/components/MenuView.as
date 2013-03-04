@@ -17,8 +17,6 @@ package com.bakalau.view.components
 	import com.bakalau.view.components.screens.menu.GameLobbyScreen;
 	import com.bakalau.view.components.screens.menu.GamesListScreen;
 	import com.bakalau.view.components.screens.menu.HomeScreen;
-	import com.demonsters.debugger.MonsterDebugger;
-	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
@@ -141,17 +139,16 @@ package com.bakalau.view.components
 		private function gameLobbyScreen_onLeave () :void
 		{
 			leaveGame.dispatch(_gameData.game.gameID);
+			_navigator.showScreen(LIST_GAMES);
 		}
 
 
-		[Inject(source="dataBaseModel.categories", bind="true", auto="false")]
 		public function set categories (value :Vector.<CategoryVO>) :void
 		{
 			_categoriesData.setCategories(value);
 		}
 
 
-		[Inject(source="appModel.games", bind="true", auto="false")]
 		public function set games (value :Vector.<GameVO>) :void
 		{
 			_gamesListData.setGames(value);
@@ -164,7 +161,6 @@ package com.bakalau.view.components
 		}
 
 
-		[Inject(source="gameModel.game", bind="true", auto="false")]
 		public function set game (value :GameVO) :void
 		{
 			_gameData.game = value;
@@ -179,13 +175,6 @@ package com.bakalau.view.components
 					_navigator.showScreen(LIST_GAMES);
 				}
 			}
-		}
-
-
-		[Inject(source="gameModel.clients", bind="true", auto="false")]
-		public function set clients (value :Vector.<ClientVO>) :void
-		{
-			_gameData.clients = value;
 		}
 	}
 }

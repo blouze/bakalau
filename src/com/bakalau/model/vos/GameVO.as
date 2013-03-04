@@ -9,17 +9,22 @@ package com.bakalau.model.VOs
 {
 	import com.projectcocoon.p2p.vo.ClientVO;
 
+	import flash.utils.Dictionary;
+
 
 
 	public class GameVO
 	{
 		public var gameID :String;
 		public var isInitialized :Boolean = false;
+		public var clients :Vector.<ClientVO> = new <ClientVO>[];
 
 		public var owner :ClientVO;
 		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
 		public var players :Vector.<ClientVO> = new <ClientVO>[];
 		public var started :Boolean = false;
+
+		public var answers :Dictionary = new Dictionary(true);
 
 
 		public function get playersConnected () :int
@@ -45,6 +50,26 @@ package com.bakalau.model.VOs
 
 			if (index >= 0) {
 				players.splice(index, 1);
+			}
+		}
+
+
+		public function updateAnswer (answer :AnswerVO) :void
+		{
+			if (!answers[answer.player]) {
+				answers[answer.player] = new <AnswerVO>[];
+			}
+
+			var playerAnswers :Vector.<AnswerVO> = answers[answer.player];
+			var index :int = playerAnswers.length;
+			while (--index >= 0 && playerAnswers[index].categoryID != answer.categoryID) {
+			}
+
+			if (index >= 0) {
+				playerAnswers[index].value = answer.value;
+			}
+			else {
+				playerAnswers.push(answer);
 			}
 		}
 	}

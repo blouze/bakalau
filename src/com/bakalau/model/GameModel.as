@@ -7,10 +7,11 @@
  */
 package com.bakalau.model
 {
+	import com.bakalau.controller.events.DataEvent;
+	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.GameMessageVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.model.managers.games.GameManager;
-	import com.creativebottle.starlingmvc.binding.Bindings;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
@@ -19,9 +20,6 @@ package com.bakalau.model
 
 	public class GameModel
 	{
-		[Bindings]
-		public var bindings :Bindings;
-
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
 
@@ -34,12 +32,11 @@ package com.bakalau.model
 		public function visitGame (game :GameVO, playerID :String) :void
 		{
 			_game = game;
-			bindings.invalidate(this, "game");
 
 			_manager = new GameManager(playerID, _game.gameID, dispatcher);
 			_manager.channel.connect();
 
-			bindings.invalidate(this, "clients");
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
 		}
 
 
@@ -49,7 +46,8 @@ package com.bakalau.model
 
 			_localPlayer = null;
 			_game = null;
-			bindings.invalidate(this, "game");
+
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
 		}
 
 
@@ -85,6 +83,17 @@ package com.bakalau.model
 		}
 
 
+		public function giveAnswer (answer :AnswerVO) :void
+		{
+			answer.player = _localPlayer;
+
+			var message :GameMessageVO = new GameMessageVO();
+			message.type = GameMessageVO.PLAYER_ANSWER;
+			message.data = answer;
+			_manager.channel.sendMessageToAll(message);
+		}
+
+
 		public function isCurrentGame (game :GameVO) :Boolean
 		{
 			return _game && _game.gameID == game.gameID;
@@ -112,12 +121,6 @@ package com.bakalau.model
 		public function get game () :GameVO
 		{
 			return _game;
-		}
-
-
-		public function set game (value :GameVO) :void
-		{
-			_game = value;
 		}
 	}
 }

@@ -53,6 +53,7 @@ package com.bakalau.model.managers.games
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
+					_dispatcher.dispatchEvent(new GameEvent(GameEvent.CLIENT_LEAVE, event.client));
 					break;
 
 				default :

@@ -7,19 +7,16 @@
  */
 package com.bakalau.controller.events
 {
-	import com.demonsters.debugger.MonsterDebugger;
-
 	import starling.events.Event;
 
 
 
 	public class AppEvent extends Event
 	{
-		private static const PREFIX :String = "APPLICATION_";
+		private static const PREFIX :String = "APP_";
 
 		public static const READY :String = PREFIX + "READY";
 		public static const CLIENT_ADDED :String = PREFIX + "CLIENT_ADDED";
-		public static const CLIENT_REMOVED :String = PREFIX + "CLIENT_REMOVED";
 		public static const APP_DATA_RECEIVED :String = PREFIX + "APP_DATA_RECEIVED";
 
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";

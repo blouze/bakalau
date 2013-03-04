@@ -7,10 +7,10 @@
  */
 package com.bakalau.view.components.screens.game
 {
+	import com.bakalau.view.components.data.AnswersData;
 	import com.bakalau.view.components.data.GameData;
 	import com.bakalau.view.components.data.ListData;
 
-	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Header;
 	import feathers.controls.List;
@@ -33,7 +33,7 @@ package com.bakalau.view.components.screens.game
 
 	public class GameMainScreen extends PanelScreen
 	{
-		public var onSelect :Signal = new Signal(String);
+		public var onAnswer :Signal = new Signal(String, String);
 
 
 		public function GameMainScreen ()
@@ -95,13 +95,19 @@ package com.bakalau.view.components.screens.game
 
 		private function onListChange (event :Event) :void
 		{
-			_popupContentManager.open(_answerContainer, this);
-			_answerContainer.validate();
+			if (_list.selectedIndex >= 0) {
+				_popupContentManager.open(_answerContainer, this);
+				_answerContainer.validate();
+			}
 		}
 
 
 		private function onConfirmAnswer (event :Event) :void
 		{
+			if (_textInput.text != "") {
+				onAnswer.dispatch(_list.selectedItem.value, _textInput.text);
+			}
+
 			_list.selectedIndex = -1;
 			_popupContentManager.close();
 		}
@@ -117,6 +123,11 @@ package com.bakalau.view.components.screens.game
 
 				invalidate(INVALIDATION_FLAG_DATA);
 			}
+		}
+
+
+		public function set answersData (value :AnswersData) :void
+		{
 		}
 	}
 }

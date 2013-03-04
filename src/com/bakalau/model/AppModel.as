@@ -7,9 +7,9 @@
  */
 package com.bakalau.model
 {
+	import com.bakalau.controller.events.DataEvent;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.model.managers.app.AppManager;
-	import com.creativebottle.starlingmvc.binding.Bindings;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
@@ -19,9 +19,6 @@ package com.bakalau.model
 
 	public class AppModel
 	{
-		[Bindings]
-		public var bindings :Bindings;
-
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
 
@@ -62,7 +59,7 @@ package com.bakalau.model
 		public function addNewGame (game :GameVO) :void
 		{
 			_games.push(game);
-			bindings.invalidate(this, "games");
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_UPDATE, _games))
 		}
 
 
@@ -80,7 +77,7 @@ package com.bakalau.model
 			var gameIndex :int = getGameIndex(game);
 			if (gameIndex >= 0) {
 				_games.splice(gameIndex, 1);
-				bindings.invalidate(this, "games");
+				dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_UPDATE, _games))
 			}
 		}
 

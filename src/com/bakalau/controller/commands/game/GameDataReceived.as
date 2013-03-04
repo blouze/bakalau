@@ -7,10 +7,12 @@
  */
 package com.bakalau.controller.commands.game
 {
+	import com.bakalau.controller.events.DataEvent;
 	import com.bakalau.controller.events.GameEvent;
-	import com.bakalau.controller.events.NavigationEvent;
+	import com.bakalau.controller.events.NavEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.GameModel;
+	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.GameMessageVO;
 	import com.bakalau.model.VOs.GameVO;
@@ -43,6 +45,7 @@ package com.bakalau.controller.commands.game
 			_game = gameModel.game;
 
 			var player :ClientVO;
+			var answer :AnswerVO;
 
 			switch (gameMessage.type) {
 
@@ -75,16 +78,21 @@ package com.bakalau.controller.commands.game
 				case GameMessageVO.START_GAME :
 					_game.started = true;
 					if (gameModel.localPlayer && _game.hasPlayer(gameModel.localPlayer)) {
-						dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, GameView));
+						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, GameView));
 					}
 					sendMessage(AppMessageVO.UPDATE_GAME);
+					break;
+
+				case GameMessageVO.PLAYER_ANSWER :
+					answer = AnswerVO(gameMessage.data);
+					_game.updateAnswer(answer);
 					break;
 
 				default :
 					break;
 			}
 
-			gameModel.bindings.invalidate(gameModel, "game");
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
 			dispose();
 		}
 

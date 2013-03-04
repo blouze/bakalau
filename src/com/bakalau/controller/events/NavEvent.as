@@ -11,15 +11,16 @@ package com.bakalau.controller.events
 
 
 
-	public class NavigationEvent extends Event
+	public class NavEvent extends Event
 	{
-		public static const NAME :String = "NAVIGATION_EVENT";
-		public static const NAVIGATE_TO_VIEW :String = NAME + "_NAVIGATE_TO_VIEW";
+		private static const PREFIX :String = "NAV_";
+
+		public static const NAVIGATE_TO_VIEW :String = PREFIX + "NAVIGATE_TO_VIEW";
 
 		private var _viewClass :Class;
 
 
-		public function NavigationEvent (type :String, data :Class = null)
+		public function NavEvent (type :String, data :Class = null)
 		{
 			super(type, false);
 			_viewClass = data;

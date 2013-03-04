@@ -7,7 +7,7 @@
  */
 package com.bakalau.controller.commands.navigation
 {
-	import com.bakalau.controller.events.NavigationEvent;
+	import com.bakalau.controller.events.NavEvent;
 	import com.creativebottle.starlingmvc.views.ViewManager;
 
 
@@ -19,10 +19,10 @@ package com.bakalau.controller.commands.navigation
 
 
 		[Execute]
-		public function execute (event :NavigationEvent) :void
+		public function execute (event :NavEvent) :void
 		{
 			var viewClass :Class = event.viewClass;
-			viewManager.setView(viewClass);
+			viewManager.setView(viewClass, null, true);
 		}
 	}
 }

@@ -7,21 +7,23 @@
  */
 package com.bakalau.model
 {
+	import com.bakalau.controller.events.DataEvent;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.managers.categories.ICategoriesManager;
 	import com.bakalau.model.managers.categories.sqlite.SQLiteCategoriesManager;
-	import com.creativebottle.starlingmvc.binding.Bindings;
 	import com.demonsters.debugger.MonsterDebugger;
 
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 
+	import starling.events.EventDispatcher;
+
 
 
 	public class DataBaseModel
 	{
-		[Bindings]
-		public var bindings :Bindings;
+		[Dispatcher]
+		public var dispatcher :EventDispatcher;
 
 		private var categoriesManager :ICategoriesManager = new SQLiteCategoriesManager();
 		private var _categories :Vector.<CategoryVO>;
@@ -43,14 +45,13 @@ package com.bakalau.model
 		private function onManagerResult (event :Event) :void
 		{
 			_categories = categoriesManager.result;
-			bindings.invalidate(this, "categories");
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.CATEGORIES_UPDATE, _categories));
 		}
 
 
 		private function onManagerError (event :ErrorEvent) :void
 		{
 			MonsterDebugger.log(event);
-			trace(categoriesManager.error);
 		}
 
 

@@ -8,7 +8,7 @@
 package com.bakalau.controller.commands.app
 {
 	import com.bakalau.controller.events.AppEvent;
-	import com.bakalau.controller.events.NavigationEvent;
+	import com.bakalau.controller.events.NavEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.DataBaseModel;
 	import com.bakalau.view.components.MenuView;
@@ -49,7 +49,7 @@ package com.bakalau.controller.commands.app
 
 			appModel.init();
 			dataBaseModel.getCategories();
-			dispatcher.dispatchEvent(new NavigationEvent(NavigationEvent.NAVIGATE_TO_VIEW, MenuView));
+			dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, MenuView));
 		}
 	}
 }

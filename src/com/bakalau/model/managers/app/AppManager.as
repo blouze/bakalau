@@ -56,7 +56,6 @@ package com.bakalau.model.managers.app
 					break;
 
 				case ClientEvent.CLIENT_REMOVED:
-					_dispatcher.dispatchEvent(new AppEvent(AppEvent.CLIENT_REMOVED, event.client));
 					break;
 
 				default :

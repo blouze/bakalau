@@ -15,18 +15,11 @@ package com.bakalau.view.components.data
 
 	public class GameData
 	{
-		private var _clients :Vector.<ClientVO>;
 		private var _game :GameVO;
 
 		private var _categories :Array = [];
 		private var _players :Array = [];
 		private var _localPlayer :ClientVO;
-
-
-		public function set clients (value :Vector.<ClientVO>) :void
-		{
-			_clients = value;
-		}
 
 
 		public function get game () :GameVO
@@ -92,7 +85,7 @@ package com.bakalau.view.components.data
 		{
 			_localPlayer = null;
 
-			var localClients :Vector.<ClientVO> = _clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
+			var localClients :Vector.<ClientVO> = _game.clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
 			{
 				return clientVO.isLocal;
 			});

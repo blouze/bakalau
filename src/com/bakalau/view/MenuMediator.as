@@ -22,22 +22,43 @@ package com.bakalau.view
 		public var dispatcher :EventDispatcher;
 
 
-		private var _categories :Vector.<CategoryVO>;
-		[Inject(source="dataBaseModel.categories", bind="true", auto="false")]
-		public function set categories (value :Vector.<CategoryVO>) :void
+		[EventHandler(event="DataEvent.CATEGORIES_UPDATE", properties="data")]
+		public function onCategoriesUpdate (value :Vector.<CategoryVO>) :void
 		{
 			_categories = value;
-			if (_view) _view.categories = value;
+			if (_view) _view.categories = _categories;
+		}
+
+
+		[EventHandler(event="DataEvent.GAMES_UPDATE", properties="data")]
+		public function onGamesUpdate (value :Vector.<GameVO>) :void
+		{
+			_games = value;
+			if (_view) _view.games = _games;
+		}
+
+
+		[EventHandler(event="DataEvent.GAME_UPDATE", properties="data")]
+		public function onGameUpdate (value :GameVO) :void
+		{
+			_game = value;
+			if (_view) _view.game = _game;
 		}
 
 
 		private var _view :MenuView;
+		private var _categories :Vector.<CategoryVO>;
+		private var _games :Vector.<GameVO>;
+		private var _game :GameVO;
 
 
 		[ViewAdded]
 		public function viewAdded (menuView :MenuView) :void
 		{
 			_view = menuView;
+			_view.categories = _categories;
+			_view.games = _games;
+			_view.game = _game;
 
 			_view.createGame.add(function (categoryIDs :Vector.<int>) :void
 			{
@@ -67,7 +88,7 @@ package com.bakalau.view
 
 
 		[ViewRemoved]
-		public function viewRemoved (screensView :MenuView) :void
+		public function viewRemoved (menuView :MenuView) :void
 		{
 			_view.createGame.removeAll();
 			_view.joinGame.removeAll();
@@ -75,9 +96,12 @@ package com.bakalau.view
 			_view.leaveGame.removeAll();
 			_view.quitGame.removeAll();
 
+			_view.dispose();
 			_view = null;
 
 			_categories = null;
+			_games = null;
+			_game = null;
 		}
 	}
 }

@@ -28,15 +28,15 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
-			var newPlayer :ClientVO = ClientVO(event.data);
+			var addedClient :ClientVO = ClientVO(event.data);
 
 			var selfOwnedGame :GameVO = gameModel.selfOwnedGame;
 			if (selfOwnedGame) {
-				trace("[ClientAdded] sending game " + selfOwnedGame.gameID + " to " + newPlayer.groupID);
+				trace("[ClientAdded] sending game " + selfOwnedGame.gameID + " to " + addedClient.groupID);
 				var message :AppMessageVO = new AppMessageVO();
 				message.type = AppMessageVO.ADD_GAME;
 				message.data = selfOwnedGame;
-				appModel.channel.sendMessageToClient(message, newPlayer.groupID);
+				appModel.channel.sendMessageToClient(message, addedClient.groupID);
 			}
 		}
 	}
