@@ -8,6 +8,7 @@
 package com.bakalau.controller.commands.game
 {
 	import com.bakalau.controller.events.GameEvent;
+	import com.bakalau.model.DataBaseModel;
 	import com.bakalau.model.GameModel;
 	import com.bakalau.model.VOs.AnswerVO;
 
@@ -15,6 +16,9 @@ package com.bakalau.controller.commands.game
 
 	public class GiveAnswer
 	{
+		[Inject(source="databaseModel")]
+		public var databaseModel :DataBaseModel;
+
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
 
@@ -22,7 +26,10 @@ package com.bakalau.controller.commands.game
 		[Execute]
 		public function execute (event :GameEvent) :void
 		{
-			var answer :AnswerVO = AnswerVO(event.data);
+			var data :Object = Object(event.data);
+			var answer :AnswerVO = new AnswerVO();
+			answer.category = databaseModel.getCategoryByRowid(data.category_rowid);
+			answer.value = data.answer_value;
 
 			gameModel.giveAnswer(answer);
 		}

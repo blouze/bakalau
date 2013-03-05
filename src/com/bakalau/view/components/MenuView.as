@@ -139,17 +139,17 @@ package com.bakalau.view.components
 		private function gameLobbyScreen_onLeave () :void
 		{
 			leaveGame.dispatch(_gameData.game.gameID);
-			_navigator.showScreen(LIST_GAMES);
+//			_navigator.showScreen(LIST_GAMES);
 		}
 
 
-		public function set categories (value :Vector.<CategoryVO>) :void
+		public function set categoriesList (value :Vector.<CategoryVO>) :void
 		{
 			_categoriesData.setCategories(value);
 		}
 
 
-		public function set games (value :Vector.<GameVO>) :void
+		public function set gamesList (value :Vector.<GameVO>) :void
 		{
 			_gamesListData.setGames(value);
 

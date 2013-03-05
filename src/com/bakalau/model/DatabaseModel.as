@@ -42,6 +42,20 @@ package com.bakalau.model
 		}
 
 
+		public function getCategoryByRowid (category_rowid :int) :CategoryVO
+		{
+			var index :int = _categories.length;
+			while (--index >= 0 && _categories[index].rowid != category_rowid) {
+			}
+
+			if (index >= 0) {
+				return _categories[index];
+			}
+
+			return null;
+		}
+
+
 		private function onManagerResult (event :Event) :void
 		{
 			_categories = categoriesManager.result;

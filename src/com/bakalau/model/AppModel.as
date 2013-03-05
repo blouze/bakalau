@@ -59,7 +59,7 @@ package com.bakalau.model
 		public function addNewGame (game :GameVO) :void
 		{
 			_games.push(game);
-			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_UPDATE, _games))
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_LIST_UPDATE, _games))
 		}
 
 
@@ -77,20 +77,19 @@ package com.bakalau.model
 			var gameIndex :int = getGameIndex(game);
 			if (gameIndex >= 0) {
 				_games.splice(gameIndex, 1);
-				dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_UPDATE, _games))
+				dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_LIST_UPDATE, _games))
 			}
 		}
 
 
 		public function getGameByID (gameID :String) :GameVO
 		{
-			var filteredGames :Vector.<GameVO> = _games.filter(function (gameVO :GameVO, index :int, vector :Vector.<GameVO>) :Boolean
-			{
-				return gameVO.gameID == gameID;
-			});
+			var index :int = _games.length;
+			while (--index >= 0 && _games[index].gameID != gameID) {
+			}
 
-			if (filteredGames.length > 0) {
-				return filteredGames.pop();
+			if (index >= 0) {
+				return _games[index];
 			}
 
 			return null;

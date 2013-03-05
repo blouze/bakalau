@@ -10,7 +10,7 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.GameModel;
-	import com.bakalau.model.VOs.GameVO;
+	import com.bakalau.model.VOs.GameMessageVO;
 
 	import starling.events.EventDispatcher;
 
@@ -31,11 +31,8 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
-			var gameID :String = String(event.data);
-			var game :GameVO = GameVO(appModel.getGameByID(gameID));
-
-			if (gameModel.localPlayer && game.hasPlayer(gameModel.localPlayer)) {
-				gameModel.quitGame();
+			if (gameModel.localPlayer && gameModel.game.hasPlayer(gameModel.localPlayer)) {
+				gameModel.sendToAllClients(GameMessageVO.PLAYER_QUIT, gameModel.localPlayer);
 			}
 			else {
 				gameModel.leaveGame();

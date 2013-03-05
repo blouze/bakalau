@@ -13,7 +13,7 @@ package com.bakalau.model.VOs
 
 	public class AnswerVO
 	{
-		public var categoryID :String;
+		public var category :CategoryVO;
 		public var player :ClientVO;
 		public var value :String;
 	}

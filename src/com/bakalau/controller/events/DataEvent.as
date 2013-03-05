@@ -16,7 +16,7 @@ package com.bakalau.controller.events
 		private static const PREFIX :String = "DATA_";
 
 		public static const CATEGORIES_UPDATE :String = PREFIX + "CATEGORIES_UPDATE";
-		public static const GAMES_UPDATE :String = PREFIX + "GAMES_UPDATE";
+		public static const GAMES_LIST_UPDATE :String = PREFIX + "GAMES_LIST_UPDATE";
 		public static const GAME_UPDATE :String = PREFIX + "GAME_UPDATE";
 
 

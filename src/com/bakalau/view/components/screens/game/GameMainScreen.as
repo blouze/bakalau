@@ -63,6 +63,8 @@ package com.bakalau.view.components.screens.game
 			_list = new List();
 			_list.dataProvider = _listData;
 			_list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			_list.itemRendererProperties.labelField = "category.name";
+			_list.itemRendererProperties.accessoryLabelField = "value";
 			_list.addEventListener(Event.CHANGE, onListChange);
 			addChild(_list);
 
@@ -118,8 +120,8 @@ package com.bakalau.view.components.screens.game
 			if (value.game) {
 				_gameID = value.game.gameID;
 
-				_listData.data = null;
-				_listData.data = value.categories;
+//				_listData.data = null;
+//				_listData.data = value.game.answers;
 
 				invalidate(INVALIDATION_FLAG_DATA);
 			}

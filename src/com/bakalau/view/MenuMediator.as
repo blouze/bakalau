@@ -11,6 +11,7 @@ package com.bakalau.view
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.MenuView;
+	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
 
@@ -23,18 +24,18 @@ package com.bakalau.view
 
 
 		[EventHandler(event="DataEvent.CATEGORIES_UPDATE", properties="data")]
-		public function onCategoriesUpdate (value :Vector.<CategoryVO>) :void
+		public function onCategoriesListUpdate (value :Vector.<CategoryVO>) :void
 		{
-			_categories = value;
-			if (_view) _view.categories = _categories;
+			_categoriesList = value;
+			if (_view) _view.categoriesList = _categoriesList;
 		}
 
 
-		[EventHandler(event="DataEvent.GAMES_UPDATE", properties="data")]
-		public function onGamesUpdate (value :Vector.<GameVO>) :void
+		[EventHandler(event="DataEvent.GAMES_LIST_UPDATE", properties="data")]
+		public function onGamesListUpdate (value :Vector.<GameVO>) :void
 		{
-			_games = value;
-			if (_view) _view.games = _games;
+			_gamesList = value;
+			if (_view) _view.gamesList = _gamesList;
 		}
 
 
@@ -46,9 +47,11 @@ package com.bakalau.view
 		}
 
 
+
+
 		private var _view :MenuView;
-		private var _categories :Vector.<CategoryVO>;
-		private var _games :Vector.<GameVO>;
+		private var _categoriesList :Vector.<CategoryVO>;
+		private var _gamesList :Vector.<GameVO>;
 		private var _game :GameVO;
 
 
@@ -56,14 +59,14 @@ package com.bakalau.view
 		public function viewAdded (menuView :MenuView) :void
 		{
 			_view = menuView;
-			_view.categories = _categories;
-			_view.games = _games;
+			_view.categoriesList = _categoriesList;
+			_view.gamesList = _gamesList;
 			_view.game = _game;
 
 			_view.createGame.add(function (categoryIDs :Vector.<int>) :void
 			{
 				var newGame :GameVO = new GameVO();
-				newGame.categories = _categories.filter(function (categoryVO :CategoryVO, index :int, vector :Vector.<CategoryVO>) :Boolean
+				newGame.categories = _categoriesList.filter(function (categoryVO :CategoryVO, index :int, vector :Vector.<CategoryVO>) :Boolean
 				{
 					return categoryIDs.lastIndexOf(categoryVO.rowid) >= 0;
 				});
@@ -99,8 +102,8 @@ package com.bakalau.view
 			_view.dispose();
 			_view = null;
 
-			_categories = null;
-			_games = null;
+			_categoriesList = null;
+			_gamesList = null;
 			_game = null;
 		}
 	}

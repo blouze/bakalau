@@ -27,7 +27,7 @@ package com.bakalau.controller.commands.app
 		public function execute (event :AppEvent) :void
 		{
 			var game :GameVO = appModel.getGameByID(String(event.data));
-			gameModel.visitGame(game, appModel.playerName);
+			gameModel.viewGame(game, appModel.playerName);
 		}
 	}
 }

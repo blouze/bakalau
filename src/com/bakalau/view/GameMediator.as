@@ -8,7 +8,6 @@
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.GameEvent;
-	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.GameView;
 
@@ -42,10 +41,10 @@ package com.bakalau.view
 
 			_view.giveAnswer.add(function (answerCategory :String, answerValue :String) :void
 			{
-				var answer :AnswerVO = new AnswerVO();
-				answer.categoryID = answerCategory;
-				answer.value = answerValue;
-				dispatcher.dispatchEvent(new GameEvent(GameEvent.GIVE_ANSWER, answer));
+//				var answer :AnswerVO = new AnswerVO();
+//				answer.categoryID = answerCategory;
+//				answer.value = answerValue;
+				dispatcher.dispatchEvent(new GameEvent(GameEvent.GIVE_ANSWER, {category_rowid: int(answerCategory), answer_value: answerValue}));
 			});
 		}
 

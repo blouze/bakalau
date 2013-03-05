@@ -28,29 +28,19 @@ package com.bakalau.controller.commands.app
 		public function execute (event :AppEvent) :void
 		{
 			var message :AppMessageVO = AppMessageVO(event.data);
-
 			var game :GameVO = GameVO(message.data);
 
-			switch (message.type) {
-				case AppMessageVO.ADD_GAME :
-					if (!appModel.getGameByID(game.gameID)) {
-						appModel.addNewGame(game);
-					}
-					break;
-
-				case AppMessageVO.UPDATE_GAME :
-					appModel.updateGame(game);
-					break;
-
-				case AppMessageVO.REMOVE_GAME :
-					if (gameModel.isCurrentGame(game)) {
-						gameModel.leaveGame();
-					}
-					appModel.removeGame(game);
-					break;
-
-				default :
-					break;
+			if (game.playersConnected > 0) {
+				if (!appModel.getGameByID(game.gameID)) {
+					appModel.addNewGame(game);
+				}
+				appModel.updateGame(game);
+			}
+			else {
+				if (gameModel.game && gameModel.game.gameID == game.gameID) {
+					gameModel.leaveGame();
+				}
+				appModel.removeGame(game);
 			}
 		}
 	}

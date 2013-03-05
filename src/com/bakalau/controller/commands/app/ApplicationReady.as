@@ -44,7 +44,7 @@ package com.bakalau.controller.commands.app
 
 //			new AeonDesktopTheme(Starling.current.stage);
 //			new AzureMobileTheme(Starling.current.stage);
-			new MetalWorksMobileTheme(Starling.current.stage, false);
+			new MetalWorksMobileTheme(Starling.current.stage, true);
 //			new MinimalMobileTheme(Starling.current.stage);
 
 			appModel.init();

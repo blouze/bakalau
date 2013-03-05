@@ -15,10 +15,11 @@ package com.bakalau.controller.events
 	{
 		private static const PREFIX :String = "GAME_";
 
+		public static const GAME_DATA_RECEIVED :String = PREFIX + "GAME_DATA_RECEIVED";
 		public static const NEW_CLIENT :String = PREFIX + "NEW_CLIENT";
 		public static const CLIENT_LEAVE :String = PREFIX + "CLIENT_LEAVE";
 		public static const GIVE_ANSWER :String = PREFIX + "GIVE_ANSWER";
-		public static const GAME_DATA_RECEIVED :String = PREFIX + "GAME_DATA_RECEIVED";
+		public static const QUIT_GAME :String = PREFIX + "QUIT_GAME";
 
 
 		public function GameEvent (type :String, data :Object = null, bubbles :Boolean = false)
