@@ -7,7 +7,8 @@
  */
 package com.bakalau.view
 {
-	import com.bakalau.controller.events.GameEvent;
+	import com.bakalau.controller.events.AnswerEvent;
+	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.GameView;
 
@@ -21,7 +22,7 @@ package com.bakalau.view
 		public var dispatcher :EventDispatcher;
 
 
-		[EventHandler(event="DataEvent.GAME_UPDATE", properties="data")]
+		[EventHandler(event="GameEvent.UPDATE", properties="data")]
 		public function onGameUpdate (value :GameVO) :void
 		{
 			_game = value;
@@ -29,8 +30,17 @@ package com.bakalau.view
 		}
 
 
+		[EventHandler(event="AnswerEvent.INITIALIZED", properties="data")]
+		public function onAnswersInitialized (value :Vector.<AnswerVO>) :void
+		{
+			_answers = value;
+			if (_view) _view.answers = _answers;
+		}
+
+
 		private var _view :GameView;
 		private var _game :GameVO;
+		private var _answers :Vector.<AnswerVO>;
 
 
 		[ViewAdded]
@@ -38,13 +48,13 @@ package com.bakalau.view
 		{
 			_view = gameView;
 			_view.game = _game;
+			_view.answers = _answers;
 
 			_view.giveAnswer.add(function (answerCategory :String, answerValue :String) :void
 			{
-//				var answer :AnswerVO = new AnswerVO();
-//				answer.categoryID = answerCategory;
-//				answer.value = answerValue;
-				dispatcher.dispatchEvent(new GameEvent(GameEvent.GIVE_ANSWER, {category_rowid: int(answerCategory), answer_value: answerValue}));
+				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.UPDATE, {
+					category_rowid: int(answerCategory),
+					answer_value: answerValue}));
 			});
 		}
 
@@ -58,6 +68,7 @@ package com.bakalau.view
 			_view = null;
 
 			_game = null;
+			_answers = null;
 		}
 	}
 }

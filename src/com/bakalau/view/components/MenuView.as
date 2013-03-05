@@ -12,7 +12,6 @@ package com.bakalau.view.components
 	import com.bakalau.view.components.data.CategoriesData;
 	import com.bakalau.view.components.data.GameData;
 	import com.bakalau.view.components.data.GamesListData;
-	import com.bakalau.view.components.screens.game.GameMainScreen;
 	import com.bakalau.view.components.screens.menu.CreateGameScreen;
 	import com.bakalau.view.components.screens.menu.GameLobbyScreen;
 	import com.bakalau.view.components.screens.menu.GamesListScreen;
@@ -42,7 +41,8 @@ package com.bakalau.view.components
 		private var _navigator :ScreenNavigator;
 
 		public var createGame :Signal = new Signal(Vector.<int>);
-		public var joinGame :Signal = new Signal(String);
+		public var viewGame :Signal = new Signal(String);
+		public var joinGame :Signal = new Signal();
 		public var leaveGame :Signal = new Signal();
 		public var startGame :Signal = new Signal();
 		public var quitGame :Signal = new Signal();
@@ -94,17 +94,9 @@ package com.bakalau.view.components
 
 //			GameLobbyScreen
 			_navigator.addScreen(GAME_LOBBY, new ScreenNavigatorItem(GameLobbyScreen, {
+				onJoin: gameLobbyScreen_onJoin,
 				onStart: gameLobbyScreen_onStart,
-				onQuit: gameLobbyScreen_onLeave,
-				complete: gameLobbyScreen_onLeave
-			}, {
-				gameData: _gameData
-			}));
-
-//			GameScreen
-			_navigator.addScreen(GAME_MAIN_SCREEN, new ScreenNavigatorItem(GameMainScreen, {
-				onStart: gameLobbyScreen_onStart,
-				onQuit: gameLobbyScreen_onLeave,
+				onQuit: gameLobbyScreen_onQuit,
 				complete: gameLobbyScreen_onLeave
 			}, {
 				gameData: _gameData
@@ -118,15 +110,18 @@ package com.bakalau.view.components
 		private function createGameScreen_onCreate (categoryIDs :Vector.<int>) :void
 		{
 			createGame.dispatch(categoryIDs);
-			_navigator.showScreen(GAME_LOBBY);
-//			_navigator.showScreen(LIST_GAMES);
 		}
 
 
 		private function listGamesScreen_onSelect (gameID :String) :void
 		{
-			joinGame.dispatch(gameID);
-			_navigator.showScreen(GAME_LOBBY);
+			viewGame.dispatch(gameID);
+		}
+
+
+		private function gameLobbyScreen_onJoin () :void
+		{
+			joinGame.dispatch();
 		}
 
 
@@ -136,10 +131,15 @@ package com.bakalau.view.components
 		}
 
 
+		private function gameLobbyScreen_onQuit () :void
+		{
+			quitGame.dispatch();
+		}
+
+
 		private function gameLobbyScreen_onLeave () :void
 		{
-			leaveGame.dispatch(_gameData.game.gameID);
-//			_navigator.showScreen(LIST_GAMES);
+			leaveGame.dispatch();
 		}
 
 
@@ -169,6 +169,9 @@ package com.bakalau.view.components
 				if (value) {
 					if (_navigator.activeScreenID == GAME_LOBBY) {
 						GameLobbyScreen(_navigator.activeScreen).gameData = _gameData;
+					}
+					else {
+						_navigator.showScreen(GAME_LOBBY);
 					}
 				}
 				else {

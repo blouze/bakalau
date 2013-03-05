@@ -11,6 +11,7 @@ package com.bakalau.model.VOs
 	{
 		private static const PREFIX :String = "APP_MESSAGE_";
 		public static const UPDATE_GAME :String = PREFIX + "UPDATE_GAME";
+		public static const ANSWER_GIVEN :String = PREFIX + "ANSWER_GIVEN";
 
 		public var type :String;
 		public var data :*;

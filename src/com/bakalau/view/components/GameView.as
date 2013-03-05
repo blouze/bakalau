@@ -7,6 +7,7 @@
  */
 package com.bakalau.view.components
 {
+	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.AnswersData;
 	import com.bakalau.view.components.data.GameData;
@@ -70,6 +71,18 @@ package com.bakalau.view.components
 			if (_navigator) {
 				if (_navigator.activeScreenID == GAME_MAIN) {
 					GameMainScreen(_navigator.activeScreen).gameData = _gameData;
+				}
+			}
+		}
+
+
+		public function set answers (value :Vector.<AnswerVO>) :void
+		{
+			_answersData.answers = value;
+
+			if (_navigator) {
+				if (_navigator.activeScreenID == GAME_MAIN) {
+					GameMainScreen(_navigator.activeScreen).answersData = _answersData;
 				}
 			}
 		}

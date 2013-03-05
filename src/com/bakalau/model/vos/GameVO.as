@@ -9,8 +9,6 @@ package com.bakalau.model.VOs
 {
 	import com.projectcocoon.p2p.vo.ClientVO;
 
-	import flash.utils.Dictionary;
-
 
 
 	public class GameVO
@@ -23,8 +21,6 @@ package com.bakalau.model.VOs
 		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
 		public var players :Vector.<ClientVO> = new <ClientVO>[];
 		public var started :Boolean = false;
-
-		public var answers :Dictionary = new Dictionary(true);
 
 
 		public function get playersConnected () :int
@@ -42,6 +38,14 @@ package com.bakalau.model.VOs
 		}
 
 
+		public function addPlayer (player :ClientVO) :void
+		{
+			if (!hasPlayer(player)) {
+				players.push(player);
+			}
+		}
+
+
 		public function removePlayer (player :ClientVO) :void
 		{
 			var index :int = players.length;
@@ -54,22 +58,10 @@ package com.bakalau.model.VOs
 		}
 
 
-		public function updateAnswer (answer :AnswerVO) :void
+		public function removeAllPlayers () :void
 		{
-			if (!answers[answer.player]) {
-				answers[answer.player] = new <AnswerVO>[];
-			}
-
-			var playerAnswers :Vector.<AnswerVO> = answers[answer.player];
-			var index :int = playerAnswers.length;
-			while (--index >= 0 && playerAnswers[index].categoryID != answer.categoryID) {
-			}
-
-			if (index >= 0) {
-				playerAnswers[index].value = answer.value;
-			}
-			else {
-				playerAnswers.push(answer);
+			while (players.length > 0) {
+				players.pop();
 			}
 		}
 	}

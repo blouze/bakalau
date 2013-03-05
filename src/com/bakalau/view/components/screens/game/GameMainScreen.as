@@ -119,17 +119,16 @@ package com.bakalau.view.components.screens.game
 		{
 			if (value.game) {
 				_gameID = value.game.gameID;
-
-//				_listData.data = null;
-//				_listData.data = value.game.answers;
-
-				invalidate(INVALIDATION_FLAG_DATA);
 			}
 		}
 
 
 		public function set answersData (value :AnswersData) :void
 		{
+//			_listData.data = null;
+//			_listData.data = value.answers;
+
+			invalidate(INVALIDATION_FLAG_DATA);
 		}
 	}
 }

@@ -7,7 +7,13 @@
  */
 package com.bakalau.view.components.data
 {
+	import com.bakalau.model.VOs.AnswerVO;
+
+
+
 	public class AnswersData extends GameData
 	{
+		public var answers :Vector.<AnswerVO>;
+
 	}
 }

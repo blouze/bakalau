@@ -70,7 +70,7 @@ package com.bakalau.model.managers.games
 
 		private function onMessageEvent (event :MessageEvent) :void
 		{
-			_dispatcher.dispatchEvent(new GameEvent(GameEvent.GAME_DATA_RECEIVED, event.message.data));
+			_dispatcher.dispatchEvent(new GameEvent(GameEvent.DATA_RECEIVED, event.message.data));
 		}
 
 

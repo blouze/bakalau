@@ -20,25 +20,25 @@ package com.bakalau.model
 
 
 
-	public class DataBaseModel
+	public class CategoriesModel
 	{
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
 
-		private var categoriesManager :ICategoriesManager = new SQLiteCategoriesManager();
+		private var _manager :ICategoriesManager = new SQLiteCategoriesManager();
 		private var _categories :Vector.<CategoryVO>;
 
 
-		public function DataBaseModel ()
+		public function CategoriesModel ()
 		{
-			categoriesManager.addEventListener(Event.COMPLETE, onManagerResult);
-			categoriesManager.addEventListener(ErrorEvent.ERROR, onManagerError);
+			_manager.addEventListener(Event.COMPLETE, onManagerResult);
+			_manager.addEventListener(ErrorEvent.ERROR, onManagerError);
 		}
 
 
 		public function getCategories () :void
 		{
-			categoriesManager.loadCategories();
+			_manager.loadCategories();
 		}
 
 
@@ -58,7 +58,7 @@ package com.bakalau.model
 
 		private function onManagerResult (event :Event) :void
 		{
-			_categories = categoriesManager.result;
+			_categories = _manager.result;
 			dispatcher.dispatchEvent(new DataEvent(DataEvent.CATEGORIES_UPDATE, _categories));
 		}
 

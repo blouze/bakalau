@@ -20,10 +20,11 @@ package com.bakalau.controller.events
 		public static const APP_DATA_RECEIVED :String = PREFIX + "APP_DATA_RECEIVED";
 
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
+		public static const VIEW_GAME :String = PREFIX + "VIEW_GAME";
 		public static const JOIN_GAME :String = PREFIX + "JOIN_GAME";
-		public static const START_GAME :String = PREFIX + "START_GAME";
 		public static const LEAVE_GAME :String = PREFIX + "LEAVE_GAME";
-		public static const REMOVE_GAME :String = PREFIX + "REMOVE_GAME";
+		public static const START_GAME :String = PREFIX + "START_GAME";
+		public static const QUIT_GAME :String = PREFIX + "QUIT_GAME";
 
 
 		public function AppEvent (type :String, data :Object = null, bubbles :Boolean = false)

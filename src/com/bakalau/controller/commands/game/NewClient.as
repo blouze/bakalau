@@ -7,14 +7,20 @@
  */
 package com.bakalau.controller.commands.game
 {
+	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.controller.events.GameEvent;
 	import com.bakalau.model.GameModel;
 	import com.projectcocoon.p2p.vo.ClientVO;
+
+	import starling.events.EventDispatcher;
 
 
 
 	public class NewClient
 	{
+		[Dispatcher]
+		public var dispatcher :EventDispatcher;
+
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
 
@@ -27,7 +33,8 @@ package com.bakalau.controller.commands.game
 			gameModel.game.clients = gameModel.clients;
 
 			if (!gameModel.game.isInitialized) {
-				gameModel.joinGame();
+//				gameModel.joinGame();
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.JOIN_GAME));
 			}
 		}
 	}

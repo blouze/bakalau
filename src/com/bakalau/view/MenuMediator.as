@@ -11,7 +11,6 @@ package com.bakalau.view
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.MenuView;
-	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
 
@@ -39,14 +38,12 @@ package com.bakalau.view
 		}
 
 
-		[EventHandler(event="DataEvent.GAME_UPDATE", properties="data")]
+		[EventHandler(event="GameEvent.UPDATE", properties="data")]
 		public function onGameUpdate (value :GameVO) :void
 		{
 			_game = value;
 			if (_view) _view.game = _game;
 		}
-
-
 
 
 		private var _view :MenuView;
@@ -73,9 +70,19 @@ package com.bakalau.view
 				dispatcher.dispatchEvent(new AppEvent(AppEvent.CREATE_GAME, newGame));
 			});
 
-			_view.joinGame.add(function (gameID :String) :void
+			_view.viewGame.add(function (gameID :String) :void
 			{
-				dispatcher.dispatchEvent(new AppEvent(AppEvent.JOIN_GAME, gameID));
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.VIEW_GAME, gameID));
+			});
+
+			_view.joinGame.add(function () :void
+			{
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.JOIN_GAME));
+			});
+
+			_view.leaveGame.add(function () :void
+			{
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.LEAVE_GAME));
 			});
 
 			_view.startGame.add(function () :void
@@ -83,9 +90,9 @@ package com.bakalau.view
 				dispatcher.dispatchEvent(new AppEvent(AppEvent.START_GAME));
 			});
 
-			_view.leaveGame.add(function (gameID :String) :void
+			_view.quitGame.add(function () :void
 			{
-				dispatcher.dispatchEvent(new AppEvent(AppEvent.LEAVE_GAME, gameID));
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.QUIT_GAME));
 			});
 		}
 
@@ -94,9 +101,10 @@ package com.bakalau.view
 		public function viewRemoved (menuView :MenuView) :void
 		{
 			_view.createGame.removeAll();
+			_view.viewGame.removeAll();
 			_view.joinGame.removeAll();
-			_view.startGame.removeAll();
 			_view.leaveGame.removeAll();
+			_view.startGame.removeAll();
 			_view.quitGame.removeAll();
 
 			_view.dispose();

@@ -8,6 +8,7 @@
 package com.bakalau.model
 {
 	import com.bakalau.controller.events.DataEvent;
+	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.model.managers.app.AppManager;
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
@@ -35,6 +36,24 @@ package com.bakalau.model
 		public function get channel () :LocalNetworkDiscovery
 		{
 			return _manager.channel;
+		}
+
+
+		public function sendToAllClients (messageType :String, messageData :Object = null) :void
+		{
+			var message :AppMessageVO = new AppMessageVO();
+			message.type = messageType;
+			message.data = messageData;
+			_manager.channel.sendMessageToAll(message);
+		}
+
+
+		public function sendToClient (clientGroupID :String, messageType :String, messageData :Object = null) :void
+		{
+			var message :AppMessageVO = new AppMessageVO();
+			message.type = messageType;
+			message.data = messageData;
+			_manager.channel.sendMessageToClient(message, clientGroupID);
 		}
 
 

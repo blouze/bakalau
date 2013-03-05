@@ -10,7 +10,7 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.controller.events.NavEvent;
 	import com.bakalau.model.AppModel;
-	import com.bakalau.model.DataBaseModel;
+	import com.bakalau.model.CategoriesModel;
 	import com.bakalau.view.components.MenuView;
 	import com.demonsters.debugger.MonsterDebugger;
 
@@ -28,8 +28,8 @@ package com.bakalau.controller.commands.app
 		[Inject(source="appModel")]
 		public var appModel :AppModel;
 
-		[Inject(source="dataBaseModel")]
-		public var dataBaseModel :DataBaseModel;
+		[Inject(source="categoriesModel")]
+		public var categoriesModel :CategoriesModel;
 
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
@@ -48,7 +48,7 @@ package com.bakalau.controller.commands.app
 //			new MinimalMobileTheme(Starling.current.stage);
 
 			appModel.init();
-			dataBaseModel.getCategories();
+			categoriesModel.getCategories();
 			dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, MenuView));
 		}
 	}

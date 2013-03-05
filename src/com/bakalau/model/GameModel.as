@@ -7,9 +7,8 @@
  */
 package com.bakalau.model
 {
-	import com.bakalau.controller.events.DataEvent;
+	import com.bakalau.controller.events.GameEvent;
 	import com.bakalau.controller.events.NavEvent;
-	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.GameMessageVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.model.managers.games.GameManager;
@@ -48,7 +47,7 @@ package com.bakalau.model
 			_manager = new GameManager(playerID, _game.gameID, dispatcher);
 			_manager.channel.connect();
 
-			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
+			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 		}
 
 
@@ -90,17 +89,25 @@ package com.bakalau.model
 			_manager.dispose();
 			_localPlayer = null;
 			_game = null;
-			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
+			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 		}
 
 
 		/**
-		 * Starts the game if player is game's owner.
-		 * Put player on hold until game is started by owner, otherwise.
+		 * Starts game.
 		 */
 		public function startGame () :void
 		{
 			sendToAllClients(GameMessageVO.START_GAME);
+		}
+
+
+		/**
+		 * Quits game.
+		 */
+		public function quitGame () :void
+		{
+			sendToAllClients(GameMessageVO.PLAYER_QUIT, _localPlayer);
 		}
 
 
@@ -116,7 +123,7 @@ package com.bakalau.model
 				case GameMessageVO.PLAYER_JOIN :
 					player = ClientVO(gameMessage.data);
 					_game.addPlayer(player);
-					dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
+					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 					break;
 
 				case GameMessageVO.PLAYER_QUIT :
@@ -127,7 +134,7 @@ package com.bakalau.model
 					else {
 						_game.removePlayer(player);
 					}
-					dispatcher.dispatchEvent(new DataEvent(DataEvent.GAME_UPDATE, _game));
+					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 					break;
 
 				case GameMessageVO.START_GAME :
@@ -136,26 +143,9 @@ package com.bakalau.model
 						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, GameView));
 					}
 					break;
-
-				case GameMessageVO.PLAYER_ANSWER :
-					var answer :AnswerVO = AnswerVO(gameMessage.data);
-					_game.updateAnswer(answer);
-					break;
-
 				default :
 					break;
 			}
-		}
-
-
-		/**
-		 * Send answer data to all players.
-		 * @param answer
-		 */
-		public function giveAnswer (answer :AnswerVO) :void
-		{
-			answer.player = _localPlayer;
-			sendToAllClients(GameMessageVO.PLAYER_ANSWER, answer);
 		}
 
 
@@ -174,16 +164,6 @@ package com.bakalau.model
 
 
 		/**
-		 * @param game
-		 * @return If player is connected to a given game.
-		 */
-		public function isCurrentGame (game :GameVO) :Boolean
-		{
-			return _game && _game.gameID == game.gameID;
-		}
-
-
-		/**
 		 * @return The player's ClientVO.
 		 */
 		public function get localPlayer () :ClientVO
@@ -195,7 +175,7 @@ package com.bakalau.model
 		/**
 		 * @return The game created by player, if any.
 		 */
-		public function get selfOwnedGame () :GameVO
+		public function get playerOwnGame () :GameVO
 		{
 			return (_localPlayer && _game.owner == _localPlayer) ? _game : null;
 		}

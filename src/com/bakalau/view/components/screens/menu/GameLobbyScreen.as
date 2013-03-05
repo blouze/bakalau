@@ -28,6 +28,7 @@ package com.bakalau.view.components.screens.menu
 
 	public class GameLobbyScreen extends PanelScreen
 	{
+		public var onJoin :Signal = new Signal();
 		public var onStart :Signal = new Signal();
 		public var onQuit :Signal = new Signal();
 
@@ -39,6 +40,7 @@ package com.bakalau.view.components.screens.menu
 
 
 		private var _backButton :Button;
+		private var _joinButton :Button;
 		private var _startButton :Button;
 		private var _quitButton :Button;
 		private var _holdLabel :Label;
@@ -67,7 +69,12 @@ package com.bakalau.view.components.screens.menu
 			_backButton.label = "Retour";
 			_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
+			_joinButton = new Button();
+			_joinButton.label = "Rejoindre";
+			_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
+
 			_startButton = new Button();
+			_startButton.label = "Commencer";
 			_startButton.addEventListener(Event.TRIGGERED, startButton_triggeredHandler);
 
 			_quitButton = new Button();
@@ -89,8 +96,6 @@ package com.bakalau.view.components.screens.menu
 //				if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
 //				}
 
-				_startButton.label = _ownerIsLocalPlayer ? "Commencer" : "Rejoindre";
-
 				if (_isJoined) {
 					headerProperties.leftItems = new <DisplayObject>[_quitButton];
 					if (_ownerIsLocalPlayer) {
@@ -102,7 +107,7 @@ package com.bakalau.view.components.screens.menu
 				}
 				else {
 					headerProperties.leftItems = new <DisplayObject>[_backButton];
-					headerProperties.rightItems = new <DisplayObject>[_startButton];
+					headerProperties.rightItems = new <DisplayObject>[_joinButton];
 				}
 			}
 		}
@@ -117,6 +122,12 @@ package com.bakalau.view.components.screens.menu
 		private function backButton_triggeredHandler (event :Event) :void
 		{
 			onBackButton();
+		}
+
+
+		private function joinButton_triggeredHandler (event :Event) :void
+		{
+			onJoin.dispatch();
 		}
 
 

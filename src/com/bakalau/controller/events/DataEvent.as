@@ -18,6 +18,7 @@ package com.bakalau.controller.events
 		public static const CATEGORIES_UPDATE :String = PREFIX + "CATEGORIES_UPDATE";
 		public static const GAMES_LIST_UPDATE :String = PREFIX + "GAMES_LIST_UPDATE";
 		public static const GAME_UPDATE :String = PREFIX + "GAME_UPDATE";
+		public static const ANSWERS_UPDATE :String = PREFIX + "ANSWERS_UPDATE";
 
 
 		public function DataEvent (type :String, data :Object = null, bubbles :Boolean = false)

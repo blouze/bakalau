@@ -36,10 +36,7 @@ package com.bakalau.controller.commands.game
 			gameModel.updateGame(gameMessage);
 
 			if (gameModel.game.owner == gameModel.localPlayer) {
-				var appMessage :AppMessageVO = new AppMessageVO();
-				appMessage.type = AppMessageVO.UPDATE_GAME;
-				appMessage.data = gameModel.game;
-				appModel.channel.sendMessageToAll(appMessage);
+				appModel.sendToAllClients(AppMessageVO.UPDATE_GAME, gameModel.game)
 			}
 		}
 	}
