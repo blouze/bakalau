@@ -28,6 +28,7 @@ package com.bakalau.controller.commands.app
 		public function execute (event :AppEvent) :void
 		{
 			var message :AppMessageVO = AppMessageVO(event.data);
+
 			var game :GameVO = GameVO(message.data);
 
 			if (game.playersConnected > 0) {

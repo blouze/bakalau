@@ -8,12 +8,11 @@
 package com.bakalau.controller.commands.game
 {
 	import com.bakalau.controller.events.GameEvent;
+	import com.bakalau.model.AnswersModel;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.GameModel;
 	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.GameMessageVO;
-
-	import starling.events.EventDispatcher;
 
 
 
@@ -25,14 +24,19 @@ package com.bakalau.controller.commands.game
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
 
-		[Dispatcher]
-		public var dispatcher :EventDispatcher;
+		[Inject(source="answersModel")]
+		public var answersModel :AnswersModel;
 
 
 		[Execute]
 		public function execute (event :GameEvent) :void
 		{
 			var gameMessage :GameMessageVO = GameMessageVO(event.data);
+
+			if (gameMessage.type == GameMessageVO.START_GAME) {
+				answersModel.initAnswers(gameModel.game);
+			}
+
 			gameModel.updateGame(gameMessage);
 
 			if (gameModel.game.owner == gameModel.localPlayer) {

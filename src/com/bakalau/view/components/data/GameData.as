@@ -63,13 +63,7 @@ package com.bakalau.view.components.data
 		}
 
 
-		public function get players () :Array
-		{
-			return _players;
-		}
-
-
-		public function setGamePlayers (value :Vector.<ClientVO>) :void
+		private function setGamePlayers (value :Vector.<ClientVO>) :void
 		{
 			_players = [];
 
@@ -81,7 +75,7 @@ package com.bakalau.view.components.data
 		}
 
 
-		public function setLocalPlayer () :void
+		private function setLocalPlayer () :void
 		{
 			_localPlayer = null;
 
@@ -93,6 +87,12 @@ package com.bakalau.view.components.data
 			if (localClients.length > 0) {
 				_localPlayer = localClients.pop();
 			}
+		}
+
+
+		public function get players () :Array
+		{
+			return _players;
 		}
 
 

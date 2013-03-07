@@ -39,18 +39,25 @@ package com.bakalau.model
 					answer.player = player;
 					answers.push(answer);
 				}
-				_answers[player] = answers;
+				_answers[player.groupID] = answers;
 			}
 
-//			dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.INITIALIZED, _answers));
+			dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.INITIALIZED, _answers));
 		}
 
 
 		public function updateAnswer (answer :AnswerVO) :void
 		{
-			_answers[answer.category] = answer;
+			var playerAnswers :Vector.<AnswerVO> = _answers[answer.player.groupID];
 
-			dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.NEW, _answers[answer.category]));
+			var index :int = playerAnswers.length;
+			while (--index >= 0 && playerAnswers[index].category.rowid != answer.category.rowid) {
+			}
+
+			if (index >= 0) {
+				playerAnswers[index] = answer;
+				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.UPDATE, _answers));
+			}
 		}
 	}
 }

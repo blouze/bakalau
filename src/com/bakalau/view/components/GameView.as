@@ -7,7 +7,7 @@
  */
 package com.bakalau.view.components
 {
-	import com.bakalau.model.VOs.AnswerVO;
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.data.AnswersData;
 	import com.bakalau.view.components.data.GameData;
@@ -16,6 +16,8 @@ package com.bakalau.view.components
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
+
+	import flash.utils.Dictionary;
 
 	import org.osflash.signals.Signal;
 
@@ -31,7 +33,7 @@ package com.bakalau.view.components
 
 		private var _navigator :ScreenNavigator;
 
-		public var giveAnswer :Signal = new Signal(String, String);
+		public var giveAnswer :Signal = new Signal(CategoryVO, String);
 
 		private var _gameData :GameData = new GameData();
 		private var _answersData :AnswersData = new AnswersData();
@@ -58,7 +60,7 @@ package com.bakalau.view.components
 		}
 
 
-		private function gameMainScreen_onAnswer (category :String, value :String) :void
+		private function gameMainScreen_onAnswer (category :CategoryVO, value :String) :void
 		{
 			giveAnswer.dispatch(category, value);
 		}
@@ -67,6 +69,7 @@ package com.bakalau.view.components
 		public function set game (value :GameVO) :void
 		{
 			_gameData.game = value;
+			_answersData.game = _gameData.game;
 
 			if (_navigator) {
 				if (_navigator.activeScreenID == GAME_MAIN) {
@@ -76,7 +79,7 @@ package com.bakalau.view.components
 		}
 
 
-		public function set answers (value :Vector.<AnswerVO>) :void
+		public function set answers (value :Dictionary) :void
 		{
 			_answersData.answers = value;
 

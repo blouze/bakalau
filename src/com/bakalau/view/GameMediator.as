@@ -9,8 +9,11 @@ package com.bakalau.view
 {
 	import com.bakalau.controller.events.AnswerEvent;
 	import com.bakalau.model.VOs.AnswerVO;
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.GameView;
+
+	import flash.utils.Dictionary;
 
 	import starling.events.EventDispatcher;
 
@@ -31,7 +34,15 @@ package com.bakalau.view
 
 
 		[EventHandler(event="AnswerEvent.INITIALIZED", properties="data")]
-		public function onAnswersInitialized (value :Vector.<AnswerVO>) :void
+		public function onAnswersInitialized (value :Dictionary) :void
+		{
+			_answers = value;
+			if (_view) _view.answers = _answers;
+		}
+
+
+		[EventHandler(event="AnswerEvent.UPDATE", properties="data")]
+		public function onAnswersUpdate (value :Dictionary) :void
 		{
 			_answers = value;
 			if (_view) _view.answers = _answers;
@@ -40,7 +51,7 @@ package com.bakalau.view
 
 		private var _view :GameView;
 		private var _game :GameVO;
-		private var _answers :Vector.<AnswerVO>;
+		private var _answers :Dictionary;
 
 
 		[ViewAdded]
@@ -50,11 +61,12 @@ package com.bakalau.view
 			_view.game = _game;
 			_view.answers = _answers;
 
-			_view.giveAnswer.add(function (answerCategory :String, answerValue :String) :void
+			_view.giveAnswer.add(function (answerCategory :CategoryVO, answerValue :String) :void
 			{
-				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.UPDATE, {
-					category_rowid: int(answerCategory),
-					answer_value: answerValue}));
+				var answer :AnswerVO = new AnswerVO();
+				answer.category = answerCategory;
+				answer.value = answerValue;
+				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.NEW, answer));
 			});
 		}
 

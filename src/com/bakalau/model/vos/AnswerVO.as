@@ -16,5 +16,11 @@ package com.bakalau.model.VOs
 		public var category :CategoryVO;
 		public var player :ClientVO;
 		public var value :String;
+
+
+		public function get categoryName () :String
+		{
+			return category.name;
+		}
 	}
 }

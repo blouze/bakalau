@@ -8,7 +8,6 @@
 package com.bakalau.controller.commands.app
 {
 	import com.bakalau.controller.events.AppEvent;
-	import com.bakalau.model.AnswersModel;
 	import com.bakalau.model.GameModel;
 
 
@@ -17,9 +16,6 @@ package com.bakalau.controller.commands.app
 	{
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
-
-		[Inject(source="answersModel")]
-		public var answersModel :AnswersModel;
 
 
 		[Execute]

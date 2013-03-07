@@ -7,6 +7,7 @@
  */
 package com.bakalau.view.components.screens.game
 {
+	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.view.components.data.AnswersData;
 	import com.bakalau.view.components.data.GameData;
 	import com.bakalau.view.components.data.ListData;
@@ -33,7 +34,7 @@ package com.bakalau.view.components.screens.game
 
 	public class GameMainScreen extends PanelScreen
 	{
-		public var onAnswer :Signal = new Signal(String, String);
+		public var onAnswer :Signal = new Signal(CategoryVO, String);
 
 
 		public function GameMainScreen ()
@@ -63,7 +64,7 @@ package com.bakalau.view.components.screens.game
 			_list = new List();
 			_list.dataProvider = _listData;
 			_list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			_list.itemRendererProperties.labelField = "category.name";
+			_list.itemRendererProperties.labelField = "categoryName";
 			_list.itemRendererProperties.accessoryLabelField = "value";
 			_list.addEventListener(Event.CHANGE, onListChange);
 			addChild(_list);
@@ -107,7 +108,7 @@ package com.bakalau.view.components.screens.game
 		private function onConfirmAnswer (event :Event) :void
 		{
 			if (_textInput.text != "") {
-				onAnswer.dispatch(_list.selectedItem.value, _textInput.text);
+				onAnswer.dispatch(_list.selectedItem.category, _textInput.text);
 			}
 
 			_list.selectedIndex = -1;
@@ -125,8 +126,8 @@ package com.bakalau.view.components.screens.game
 
 		public function set answersData (value :AnswersData) :void
 		{
-//			_listData.data = null;
-//			_listData.data = value.answers;
+			_listData.data = null;
+			_listData.data = value.localAnswers;
 
 			invalidate(INVALIDATION_FLAG_DATA);
 		}

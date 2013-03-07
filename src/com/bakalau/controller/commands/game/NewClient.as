@@ -33,7 +33,6 @@ package com.bakalau.controller.commands.game
 			gameModel.game.clients = gameModel.clients;
 
 			if (!gameModel.game.isInitialized) {
-//				gameModel.joinGame();
 				dispatcher.dispatchEvent(new AppEvent(AppEvent.JOIN_GAME));
 			}
 		}

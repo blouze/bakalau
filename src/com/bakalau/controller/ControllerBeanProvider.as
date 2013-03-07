@@ -7,7 +7,7 @@
  */
 package com.bakalau.controller
 {
-	import com.bakalau.controller.commands.answer.UpdateAnswer;
+	import com.bakalau.controller.commands.answer.NewAnswer;
 	import com.bakalau.controller.commands.app.AppDataReceived;
 	import com.bakalau.controller.commands.app.ApplicationReady;
 	import com.bakalau.controller.commands.app.ClientAdded;
@@ -18,6 +18,7 @@ package com.bakalau.controller
 	import com.bakalau.controller.commands.app.StartGame;
 	import com.bakalau.controller.commands.app.ViewGame;
 	import com.bakalau.controller.commands.game.ClientLeave;
+	import com.bakalau.controller.commands.game.ForeignDataReceived;
 	import com.bakalau.controller.commands.game.GameDataReceived;
 	import com.bakalau.controller.commands.game.NewClient;
 	import com.bakalau.controller.commands.navigation.NavigateToView;
@@ -49,8 +50,9 @@ package com.bakalau.controller
 				new Command(GameEvent.DATA_RECEIVED, GameDataReceived),
 				new Command(GameEvent.NEW_CLIENT, NewClient),
 				new Command(GameEvent.CLIENT_LEAVE, ClientLeave),
+				new Command(GameEvent.FOREIGN_DATA_RECEIVED, ForeignDataReceived),
 
-				new Command(AnswerEvent.UPDATE, UpdateAnswer),
+				new Command(AnswerEvent.NEW, NewAnswer),
 
 				new Command(NavEvent.NAVIGATE_TO_VIEW, NavigateToView)
 			];

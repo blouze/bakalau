@@ -143,7 +143,9 @@ package com.bakalau.model
 						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, GameView));
 					}
 					break;
+
 				default :
+					dispatcher.dispatchEvent(new GameEvent(GameEvent.FOREIGN_DATA_RECEIVED, gameMessage.data));
 					break;
 			}
 		}
