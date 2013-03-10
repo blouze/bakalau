@@ -10,10 +10,10 @@ package com.bakalau.view.components.data
 	public class ListData
 	{
 		private var _label :String;
-		private var _value :String;
+		private var _value :Object;
 
 
-		public function ListData (label :String, value :String)
+		public function ListData (label :String, value :Object)
 		{
 			_label = label;
 			_value = value;
@@ -26,7 +26,7 @@ package com.bakalau.view.components.data
 		}
 
 
-		public function get value () :String
+		public function get value () :Object
 		{
 			return _value;
 		}

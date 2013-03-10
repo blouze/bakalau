@@ -12,9 +12,8 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.CategoriesModel;
 	import com.bakalau.view.components.MenuView;
+	import com.bakalau.view.components.theme.BakalauTheme;
 	import com.demonsters.debugger.MonsterDebugger;
-
-	import feathers.themes.MetalWorksMobileTheme;
 
 	import flash.system.Capabilities;
 
@@ -42,10 +41,13 @@ package com.bakalau.controller.commands.app
 				MonsterDebugger.initialize(this);
 			}
 
-//			new AeonDesktopTheme(Starling.current.stage);
-//			new AzureMobileTheme(Starling.current.stage);
-			new MetalWorksMobileTheme(Starling.current.stage);
-//			new MinimalMobileTheme(Starling.current.stage);
+			var scaleToDPI :Boolean = (Capabilities.playerType != "Desktop" || Capabilities.isDebugger);
+
+//			new AeonDesktopTheme(Starling.current.stage, scaleToDPI);
+//			new AzureMobileTheme(Starling.current.stage, scaleToDPI);
+//			new MetalWorksMobileTheme(Starling.current.stage, scaleToDPI);
+//			new MinimalMobileTheme(Starling.current.stage, scaleToDPI);
+			new BakalauTheme(Starling.current.stage, scaleToDPI);
 
 			appModel.init();
 			categoriesModel.getCategories();

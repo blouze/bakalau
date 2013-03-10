@@ -19,7 +19,6 @@ package com.bakalau.controller.events
 		public static const NEW_CLIENT :String = PREFIX + "NEW_CLIENT";
 		public static const CLIENT_LEAVE :String = PREFIX + "CLIENT_LEAVE";
 		public static const UPDATE :String = PREFIX + "UPDATE";
-		public static const FOREIGN_DATA_RECEIVED :String = PREFIX + "FOREIGN_DATA_RECEIVED";
 
 
 		public function GameEvent (type :String, data :Object = null, bubbles :Boolean = false)

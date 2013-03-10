@@ -8,11 +8,9 @@
 package com.bakalau.model
 {
 	import com.bakalau.controller.events.GameEvent;
-	import com.bakalau.controller.events.NavEvent;
 	import com.bakalau.model.VOs.GameMessageVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.model.managers.games.GameManager;
-	import com.bakalau.view.components.GameView;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
@@ -57,6 +55,7 @@ package com.bakalau.model
 		public function initGame () :void
 		{
 			_game.owner = _localPlayer;
+			_game.initLetters();
 			_game.isInitialized = true;
 		}
 
@@ -87,18 +86,10 @@ package com.bakalau.model
 		public function leaveGame () :void
 		{
 			_manager.dispose();
+			_manager = null;
 			_localPlayer = null;
 			_game = null;
 			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
-		}
-
-
-		/**
-		 * Starts game.
-		 */
-		public function startGame () :void
-		{
-			sendToAllClients(GameMessageVO.START_GAME);
 		}
 
 
@@ -128,7 +119,7 @@ package com.bakalau.model
 
 				case GameMessageVO.PLAYER_QUIT :
 					player = ClientVO(gameMessage.data);
-					if (player == _game.owner) {
+					if (!_game.started && player == _game.owner) {
 						_game.removeAllPlayers();
 					}
 					else {
@@ -137,15 +128,7 @@ package com.bakalau.model
 					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 					break;
 
-				case GameMessageVO.START_GAME :
-					_game.started = true;
-					if (_localPlayer && _game.hasPlayer(_localPlayer)) {
-						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, GameView));
-					}
-					break;
-
 				default :
-					dispatcher.dispatchEvent(new GameEvent(GameEvent.FOREIGN_DATA_RECEIVED, gameMessage.data));
 					break;
 			}
 		}

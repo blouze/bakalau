@@ -7,9 +7,12 @@
  */
 package com.bakalau.view.components.data
 {
+	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
 	import com.projectcocoon.p2p.vo.ClientVO;
+
+	import flash.utils.Dictionary;
 
 
 

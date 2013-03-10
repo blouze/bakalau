@@ -21,6 +21,9 @@ package com.bakalau.model.VOs
 		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
 		public var players :Vector.<ClientVO> = new <ClientVO>[];
 		public var started :Boolean = false;
+		public var letters :Array;
+
+		private var _currentLetter :String;
 
 
 		public function get playersConnected () :int
@@ -63,6 +66,33 @@ package com.bakalau.model.VOs
 			while (players.length > 0) {
 				players.pop();
 			}
+		}
+
+
+		public function initLetters () :void
+		{
+			letters = [];
+
+			for (var i :int = 65; i <= 90; i++) {
+				letters.push(String.fromCharCode(i));
+			}
+
+			letters = letters.sort(function (a :*, b :*) :int
+			{
+				return ( Math.random() > .5 ) ? 1 : -1;
+			});
+		}
+
+
+		public function nextLetter () :String
+		{
+			return _currentLetter = letters.shift();
+		}
+
+
+		public function get currentLetter () :String
+		{
+			return _currentLetter;
 		}
 	}
 }

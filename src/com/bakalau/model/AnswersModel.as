@@ -37,6 +37,7 @@ package com.bakalau.model
 					var answer :AnswerVO = new AnswerVO();
 					answer.category = category;
 					answer.player = player;
+					answer.value = "";
 					answers.push(answer);
 				}
 				_answers[player.groupID] = answers;
@@ -48,6 +49,8 @@ package com.bakalau.model
 
 		public function updateAnswer (answer :AnswerVO) :void
 		{
+			if (!answer) return;
+
 			var playerAnswers :Vector.<AnswerVO> = _answers[answer.player.groupID];
 
 			var index :int = playerAnswers.length;
@@ -56,6 +59,19 @@ package com.bakalau.model
 
 			if (index >= 0) {
 				playerAnswers[index] = answer;
+				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.UPDATE, _answers));
+			}
+
+
+		}
+
+
+		public function removePlayerAnswers (playerGroupID :String) :void
+		{
+			if (!_answers) return;
+
+			if (_answers[playerGroupID]) {
+				delete _answers[playerGroupID];
 				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.UPDATE, _answers));
 			}
 		}

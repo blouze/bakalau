@@ -8,6 +8,7 @@
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.AnswerEvent;
+	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
@@ -42,7 +43,7 @@ package com.bakalau.view
 
 
 		[EventHandler(event="AnswerEvent.UPDATE", properties="data")]
-		public function onAnswersUpdate (value :Dictionary) :void
+		public function onAnswerUpdate (value :Dictionary) :void
 		{
 			_answers = value;
 			if (_view) _view.answers = _answers;
@@ -68,6 +69,16 @@ package com.bakalau.view
 				answer.value = answerValue;
 				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.NEW, answer));
 			});
+
+			_view.quitGame.add(function () :void
+			{
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.QUIT_GAME));
+			});
+
+			_view.finishGame.add(function () :void
+			{
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.FINISH_ROUND));
+			});
 		}
 
 
@@ -75,10 +86,16 @@ package com.bakalau.view
 		public function viewRemoved (gameView :GameView) :void
 		{
 			_view.giveAnswer.removeAll();
+			_view.quitGame.removeAll();
 
 			_view.dispose();
 			_view = null;
+		}
 
+
+		[PostDestroy]
+		public function postDestroy () :void
+		{
 			_game = null;
 			_answers = null;
 		}

@@ -1,8 +1,8 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Blouze
- * Date: 05/03/13
- * Time: 21:26
+ * Date: 10/03/13
+ * Time: 20:54
  * To change this template use File | Settings | File Templates.
  */
 package com.bakalau.controller.commands.app
@@ -13,7 +13,7 @@ package com.bakalau.controller.commands.app
 
 
 
-	public class StartGame
+	public class FinishRound
 	{
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
@@ -22,7 +22,7 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
-			gameModel.sendToAllClients(AppMessageVO.START_GAME);
+			gameModel.sendToAllClients(AppMessageVO.FINISH_ROUND);
 		}
 	}
 }

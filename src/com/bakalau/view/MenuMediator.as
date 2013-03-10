@@ -109,7 +109,12 @@ package com.bakalau.view
 
 			_view.dispose();
 			_view = null;
+		}
 
+
+		[PostDestroy]
+		public function postDestroy () :void
+		{
 			_categoriesList = null;
 			_gamesList = null;
 			_game = null;

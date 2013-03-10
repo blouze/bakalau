@@ -65,6 +65,7 @@ package com.bakalau.view.components.screens.menu
 			for each (var listData :ListData in _categories) {
 				var check :Check = new Check();
 				check.label = listData.label;
+				check.isSelected = true;
 				_container.addChild(check);
 			}
 
@@ -80,7 +81,7 @@ package com.bakalau.view.components.screens.menu
 						];
 
 				_confirmButton = new Button();
-				_confirmButton.label = "Créer";
+				_confirmButton.label = "Ajouter";
 				_confirmButton.addEventListener(Event.TRIGGERED, confirmButton_triggeredHandler);
 
 				headerProperties.rightItems = new <DisplayObject>

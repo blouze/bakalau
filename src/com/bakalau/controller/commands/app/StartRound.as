@@ -13,7 +13,7 @@ package com.bakalau.controller.commands.app
 
 
 
-	public class StartGame
+	public class StartRound
 	{
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
@@ -22,7 +22,7 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
-			gameModel.sendToAllClients(AppMessageVO.START_GAME);
+			gameModel.sendToAllClients(AppMessageVO.START_ROUND);
 		}
 	}
 }

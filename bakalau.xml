@@ -171,36 +171,36 @@
 
     <!-- iOS specific capabilities -->
     <!--<iPhone>-->
-        <!-- A list of plist key/value pairs to be added to the application Info.plist -->
-        <!--<InfoAdditions>-->
-            <!--<![CDATA[-->
-            <!--<key>UIDeviceFamily</key>-->
-            <!--<array>-->
-                <!-- iPhone and iPod touch devices -->
-                <!--<string>1</string>-->
-                <!-- iPad devices -->
-                <!--<string>2</string>-->
-            <!--</array>-->
-            <!--<key>UIStatusBarStyle</key>-->
-            <!--<string>UIStatusBarStyleBlackOpaque</string>-->
-            <!--<key>UIRequiresPersistentWiFi</key>-->
-            <!--<string>YES</string>-->
-            <!--]]>-->
-        <!--</InfoAdditions>-->
+    <!-- A list of plist key/value pairs to be added to the application Info.plist -->
+    <!--<InfoAdditions>-->
+    <!--<![CDATA[-->
+    <!--<key>UIDeviceFamily</key>-->
+    <!--<array>-->
+    <!-- iPhone and iPod touch devices -->
+    <!--<string>1</string>-->
+    <!-- iPad devices -->
+    <!--<string>2</string>-->
+    <!--</array>-->
+    <!--<key>UIStatusBarStyle</key>-->
+    <!--<string>UIStatusBarStyleBlackOpaque</string>-->
+    <!--<key>UIRequiresPersistentWiFi</key>-->
+    <!--<string>YES</string>-->
+    <!--]]>-->
+    <!--</InfoAdditions>-->
 
-        <!-- A list of plist key/value pairs to be added to the application Entitlements.plist -->
-        <!--<Entitlements>
-            <![CDATA[
-            <key>keychain-access-groups</key>
-            <array>
-                <string></string>
-                <string></string>
-            </array>
-            ]]>
-        </Entitlements>-->
+    <!-- A list of plist key/value pairs to be added to the application Entitlements.plist -->
+    <!--<Entitlements>
+        <![CDATA[
+        <key>keychain-access-groups</key>
+        <array>
+            <string></string>
+            <string></string>
+        </array>
+        ]]>
+    </Entitlements>-->
 
-        <!-- Display Resolution for the app (either "standard" or "high"). Optional. Default "standard" -->
-        <!--<requestedDisplayResolution>high</requestedDisplayResolution>-->
+    <!-- Display Resolution for the app (either "standard" or "high"). Optional. Default "standard" -->
+    <!--<requestedDisplayResolution>high</requestedDisplayResolution>-->
     <!--</iPhone>-->
 
     <!-- Android specific tags that get passed to AndroidManifest.xml file. -->
@@ -213,8 +213,8 @@
                 <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
                 <!--<uses-permission android:name="android.permission.VIBRATE"/>-->
                 <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
-                <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>-->
-                <!--<uses-permission android:name="android.permission.WAKE_LOCK"/>-->
+                <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+                <uses-permission android:name="android.permission.WAKE_LOCK"/>
                 <!--<uses-permission android:name="android.permission.CAMERA"/>-->
                 <!--<uses-permission android:name="android.permission.RECORD_AUDIO"/>-->
                 <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
@@ -231,7 +231,7 @@
                 </application>-->
             </manifest>
             ]]>
-            </manifestAdditions>
+        </manifestAdditions>
 
         <!-- Color depth for the app (either "32bit" or "16bit"). Optional. Default 16bit before namespace 3.0, 32bit after -->
         <!--<colorDepth></colorDepth>-->

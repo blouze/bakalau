@@ -20,13 +20,13 @@
             <entry library-name="starling-framework-1.3-SNAPSHOT" library-level="project">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-name="feathersUI-1.1.0 PRERELEASE" library-level="project">
-              <dependency linkage="Merged" />
-            </entry>
             <entry library-name="air-sqlite" library-level="project">
               <dependency linkage="Merged" />
             </entry>
             <entry library-name="MonsterDebuggerMobile" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-name="feathersUI-1.1.0 PRERELEASE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
           </entries>
@@ -107,6 +107,7 @@
     <orderEntry type="library" exported="" name="TheMiner_en" level="project" />
     <orderEntry type="library" exported="" name="MonsterDebuggerMobile" level="project" />
     <orderEntry type="library" exported="" name="MonsterDebugger" level="project" />
+    <orderEntry type="library" exported="" name="source" level="project" />
   </component>
 </module>
 

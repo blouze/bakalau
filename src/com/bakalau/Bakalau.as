@@ -7,7 +7,6 @@
  */
 package com.bakalau
 {
-	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.CategoryVO;
@@ -15,6 +14,7 @@ package com.bakalau
 	import com.bakalau.model.VOs.GameVO;
 
 	import flash.desktop.NativeApplication;
+	import flash.desktop.SystemIdleMode;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
@@ -42,6 +42,8 @@ package com.bakalau
 			registerClassAlias("com.bakalau.model.VOs.GameVO", GameVO);
 			registerClassAlias("com.bakalau.model.VOs.AnswerVO", AnswerVO);
 			RpcClassAliasInitializer.registerClassAliases();
+
+			NativeApplication.nativeApplication.systemIdleMode = SystemIdleMode.KEEP_AWAKE;
 
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}

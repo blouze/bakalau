@@ -12,8 +12,6 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.model.GameModel;
 	import com.bakalau.model.VOs.GameVO;
 
-	import starling.events.EventDispatcher;
-
 
 
 	public class CreateGame
@@ -23,9 +21,6 @@ package com.bakalau.controller.commands.app
 
 		[Inject(source="gameModel")]
 		public var gameModel :GameModel;
-
-		[Dispatcher]
-		public var dispatcher :EventDispatcher;
 
 
 		[Execute]

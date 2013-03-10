@@ -34,6 +34,8 @@ package com.bakalau.view.components
 		private var _navigator :ScreenNavigator;
 
 		public var giveAnswer :Signal = new Signal(CategoryVO, String);
+		public var quitGame :Signal = new Signal();
+		public var finishGame :Signal = new Signal();
 
 		private var _gameData :GameData = new GameData();
 		private var _answersData :AnswersData = new AnswersData();
@@ -50,13 +52,27 @@ package com.bakalau.view.components
 
 //			GamesMainScreen
 			_navigator.addScreen(GAME_MAIN, new ScreenNavigatorItem(GameMainScreen, {
-				onAnswer: gameMainScreen_onAnswer
+				onAnswer: gameMainScreen_onAnswer,
+				onQuit: gameMainScreen_onQuit,
+				onFinish: gameMainScreen_onFinish
 			}, {
 				gameData: _gameData,
 				answersData: _answersData
 			}));
 
 			_navigator.showScreen(GAME_MAIN);
+		}
+
+
+		private function gameMainScreen_onQuit () :void
+		{
+			quitGame.dispatch();
+		}
+
+
+		private function gameMainScreen_onFinish () :void
+		{
+			finishGame.dispatch();
 		}
 
 

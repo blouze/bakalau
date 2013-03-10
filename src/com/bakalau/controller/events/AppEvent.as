@@ -25,6 +25,7 @@ package com.bakalau.controller.events
 		public static const LEAVE_GAME :String = PREFIX + "LEAVE_GAME";
 		public static const START_GAME :String = PREFIX + "START_GAME";
 		public static const QUIT_GAME :String = PREFIX + "QUIT_GAME";
+		public static const FINISH_ROUND :String = PREFIX + "FINISH_ROUND";
 
 
 		public function AppEvent (type :String, data :Object = null, bubbles :Boolean = false)

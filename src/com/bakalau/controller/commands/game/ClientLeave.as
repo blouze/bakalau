@@ -25,7 +25,9 @@ package com.bakalau.controller.commands.game
 		{
 			var leavingClient :ClientVO = ClientVO(event.data);
 
-			gameModel.game.clients = gameModel.clients;
+			if (leavingClient != gameModel.localPlayer) {
+				gameModel.game.clients = gameModel.clients;
+			}
 		}
 	}
 }

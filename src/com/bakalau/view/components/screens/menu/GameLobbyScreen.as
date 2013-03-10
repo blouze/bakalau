@@ -44,9 +44,11 @@ package com.bakalau.view.components.screens.menu
 		private var _startButton :Button;
 		private var _quitButton :Button;
 		private var _holdLabel :Label;
+		private var _startedLabel :Label;
 
 		private var _groupedListData :HierarchicalCollection = new HierarchicalCollection();
 		private var _gameID :String;
+		private var _gameStarted :Boolean;
 		private var _ownerIsLocalPlayer :Boolean;
 		private var _isJoined :Boolean;
 
@@ -84,6 +86,9 @@ package com.bakalau.view.components.screens.menu
 			_holdLabel = new Label();
 			_holdLabel.text = "En attente ...";
 
+			_startedLabel = new Label();
+			_startedLabel.text = "En cours";
+
 			backButtonHandler = onBackButton;
 		}
 
@@ -107,7 +112,12 @@ package com.bakalau.view.components.screens.menu
 				}
 				else {
 					headerProperties.leftItems = new <DisplayObject>[_backButton];
-					headerProperties.rightItems = new <DisplayObject>[_joinButton];
+					if (_gameStarted) {
+						headerProperties.rightItems = new <DisplayObject>[_startedLabel];
+					}
+					else {
+						headerProperties.rightItems = new <DisplayObject>[_joinButton];
+					}
 				}
 			}
 		}
@@ -147,6 +157,7 @@ package com.bakalau.view.components.screens.menu
 		{
 			if (value.game) {
 				_gameID = value.game.gameID;
+				_gameStarted = value.game.started;
 				_ownerIsLocalPlayer = value.gameOwnerIsLocalPlayer;
 				_isJoined = value.isJoined;
 
