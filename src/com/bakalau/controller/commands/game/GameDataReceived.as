@@ -15,8 +15,7 @@ package com.bakalau.controller.commands.game
 	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.AppMessageVO;
 	import com.bakalau.model.VOs.GameMessageVO;
-	import com.bakalau.view.components.GameView;
-	import com.bakalau.view.components.MenuView;
+	import com.bakalau.view.components.NavigatorView;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
 	import starling.events.EventDispatcher;
@@ -43,27 +42,22 @@ package com.bakalau.controller.commands.game
 		{
 			var gameMessage :GameMessageVO = GameMessageVO(event.data);
 
-			gameModel.updateGame(gameMessage);
+			var player :ClientVO;
 
 			switch (gameMessage.type) {
 				case AppMessageVO.START_GAME :
 					gameModel.game.started = true;
-					answersModel.initAnswers(gameModel.game);
-					if (gameModel.localPlayer && gameModel.game.hasPlayer(gameModel.localPlayer)) {
-						if (gameModel.localPlayer == gameModel.game.owner) {
-							gameModel.sendToAllClients(AppMessageVO.START_ROUND);
-						}
-					}
 					break;
 
 				case GameMessageVO.PLAYER_QUIT :
-					var player :ClientVO = ClientVO(gameMessage.data);
-					answersModel.removePlayerAnswers(player.groupID);
+					player = ClientVO(gameMessage.data);
+					answersModel.removeAnswersByPlayerGroupID(player.groupID);
 					break;
 
 				case AppMessageVO.START_ROUND :
-					if (gameModel.game.hasPlayer(gameModel.localPlayer)) {
-						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, GameView));
+					answersModel.initAnswers(gameModel.game);
+					if (gameModel.game.isLocalClientAPlayer) {
+						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_SCREEN, NavigatorView.GAME_MAIN));
 					}
 					break;
 
@@ -79,8 +73,18 @@ package com.bakalau.controller.commands.game
 					break;
 			}
 
-			if (gameModel.game.owner == gameModel.localPlayer) {
-				appModel.sendToAllClients(AppMessageVO.UPDATE_GAME, gameModel.game)
+			gameModel.updateGame(gameMessage);
+
+			if (gameModel.game.isLocalClientTheOwner) {
+				if (gameMessage.type == AppMessageVO.START_GAME) {
+					gameModel.sendToAllClients(AppMessageVO.START_ROUND);
+				}
+				else {
+					appModel.sendToAllClients(AppMessageVO.UPDATE_GAME, gameModel.game)
+				}
+			}
+			else if (!gameModel.game.owner) {
+
 			}
 		}
 	}

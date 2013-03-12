@@ -5,10 +5,9 @@
  * Time: 12:58
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens.menu
+package com.bakalau.view.components.screens
 {
-	import com.bakalau.view.components.data.CategoriesData;
-	import com.bakalau.view.components.data.ListData;
+	import com.bakalau.model.VOs.CategoryVO;
 
 	import feathers.controls.Button;
 	import feathers.controls.Check;
@@ -25,12 +24,12 @@ package com.bakalau.view.components.screens.menu
 
 
 
-	public class CreateGameScreen extends PanelScreen
+	public class CreateScreenView extends PanelScreen
 	{
 		public var onCreate :Signal = new Signal(Vector.<int>);
 
 
-		public function CreateGameScreen ()
+		public function CreateScreenView ()
 		{
 			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
@@ -38,7 +37,7 @@ package com.bakalau.view.components.screens.menu
 
 		private var _backButton :Button;
 		private var _confirmButton :Button;
-		private var _categories :Array;
+		private var _categories :Vector.<CategoryVO>;
 		private var _container :ScrollContainer;
 
 
@@ -62,9 +61,9 @@ package com.bakalau.view.components.screens.menu
 			_container.verticalScrollPolicy = ScrollContainer.SCROLL_POLICY_ON;
 			addChild(_container);
 
-			for each (var listData :ListData in _categories) {
+			for each (var category :CategoryVO in _categories) {
 				var check :Check = new Check();
-				check.label = listData.label;
+				check.label = category.name;
 				check.isSelected = true;
 				_container.addChild(check);
 			}
@@ -118,9 +117,9 @@ package com.bakalau.view.components.screens.menu
 		{
 			var categoryIDs :Vector.<int> = new <int>[];
 			var index :int = 0;
-			for each (var listData :ListData in _categories) {
+			for each (var category :CategoryVO in _categories) {
 				if (Check(_container.getChildAt(index)).isSelected)
-					categoryIDs.push(listData.value);
+					categoryIDs.push(category.rowid);
 				index++;
 			}
 
@@ -128,9 +127,9 @@ package com.bakalau.view.components.screens.menu
 		}
 
 
-		public function set categoriesData (value :CategoriesData) :void
+		public function set categories (value :Vector.<CategoryVO>) :void
 		{
-			_categories = value.categories;
+			_categories = value;
 			invalidate(INVALIDATION_FLAG_DATA);
 		}
 	}

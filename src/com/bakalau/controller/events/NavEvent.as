@@ -16,20 +16,12 @@ package com.bakalau.controller.events
 		private static const PREFIX :String = "NAV_";
 
 		public static const NAVIGATE_TO_VIEW :String = PREFIX + "NAVIGATE_TO_VIEW";
+		public static const NAVIGATE_TO_SCREEN :String = PREFIX + "NAVIGATE_TO_SCREEN";
 
-		private var _viewClass :Class;
 
-
-		public function NavEvent (type :String, data :Class = null)
+		public function NavEvent (type :String, data :Object = null, bubbles :Boolean = false)
 		{
-			super(type, false);
-			_viewClass = data;
-		}
-
-
-		public function get viewClass () :Class
-		{
-			return _viewClass;
+			super(type, bubbles, data);
 		}
 	}
 }

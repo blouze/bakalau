@@ -5,10 +5,9 @@
  * Time: 11:35
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens.menu
+package com.bakalau.view.components.screens
 {
-	import com.bakalau.view.components.data.GamesListData;
-	import com.bakalau.view.components.data.ListData;
+	import com.bakalau.model.VOs.GameVO;
 
 	import feathers.controls.Button;
 	import feathers.controls.Header;
@@ -26,20 +25,20 @@ package com.bakalau.view.components.screens.menu
 
 
 
-	public class GamesListScreen extends PanelScreen
+	public class ListScreenView extends PanelScreen
 	{
 		public var onSelect :Signal = new Signal(String);
 		public var onCreate :Signal = new Signal();
 
 
-		public function GamesListScreen ()
+		public function ListScreenView ()
 		{
 			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}
 
 
 		private var _list :List;
-		private var _listData :ListCollection = new ListCollection(new Vector.<ListData>());
+		private var _listData :ListCollection = new ListCollection(new Vector.<GameVO>());
 
 
 		private function onInitialize (event :Event) :void
@@ -51,6 +50,8 @@ package com.bakalau.view.components.screens.menu
 
 			_list = new List();
 			_list.dataProvider = _listData;
+			_list.itemRendererProperties.labelField = "gameID";
+			_list.itemRendererProperties.value = "gameID";
 			_list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			_list.addEventListener(Event.CHANGE, onListChange);
 			addChild(_list);
@@ -99,14 +100,14 @@ package com.bakalau.view.components.screens.menu
 
 		private function onListChange (event :Event) :void
 		{
-			onSelect.dispatch(_list.selectedItem.value);
+			onSelect.dispatch(_list.selectedItem.gameID);
 		}
 
 
-		public function set gamesListData (value :GamesListData) :void
+		public function set games (value :Vector.<GameVO>) :void
 		{
 			_listData.data = null;
-			_listData.data = value.games;
+			_listData.data = value;
 		}
 	}
 }

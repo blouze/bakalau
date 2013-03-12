@@ -24,7 +24,7 @@ package com.bakalau.controller.commands.answer
 		public function execute (event :AnswerEvent) :void
 		{
 			var answer :AnswerVO = AnswerVO(event.data);
-			answer.player = gameModel.localPlayer;
+			answer.player = gameModel.localClient;
 
 			gameModel.sendToAllClients(AppMessageVO.NEW_ANSWER, answer);
 		}

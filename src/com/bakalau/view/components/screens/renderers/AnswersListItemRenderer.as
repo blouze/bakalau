@@ -5,7 +5,7 @@
  * Time: 11:59
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens.game.renderers
+package com.bakalau.view.components.screens.renderers
 {
 	import feathers.controls.Button;
 	import feathers.controls.List;
@@ -32,22 +32,6 @@ package com.bakalau.view.components.screens.game.renderers
 
 		private var _selectSignal :Signal;
 		private var _confirmSignal :Signal;
-		private var _inputWidth :Number;
-
-
-		private function confirmButton_triggered_handler (event :Event) :void
-		{
-			if (_textInput.text != data.value) {
-				_confirmSignal.dispatch(data.category, _textInput.text);
-			}
-			owner.selectedIndex = -1;
-		}
-
-
-		private function cancelButton_triggered_handler (event :Event) :void
-		{
-			owner.selectedIndex = -1;
-		}
 
 
 		override protected function initialize () :void
@@ -116,6 +100,21 @@ package com.bakalau.view.components.screens.game.renderers
 				accessoryLabelField = "value";
 				invalidate(FeathersControl.INVALIDATION_FLAG_SELECTED);
 			}
+		}
+
+
+		private function confirmButton_triggered_handler (event :Event) :void
+		{
+			if (_textInput.text != data.value) {
+				_confirmSignal.dispatch(data.category, _textInput.text);
+			}
+			owner.selectedIndex = -1;
+		}
+
+
+		private function cancelButton_triggered_handler (event :Event) :void
+		{
+			owner.selectedIndex = -1;
 		}
 
 

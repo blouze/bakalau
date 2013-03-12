@@ -66,7 +66,7 @@ package com.bakalau.model
 		}
 
 
-		public function removePlayerAnswers (playerGroupID :String) :void
+		public function removeAnswersByPlayerGroupID (playerGroupID :String) :void
 		{
 			if (!_answers) return;
 

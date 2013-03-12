@@ -30,6 +30,7 @@ package com.bakalau.model
 		public function init () :void
 		{
 			_manager = new AppManager(dispatcher);
+			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_LIST_UPDATE, _games))
 		}
 
 

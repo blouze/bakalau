@@ -5,7 +5,7 @@
  * Time: 22:51
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens.game.renderers
+package com.bakalau.view.components.screens.renderers
 {
 	import feathers.controls.ProgressBar;
 	import feathers.controls.renderers.DefaultListItemRenderer;

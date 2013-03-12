@@ -7,8 +7,9 @@
  */
 package com.bakalau.view.components.theme
 {
-	import com.bakalau.view.components.screens.game.renderers.AnswersListItemRenderer;
-	import com.bakalau.view.components.screens.game.renderers.PlayersListItemRenderer;
+	import com.bakalau.view.components.screens.renderers.AnswersListItemRenderer;
+	import com.bakalau.view.components.screens.renderers.GameLobbyListItemRenderer;
+	import com.bakalau.view.components.screens.renderers.PlayersListItemRenderer;
 
 	import feathers.display.TiledImage;
 	import feathers.themes.AzureMobileTheme;
@@ -31,6 +32,7 @@ package com.bakalau.view.components.theme
 
 			setInitializerForClass(AnswersListItemRenderer, answersListItemRendererInitializer);
 			setInitializerForClass(PlayersListItemRenderer, playersListItemRendererInitializer);
+			setInitializerForClass(GameLobbyListItemRenderer, gameLobbyListItemRendererInitializer);
 		}
 
 
@@ -45,6 +47,12 @@ package com.bakalau.view.components.theme
 
 
 		private function playersListItemRendererInitializer (renderer :PlayersListItemRenderer) :void
+		{
+			itemRendererInitializer(renderer);
+		}
+
+
+		private function gameLobbyListItemRendererInitializer (renderer :GameLobbyListItemRenderer) :void
 		{
 			itemRendererInitializer(renderer);
 		}

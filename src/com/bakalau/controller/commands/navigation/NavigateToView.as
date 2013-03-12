@@ -21,7 +21,7 @@ package com.bakalau.controller.commands.navigation
 		[Execute]
 		public function execute (event :NavEvent) :void
 		{
-			var viewClass :Class = event.viewClass;
+			var viewClass :Class = Class(event.data);
 			viewManager.setView(viewClass, null, true);
 		}
 	}

@@ -1,18 +1,17 @@
 /**
  * Created with IntelliJ IDEA.
  * User: Blouze
- * Date: 19/02/13
- * Time: 12:57
+ * Date: 11/03/13
+ * Time: 19:33
  * To change this template use File | Settings | File Templates.
  */
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.AnswerEvent;
-	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
-	import com.bakalau.view.components.GameView;
+	import com.bakalau.view.components.screens.GameScreenView;
 
 	import flash.utils.Dictionary;
 
@@ -20,10 +19,13 @@ package com.bakalau.view
 
 
 
-	public class GameMediator
+	public class GameScreenMediator
 	{
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
+
+
+		private var _game :GameVO;
 
 
 		[EventHandler(event="GameEvent.UPDATE", properties="data")]
@@ -32,6 +34,9 @@ package com.bakalau.view
 			_game = value;
 			if (_view) _view.game = _game;
 		}
+
+
+		private var _answers :Dictionary;
 
 
 		[EventHandler(event="AnswerEvent.INITIALIZED", properties="data")]
@@ -50,51 +55,35 @@ package com.bakalau.view
 		}
 
 
-		private var _view :GameView;
-		private var _game :GameVO;
-		private var _answers :Dictionary;
+		private var _view :GameScreenView;
 
 
 		[ViewAdded]
-		public function viewAdded (gameView :GameView) :void
+		public function viewAdded (gameMainScreen :GameScreenView) :void
 		{
-			_view = gameView;
+			_view = gameMainScreen;
 			_view.game = _game;
 			_view.answers = _answers;
 
-			_view.giveAnswer.add(function (answerCategory :CategoryVO, answerValue :String) :void
+			_view.onAnswer.add(function (category :CategoryVO, value :String) :void
 			{
 				var answer :AnswerVO = new AnswerVO();
-				answer.category = answerCategory;
-				answer.value = answerValue;
+				answer.category = category;
+				answer.value = value;
 				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.NEW, answer));
-			});
-
-			_view.quitGame.add(function () :void
-			{
-				dispatcher.dispatchEvent(new AppEvent(AppEvent.QUIT_GAME));
-			});
-
-			_view.finishGame.add(function () :void
-			{
-				dispatcher.dispatchEvent(new AppEvent(AppEvent.FINISH_ROUND));
 			});
 		}
 
 
 		[ViewRemoved]
-		public function viewRemoved (gameView :GameView) :void
+		public function viewRemoved (gameMainScreen :GameScreenView) :void
 		{
-			_view.giveAnswer.removeAll();
-			_view.quitGame.removeAll();
-
-			_view.dispose();
 			_view = null;
 		}
 
 
-		[PostDestroy]
-		public function postDestroy () :void
+		[PreDestroy]
+		public function preDestroy () :void
 		{
 			_game = null;
 			_answers = null;

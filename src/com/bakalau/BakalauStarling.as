@@ -40,7 +40,11 @@ package com.bakalau
 
 			var config :StarlingMVCConfig = new StarlingMVCConfig();
 			config.eventPackages = ["com.bakalau.controller.events"];
-			config.viewPackages = ["com.bakalau.view", "com.bakalau.view.components", "com.bakalau.view.components.screens"];
+			config.viewPackages = [
+				"com.bakalau.view",
+				"com.bakalau.view.components",
+				"com.bakalau.view.components.screens"
+			];
 
 			var beans :Array = [
 				new ModelBeanProvider(),

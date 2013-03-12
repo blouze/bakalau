@@ -28,7 +28,7 @@ package com.bakalau.model
 
 		private var _manager :GameManager;
 		private var _game :GameVO;
-		private var _localPlayer :ClientVO;
+		private var _localClient :ClientVO;
 
 
 		/**
@@ -54,7 +54,7 @@ package com.bakalau.model
 		 */
 		public function initGame () :void
 		{
-			_game.owner = _localPlayer;
+			_game.owner = _localClient;
 			_game.initLetters();
 			_game.isInitialized = true;
 		}
@@ -66,7 +66,7 @@ package com.bakalau.model
 		public function joinGame () :void
 		{
 			// _manager.channel.localClient is not updated quick enough, so...
-			_localPlayer = _manager.channel.clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
+			_localClient = _manager.channel.clients.filter(function (clientVO :ClientVO, index :int, vector :Vector.<ClientVO>) :Boolean
 			{
 				return clientVO.isLocal;
 			}).pop();
@@ -75,7 +75,7 @@ package com.bakalau.model
 				initGame();
 			}
 
-			sendToAllClients(GameMessageVO.PLAYER_JOIN, _localPlayer);
+			sendToAllClients(GameMessageVO.PLAYER_JOIN, _localClient);
 		}
 
 
@@ -87,7 +87,7 @@ package com.bakalau.model
 		{
 			_manager.dispose();
 			_manager = null;
-			_localPlayer = null;
+			_localClient = null;
 			_game = null;
 			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 		}
@@ -98,7 +98,7 @@ package com.bakalau.model
 		 */
 		public function quitGame () :void
 		{
-			sendToAllClients(GameMessageVO.PLAYER_QUIT, _localPlayer);
+			sendToAllClients(GameMessageVO.PLAYER_QUIT, _localClient);
 		}
 
 
@@ -114,23 +114,23 @@ package com.bakalau.model
 				case GameMessageVO.PLAYER_JOIN :
 					player = ClientVO(gameMessage.data);
 					_game.addPlayer(player);
-					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 					break;
 
 				case GameMessageVO.PLAYER_QUIT :
 					player = ClientVO(gameMessage.data);
-					if (!_game.started && player == _game.owner) {
+					if (player == _game.owner) {
 						_game.removeAllPlayers();
 					}
 					else {
 						_game.removePlayer(player);
 					}
-					dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 					break;
 
 				default :
 					break;
 			}
+
+			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 		}
 
 
@@ -149,11 +149,11 @@ package com.bakalau.model
 
 
 		/**
-		 * @return The player's ClientVO.
+		 * @return Local player's ClientVO.
 		 */
-		public function get localPlayer () :ClientVO
+		public function get localClient () :ClientVO
 		{
-			return _localPlayer;
+			return _localClient;
 		}
 
 
@@ -162,7 +162,7 @@ package com.bakalau.model
 		 */
 		public function get playerOwnGame () :GameVO
 		{
-			return (_localPlayer && _game.owner == _localPlayer) ? _game : null;
+			return (_localClient && _game.owner == _localClient) ? _game : null;
 		}
 
 
@@ -181,6 +181,13 @@ package com.bakalau.model
 		public function get game () :GameVO
 		{
 			return _game;
+		}
+
+
+		public function updateGameClients () :void
+		{
+			_game.clients = clients;
+			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 		}
 	}
 }

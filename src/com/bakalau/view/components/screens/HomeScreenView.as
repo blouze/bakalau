@@ -5,7 +5,7 @@
  * Time: 10:18
  * To change this template use File | Settings | File Templates.
  */
-package com.bakalau.view.components.screens.menu
+package com.bakalau.view.components.screens
 {
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Header;
@@ -21,12 +21,12 @@ package com.bakalau.view.components.screens.menu
 
 
 
-	public class HomeScreen extends PanelScreen
+	public class HomeScreenView extends PanelScreen
 	{
 		public var onListGames :Signal = new Signal();
 
 
-		public function HomeScreen ()
+		public function HomeScreenView ()
 		{
 			addEventListener(FeathersEventType.INITIALIZE, onInitialize);
 		}

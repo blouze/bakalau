@@ -11,7 +11,7 @@ package com.bakalau.controller.commands.app
 	import com.bakalau.controller.events.NavEvent;
 	import com.bakalau.model.AppModel;
 	import com.bakalau.model.CategoriesModel;
-	import com.bakalau.view.components.MenuView;
+	import com.bakalau.view.components.NavigatorView;
 	import com.bakalau.view.components.theme.BakalauTheme;
 	import com.demonsters.debugger.MonsterDebugger;
 
@@ -51,7 +51,8 @@ package com.bakalau.controller.commands.app
 
 			appModel.init();
 			categoriesModel.getCategories();
-			dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, MenuView));
+
+			dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_VIEW, NavigatorView));
 		}
 	}
 }
