@@ -14,6 +14,10 @@ package com.bakalau.model
 	import com.projectcocoon.p2p.LocalNetworkDiscovery;
 	import com.projectcocoon.p2p.vo.ClientVO;
 
+	import flash.geom.Rectangle;
+	import flash.system.Capabilities;
+
+	import starling.core.Starling;
 	import starling.events.EventDispatcher;
 
 
@@ -29,14 +33,9 @@ package com.bakalau.model
 
 		public function init () :void
 		{
+			resizeStarling(new Rectangle(0, 0, Starling.current.stage.stageWidth, Starling.current.stage.stageHeight));
 			_manager = new AppManager(dispatcher);
 			dispatcher.dispatchEvent(new DataEvent(DataEvent.GAMES_LIST_UPDATE, _games))
-		}
-
-
-		public function get channel () :LocalNetworkDiscovery
-		{
-			return _manager.channel;
 		}
 
 
@@ -122,6 +121,19 @@ package com.bakalau.model
 			while (--index >= 0 && _games[index].gameID != game.gameID) {
 			}
 			return index;
+		}
+
+
+		public function resizeStarling (viewPort :Rectangle) :void
+		{
+			var scale :Number = Starling.current.contentScaleFactor;
+
+			Starling.current.viewPort = viewPort;
+			Starling.current.stage.stageWidth = viewPort.width / scale;
+			Starling.current.stage.stageHeight = viewPort.height / scale;
+			if (Capabilities.isDebugger) {
+				Starling.current.showStatsAt("left", "bottom", scale);
+			}
 		}
 	}
 }

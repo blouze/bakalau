@@ -14,7 +14,6 @@ package com.bakalau
 	import com.creativebottle.starlingmvc.StarlingMVC;
 	import com.creativebottle.starlingmvc.config.StarlingMVCConfig;
 	import com.creativebottle.starlingmvc.views.ViewManager;
-	import com.demonsters.debugger.MonsterDebugger;
 
 	import starling.display.Sprite;
 	import starling.events.Event;

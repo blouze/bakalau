@@ -34,9 +34,9 @@ package com.bakalau.view
 
 
 		[ViewAdded]
-		public function viewAdded (gameLobbyScreen :LobbyScreenView) :void
+		public function viewAdded (lobbyScreenView :LobbyScreenView) :void
 		{
-			_view = gameLobbyScreen;
+			_view = lobbyScreenView;
 			_view.game = _game;
 
 			_view.onJoin.add(function () :void
@@ -62,7 +62,7 @@ package com.bakalau.view
 
 
 		[ViewRemoved]
-		public function viewRemoved (gameLobbyScreen :LobbyScreenView) :void
+		public function viewRemoved (lobbyScreenView :LobbyScreenView) :void
 		{
 			_view = null;
 		}

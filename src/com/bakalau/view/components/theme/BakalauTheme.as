@@ -9,6 +9,7 @@ package com.bakalau.view.components.theme
 {
 	import com.bakalau.view.components.screens.renderers.AnswersListItemRenderer;
 	import com.bakalau.view.components.screens.renderers.GameLobbyListItemRenderer;
+	import com.bakalau.view.components.screens.renderers.GamesListItemRenderer;
 	import com.bakalau.view.components.screens.renderers.PlayersListItemRenderer;
 
 	import feathers.display.TiledImage;
@@ -20,6 +21,8 @@ package com.bakalau.view.components.theme
 
 	public class BakalauTheme extends AzureMobileTheme
 	{
+
+
 		public function BakalauTheme (root :DisplayObjectContainer, scaleToDPI :Boolean = true)
 		{
 			super(root, scaleToDPI);
@@ -30,9 +33,16 @@ package com.bakalau.view.components.theme
 		{
 			super.initialize();
 
+			setInitializerForClass(GamesListItemRenderer, gamesListItemRendererInitializer);
 			setInitializerForClass(AnswersListItemRenderer, answersListItemRendererInitializer);
 			setInitializerForClass(PlayersListItemRenderer, playersListItemRendererInitializer);
 			setInitializerForClass(GameLobbyListItemRenderer, gameLobbyListItemRendererInitializer);
+		}
+
+
+		private function gamesListItemRendererInitializer (renderer :GamesListItemRenderer) :void
+		{
+			itemRendererInitializer(renderer);
 		}
 
 

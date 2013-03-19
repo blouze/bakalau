@@ -19,11 +19,11 @@ package com.bakalau
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	import flash.net.registerClassAlias;
+	import flash.system.Capabilities;
 
 	import mx.utils.RpcClassAliasInitializer;
 
 	import starling.core.Starling;
-	import starling.events.ResizeEvent;
 
 
 
@@ -55,21 +55,11 @@ package com.bakalau
 
 			Starling.handleLostContext = true;
 
-			_starling = new Starling(BakalauStarling, stage);
-			_starling.showStats = true;
-			_starling.stage.addEventListener(Event.RESIZE, onResize);
+			_starling = new Starling(BakalauStarling, stage, new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+			if (Capabilities.isDebugger) {
+				Starling.current.showStatsAt("left", "bottom");
+			}
 			_starling.start();
-		}
-
-
-		private function onResize (event :ResizeEvent) :void
-		{
-			var scale :Number = Starling.current.contentScaleFactor;
-			var viewPort :Rectangle = new Rectangle(0, 0, event.width, event.height);
-
-			Starling.current.viewPort = viewPort;
-			_starling.stage.stageWidth = viewPort.width / scale;
-			_starling.stage.stageHeight = viewPort.height / scale;
 		}
 	}
 }

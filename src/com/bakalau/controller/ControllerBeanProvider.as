@@ -13,6 +13,7 @@ package com.bakalau.controller
 	import com.bakalau.controller.commands.app.ClientAdded;
 	import com.bakalau.controller.commands.app.CreateGame;
 	import com.bakalau.controller.commands.app.FinishRound;
+	import com.bakalau.controller.commands.app.InitNativeAds;
 	import com.bakalau.controller.commands.app.JoinGame;
 	import com.bakalau.controller.commands.app.LeaveGame;
 	import com.bakalau.controller.commands.app.QuitGame;
@@ -36,6 +37,7 @@ package com.bakalau.controller
 		public function ControllerBeanProvider ()
 		{
 			beans = [
+				new Command(AppEvent.INIT_NATIVE_ADS, InitNativeAds),
 				new Command(AppEvent.READY, ApplicationReady),
 				new Command(AppEvent.CLIENT_ADDED, ClientAdded),
 

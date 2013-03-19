@@ -57,7 +57,5 @@ package com.bakalau.view
 		{
 			_view = null;
 		}
-
-
 	}
 }

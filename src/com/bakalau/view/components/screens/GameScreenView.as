@@ -74,8 +74,9 @@ package com.bakalau.view.components.screens
 			backButtonHandler = onBackButton;
 
 			_finishButton = new Button();
-			_finishButton.label = "Terminé!";
+			_finishButton.label = "J'ai fini!";
 			_finishButton.addEventListener(Event.TRIGGERED, finishButton_triggeredHandler);
+			headerProperties.rightItems = new <DisplayObject>[_finishButton];
 
 			_answersList = new List();
 			_answersList.itemRendererType = AnswersListItemRenderer;
@@ -99,16 +100,12 @@ package com.bakalau.view.components.screens
 			super.draw();
 
 			if (isInvalid(FeathersControl.INVALIDATION_FLAG_DATA)) {
-				if (_hasPlayerFinished) {
-					headerProperties.rightItems = new <DisplayObject>[_finishButton];
-				}
-				else {
-					headerProperties.rightItems = null;
-				}
+				_finishButton.isEnabled = _hasPlayerFinished;
 			}
+
 			if (isInvalid(FeathersControl.INVALIDATION_FLAG_SIZE)) {
 				_playersList.validate();
-				var clientHeight :Number = Math.min((actualHeight - header.height) / 3);
+				var clientHeight :Number = Math.min((actualHeight - header.height) * (1 - 0.618));
 				_playersList.layoutData = new AnchorLayoutData(actualHeight - header.height - clientHeight, 0, 0, 0);
 				_answersList.layoutData = new AnchorLayoutData(0, 0, clientHeight + 8, 0);
 			}
@@ -120,7 +117,6 @@ package com.bakalau.view.components.screens
 			_game = value;
 
 			if (value) {
-
 				invalidate(INVALIDATION_FLAG_DATA);
 			}
 		}
@@ -162,7 +158,8 @@ package com.bakalau.view.components.screens
 				});
 
 				if (player == _game.localClient) {
-					_hasPlayerFinished = (progress == _answersListData.length);
+//					_hasPlayerFinished = (progress == _answersListData.length);
+					_hasPlayerFinished = (progress > 0);
 				}
 			}
 

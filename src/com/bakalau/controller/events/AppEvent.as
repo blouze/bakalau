@@ -15,10 +15,11 @@ package com.bakalau.controller.events
 	{
 		private static const PREFIX :String = "APP_";
 
+		public static const INIT_NATIVE_ADS :String = PREFIX + "INIT_NATIVE_ADS";
 		public static const READY :String = PREFIX + "READY";
 		public static const CLIENT_ADDED :String = PREFIX + "CLIENT_ADDED";
-		public static const APP_DATA_RECEIVED :String = PREFIX + "APP_DATA_RECEIVED";
 
+		public static const APP_DATA_RECEIVED :String = PREFIX + "APP_DATA_RECEIVED";
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
 		public static const VIEW_GAME :String = PREFIX + "VIEW_GAME";
 		public static const JOIN_GAME :String = PREFIX + "JOIN_GAME";

@@ -9,14 +9,17 @@ package com.bakalau.view.components
 {
 	import com.bakalau.model.VOs.GameVO;
 	import com.bakalau.view.components.screens.CreateScreenView;
+	import com.bakalau.view.components.screens.DebriefScreenView;
 	import com.bakalau.view.components.screens.GameScreenView;
+	import com.bakalau.view.components.screens.GamesListScreenView;
 	import com.bakalau.view.components.screens.HomeScreenView;
-	import com.bakalau.view.components.screens.ListScreenView;
 	import com.bakalau.view.components.screens.LobbyScreenView;
 
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
+
+	import flash.desktop.NativeApplication;
 
 	import starling.animation.Transitions;
 	import starling.display.Sprite;
@@ -32,6 +35,7 @@ package com.bakalau.view.components
 		public static const CREATE_GAME :String = PREFIX + "CREATE_GAME";
 		public static const GAME_LOBBY :String = PREFIX + "GAME_LOBBY";
 		public static const GAME_MAIN :String = PREFIX + "GAME_MAIN";
+		public static const DEBRIEF_GAME :String = PREFIX + "DEBRIEF_GAME";
 
 		private var _navigator :ScreenNavigator;
 
@@ -47,6 +51,7 @@ package com.bakalau.view.components
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 
 			_navigator = new ScreenNavigator();
+
 			addChild(_navigator);
 
 			var _transitionManager :ScreenSlidingStackTransitionManager = new ScreenSlidingStackTransitionManager(_navigator);
@@ -54,10 +59,11 @@ package com.bakalau.view.components
 			_transitionManager.ease = Transitions.EASE_OUT;
 
 			_navigator.addScreen(HOME, new ScreenNavigatorItem(HomeScreenView, {
-				onListGames: LIST_GAMES
+				onListGames: LIST_GAMES,
+				complete: backButtonPressed
 			}));
 
-			_navigator.addScreen(LIST_GAMES, new ScreenNavigatorItem(ListScreenView, {
+			_navigator.addScreen(LIST_GAMES, new ScreenNavigatorItem(GamesListScreenView, {
 				onCreate: CREATE_GAME,
 				complete: HOME
 			}));
@@ -70,6 +76,10 @@ package com.bakalau.view.components
 			}));
 
 			_navigator.addScreen(GAME_MAIN, new ScreenNavigatorItem(GameScreenView, {
+				complete: GAME_LOBBY
+			}));
+
+			_navigator.addScreen(DEBRIEF_GAME, new ScreenNavigatorItem(DebriefScreenView, {
 				complete: GAME_LOBBY
 			}));
 
@@ -89,13 +99,19 @@ package com.bakalau.view.components
 		public function updateGame (game :GameVO) :void
 		{
 			if (game) {
-				if (!game.isLocalClientAPlayer) {
+				if (!game.isLocalClientInPlayers) {
 					navigateToScreen(NavigatorView.GAME_LOBBY);
 				}
 			}
 			else {
 				navigateToScreen(NavigatorView.LIST_GAMES);
 			}
+		}
+
+
+		private function backButtonPressed () :void
+		{
+			NativeApplication.nativeApplication.exit();
 		}
 	}
 }

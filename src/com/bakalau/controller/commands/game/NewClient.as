@@ -30,8 +30,6 @@ package com.bakalau.controller.commands.game
 		{
 			var newClient :ClientVO = ClientVO(event.data);
 
-			gameModel.game.clients = gameModel.clients;
-
 			if (!gameModel.game.isInitialized) {
 				dispatcher.dispatchEvent(new AppEvent(AppEvent.JOIN_GAME));
 			}

@@ -13,6 +13,7 @@ package com.bakalau.view.components.screens.renderers
 	import feathers.controls.TextInput;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.core.FeathersControl;
+	import feathers.events.FeathersEventType;
 	import feathers.layout.HorizontalLayout;
 
 	import org.osflash.signals.Signal;
@@ -40,7 +41,7 @@ package com.bakalau.view.components.screens.renderers
 
 			const answerlayout :HorizontalLayout = new HorizontalLayout();
 			answerlayout.gap = 5;
-			answerlayout.padding = 4;
+			answerlayout.padding = 5;
 
 			_answerUI = new ScrollContainer();
 			_answerUI.layout = answerlayout;
@@ -50,12 +51,12 @@ package com.bakalau.view.components.screens.renderers
 			_answerUI.horizontalScrollPolicy = ScrollContainer.SCROLL_POLICY_OFF;
 
 			_textInput = new TextInput();
-			_textInput.validate();
+			_textInput.addEventListener(FeathersEventType.ENTER, onUserTypeEnter);
 			_answerUI.addChild(_textInput);
 
 			_confirmButton = new Button();
 			_confirmButton.label = "OK";
-			_confirmButton.addEventListener(Event.TRIGGERED, confirmButton_triggered_handler);
+			_confirmButton.addEventListener(Event.TRIGGERED, onUserTypeEnter);
 			_answerUI.addChild(_confirmButton);
 
 			_cancelButton = new Button();
@@ -72,6 +73,8 @@ package com.bakalau.view.components.screens.renderers
 			};
 
 			accessoryLabelField = "value";
+			itemHasIcon = true;
+			iconPosition = Button.ICON_POSITION_TOP;
 		}
 
 
@@ -80,6 +83,9 @@ package com.bakalau.view.components.screens.renderers
 			super.draw();
 
 			if (isInvalid(FeathersControl.INVALIDATION_FLAG_SIZE)) {
+				_textInput.width = 0;
+				validate();
+				_textInput.width = actualWidth - labelTextRenderer.width - 160;
 			}
 		}
 
@@ -92,7 +98,7 @@ package com.bakalau.view.components.screens.renderers
 				if (_textInput) {
 					_textInput.text = data ? data.value : "";
 					_textInput.setFocus();
-					_textInput.selectRange(0);
+					_textInput.selectRange(0, _textInput.text.length - 1);
 				}
 			}
 			else if (accessoryLabelField == null) {
@@ -103,7 +109,7 @@ package com.bakalau.view.components.screens.renderers
 		}
 
 
-		private function confirmButton_triggered_handler (event :Event) :void
+		private function onUserTypeEnter (event :Event) :void
 		{
 			if (_textInput.text != data.value) {
 				_confirmSignal.dispatch(data.category, _textInput.text);
@@ -143,8 +149,7 @@ package com.bakalau.view.components.screens.renderers
 		{
 			super.dispose();
 
-			_confirmButton.removeEventListener(Event.TRIGGERED, confirmButton_triggered_handler);
-			_cancelButton.removeEventListener(Event.TRIGGERED, confirmButton_triggered_handler);
+			_cancelButton.removeEventListener(Event.TRIGGERED, cancelButton_triggered_handler);
 
 			_confirmSignal = null;
 			_selectSignal.remove(onListChange);

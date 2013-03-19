@@ -37,17 +37,15 @@ package com.bakalau.controller.commands.app
 		[Execute]
 		public function execute (event :AppEvent) :void
 		{
+			var scaleToDPI :Boolean = (Capabilities.playerType != "Desktop" || Capabilities.isDebugger);
+			new BakalauTheme(Starling.current.stage, scaleToDPI);
+
 			if (Capabilities.cpuArchitecture != "ARM") {
 				MonsterDebugger.initialize(this);
 			}
-
-			var scaleToDPI :Boolean = (Capabilities.playerType != "Desktop" || Capabilities.isDebugger);
-
-//			new AeonDesktopTheme(Starling.current.stage, scaleToDPI);
-//			new AzureMobileTheme(Starling.current.stage, scaleToDPI);
-//			new MetalWorksMobileTheme(Starling.current.stage, scaleToDPI);
-//			new MinimalMobileTheme(Starling.current.stage, scaleToDPI);
-			new BakalauTheme(Starling.current.stage, scaleToDPI);
+			else {
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.INIT_NATIVE_ADS));
+			}
 
 			appModel.init();
 			categoriesModel.getCategories();

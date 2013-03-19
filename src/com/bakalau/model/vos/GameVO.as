@@ -15,7 +15,9 @@ package com.bakalau.model.VOs
 	{
 		public var gameID :String;
 		public var isInitialized :Boolean = false;
-		public var clients :Vector.<ClientVO> = new <ClientVO>[];
+
+		private var _clients :Vector.<ClientVO> = new <ClientVO>[];
+		private var _localClient :ClientVO;
 
 		public var owner :ClientVO;
 		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
@@ -45,6 +47,9 @@ package com.bakalau.model.VOs
 		{
 			if (!hasPlayer(player)) {
 				players.push(player);
+				if (player.isLocal) {
+					_localClient = player;
+				}
 			}
 		}
 
@@ -93,6 +98,24 @@ package com.bakalau.model.VOs
 		public function get currentLetter () :String
 		{
 			return _currentLetter;
+		}
+
+
+		public function get localClient () :ClientVO
+		{
+			return _localClient;
+		}
+
+
+		public function get isLocalClientInPlayers () :Boolean
+		{
+			return _localClient && hasPlayer(_localClient);
+		}
+
+
+		public function get isOwnedByLocalClient () :Boolean
+		{
+			return _localClient && _localClient.groupID == owner.groupID;
 		}
 	}
 }

@@ -18,7 +18,7 @@
     <filename>bakalau</filename>
 
     <!-- The name that is displayed in the AIR application installer. May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <name>bakalau</name>
+    <name>BaKaLau!</name>
 
     <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade.
          Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
@@ -41,9 +41,9 @@
     <!--<publisherID></publisherID>-->
 
     <!-- Identifies the ActionScript extensions used by an application. -->
-    <!--<extensions>
-        <extensionID></extensionID>
-    </extensions>-->
+    <extensions>
+        <extensionID>com.hdi.nativeExtensions.NativeAds</extensionID>
+    </extensions>
 
     <!-- Settings for the application's initial window. Required. -->
     <initialWindow>
@@ -90,10 +90,10 @@
         <!--<maxSize></maxSize>-->
 
         <!-- The aspect ratio of the app ("portrait" or "landscape" or "any"). Optional. Mobile only. Default is the natural orientation of the device -->
-        <aspectRatio>any</aspectRatio>
+        <aspectRatio>portrait</aspectRatio>
 
         <!-- Whether the app will begin auto-orienting on launch. Optional. Mobile only. Default false -->
-        <autoOrients>true</autoOrients>
+        <autoOrients>false</autoOrients>
 
         <!-- Whether the app launches in full screens. Optional. Mobile only. Default false -->
         <fullScreen>true</fullScreen>
@@ -122,23 +122,11 @@
     <!--<programMenuFolder></programMenuFolder>-->
 
     <!-- The icon the system uses for the application. For at least one resolution, specify the path to a PNG file included in the AIR package. Optional. -->
-    <!--<icon>
-        <image16x16></image16x16>
-        <image29x29></image29x29>
-        <image32x32></image32x32>
-        <image36x36></image36x36>
-        <image48x48></image48x48>
-        <image50x50></image50x50>
-        <image57x57></image57x57>
-        <image58x58></image58x58>
-        <image72x72></image72x72>
-        <image100x100></image100x100>
-        <image114x114></image114x114>
-        <image128x128></image128x128>
-        <image144x144></image144x144>
-        <image512x512></image512x512>
-        <image1024x1024></image1024x1024>
-    </icon>-->
+    <icon>
+        <image36x36>assets/icons/android/drawable-ldpi/ic_launcher.png</image36x36>
+        <image48x48>assets/icons/android/drawable-mdpi/ic_launcher.png</image48x48>
+        <image72x72>assets/icons/android/drawable-hdpi/ic_launcher.png</image72x72>
+    </icon>
 
     <!-- Whether the application handles the update when a user double-clicks an update version of the AIR file (true),
          or the default AIR application installer handles the update (false). Optional. Default false. -->
@@ -208,6 +196,7 @@
         <manifestAdditions>
             <![CDATA[
             <manifest android:installLocation="auto">
+                <uses-sdk android:targetSdkVersion="11"/>
                 <uses-permission android:name="android.permission.INTERNET"/>
                 <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
                 <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
@@ -217,7 +206,7 @@
                 <uses-permission android:name="android.permission.WAKE_LOCK"/>
                 <!--<uses-permission android:name="android.permission.CAMERA"/>-->
                 <!--<uses-permission android:name="android.permission.RECORD_AUDIO"/>-->
-                <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
+                <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
                 <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
 
                 <!--<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>-->
@@ -229,6 +218,9 @@
                         </intent-filter>
                     </activity>
                 </application>-->
+                <application>
+                    <activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+                </application>
             </manifest>
             ]]>
         </manifestAdditions>

@@ -10,6 +10,8 @@ package com.bakalau.model
 	import com.creativebottle.starlingmvc.beans.Bean;
 	import com.creativebottle.starlingmvc.beans.BeanProvider;
 
+	import flash.system.Capabilities;
+
 
 
 	public class ModelBeanProvider extends BeanProvider
@@ -22,6 +24,10 @@ package com.bakalau.model
 				new Bean(new GameModel(), "gameModel"),
 				new Bean(new AnswersModel(), "answersModel")
 			];
+
+			if (Capabilities.cpuArchitecture == "ARM") {
+				beans.push(new Bean(new NativeAdsModel(), "nativeAdsModel"));
+			}
 		}
 	}
 }

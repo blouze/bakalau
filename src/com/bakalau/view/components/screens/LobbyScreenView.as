@@ -13,11 +13,12 @@ package com.bakalau.view.components.screens
 	import com.bakalau.view.components.screens.renderers.GameLobbyListItemRenderer;
 
 	import feathers.controls.Button;
+	import feathers.controls.ButtonGroup;
 	import feathers.controls.GroupedList;
-	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.PanelScreen;
 	import feathers.data.HierarchicalCollection;
+	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -51,24 +52,23 @@ package com.bakalau.view.components.screens
 		private var _holdLabel :Label;
 		private var _startedLabel :Label;
 
+		private var _gameList :GroupedList;
+		private var _buttonGroup :ButtonGroup;
+		private var _gameListData :HierarchicalCollection = new HierarchicalCollection();
 		private var _game :GameVO;
-		private var _groupedListData :HierarchicalCollection = new HierarchicalCollection();
 
 
 		private function onInitialize (event :Event) :void
 		{
-			headerProperties.title = _game ? _game.gameID : "";
-			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
-
 			layout = new AnchorLayout();
 
-			var _groupedList :GroupedList = new GroupedList();
-			_groupedList.dataProvider = _groupedListData;
-			_groupedList.itemRendererType = GameLobbyListItemRenderer;
-			_groupedList.nameList.add(GroupedList.ALTERNATE_NAME_INSET_GROUPED_LIST);
-			_groupedList.isSelectable = false;
-			_groupedList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			addChild(_groupedList);
+			_gameList = new GroupedList();
+			_gameList.dataProvider = _gameListData;
+			_gameList.itemRendererType = GameLobbyListItemRenderer;
+			_gameList.nameList.add(GroupedList.ALTERNATE_NAME_INSET_GROUPED_LIST);
+			_gameList.isSelectable = false;
+			_gameList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			addChild(_gameList);
 
 			_backButton = new Button();
 			_backButton.label = "Retour";
@@ -77,15 +77,15 @@ package com.bakalau.view.components.screens
 			backButtonHandler = onBackButton;
 
 			_joinButton = new Button();
-			_joinButton.label = "Rejoindre";
+			_joinButton.label = "Rejoindre cette partie";
 			_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
 
 			_startButton = new Button();
-			_startButton.label = "Commencer";
+			_startButton.label = "Commencer le jeu";
 			_startButton.addEventListener(Event.TRIGGERED, startButton_triggeredHandler);
 
 			_resumeButton = new Button();
-			_resumeButton.label = "Reprendre";
+			_resumeButton.label = "Reprendre le jeu";
 			_resumeButton.addEventListener(Event.TRIGGERED, resumeButton_triggeredHandler);
 
 			_quitButton = new Button();
@@ -97,6 +97,13 @@ package com.bakalau.view.components.screens
 
 			_startedLabel = new Label();
 			_startedLabel.text = "Partie en cours";
+
+			_buttonGroup = new ButtonGroup();
+			_buttonGroup.dataProvider = new ListCollection(
+					[
+						{ label: "Rejoindre cette partie", triggered: joinButton_triggeredHandler }
+					]);
+			addChild(_buttonGroup);
 		}
 
 
@@ -104,15 +111,24 @@ package com.bakalau.view.components.screens
 		{
 			super.draw();
 
+			if (isInvalid(INVALIDATION_FLAG_SIZE)) {
+				_gameList.layoutData = new AnchorLayoutData(0, 0, actualHeight * (1 - 0.618), 0);
+				var buttonPadding :Number = _gameList.height * (1 - 0.618) * (1 - 0.618);
+				_buttonGroup.layoutData = new AnchorLayoutData(actualHeight * 0.618, buttonPadding, buttonPadding, buttonPadding);
+			}
+
 			if (isInvalid(INVALIDATION_FLAG_DATA)) {
 				if (_game) {
 //					if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
 //					}
 
-					if (_game.isLocalClientAPlayer) {
+					_startButton.isEnabled = (_game.players.length > 1);
+					_buttonGroup.isEnabled = !_game.isLocalClientInPlayers;
+
+					if (_game.isLocalClientInPlayers) {
 						headerProperties.leftItems = new <DisplayObject>[_quitButton];
 						if (!_game.started) {
-							if (_game.isLocalClientTheOwner) {
+							if (_game.isOwnedByLocalClient) {
 								headerProperties.rightItems = new <DisplayObject>[_startButton];
 							}
 							else {
@@ -129,7 +145,7 @@ package com.bakalau.view.components.screens
 							headerProperties.rightItems = new <DisplayObject>[_startedLabel];
 						}
 						else {
-							headerProperties.rightItems = new <DisplayObject>[_joinButton];
+//							headerProperties.rightItems = new <DisplayObject>[_joinButton];
 						}
 					}
 				}
@@ -142,10 +158,10 @@ package com.bakalau.view.components.screens
 			if (value) {
 				_game = value;
 
-				_groupedListData.data = null;
-				_groupedListData.data = [
+				_gameListData.data = null;
+				_gameListData.data = [
 					{
-						header: "Joueurs :",
+						header: "Joueurs connectés :",
 						children: Utils.vectorToArray(_game.players)
 					},
 					{
@@ -161,7 +177,12 @@ package com.bakalau.view.components.screens
 
 		private function onBackButton () :void
 		{
-			onLeave.dispatch();
+			if (_game.isLocalClientInPlayers) {
+				onQuit.dispatch();
+			}
+			else {
+				onLeave.dispatch();
+			}
 		}
 
 

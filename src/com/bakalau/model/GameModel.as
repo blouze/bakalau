@@ -55,7 +55,7 @@ package com.bakalau.model
 		public function initGame () :void
 		{
 			_game.owner = _localClient;
-			_game.initLetters();
+//			_game.initLetters();
 			_game.isInitialized = true;
 		}
 
@@ -118,7 +118,7 @@ package com.bakalau.model
 
 				case GameMessageVO.PLAYER_QUIT :
 					player = ClientVO(gameMessage.data);
-					if (player == _game.owner) {
+					if (player.groupID == _game.owner.groupID) {
 						_game.removeAllPlayers();
 					}
 					else {
@@ -181,13 +181,6 @@ package com.bakalau.model
 		public function get game () :GameVO
 		{
 			return _game;
-		}
-
-
-		public function updateGameClients () :void
-		{
-			_game.clients = clients;
-			dispatcher.dispatchEvent(new GameEvent(GameEvent.UPDATE, _game));
 		}
 	}
 }

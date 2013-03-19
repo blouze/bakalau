@@ -8,6 +8,7 @@
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.AnswerEvent;
+	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
@@ -25,18 +26,12 @@ package com.bakalau.view
 		public var dispatcher :EventDispatcher;
 
 
-		private var _game :GameVO;
-
-
 		[EventHandler(event="GameEvent.UPDATE", properties="data")]
 		public function onGameUpdate (value :GameVO) :void
 		{
 			_game = value;
 			if (_view) _view.game = _game;
 		}
-
-
-		private var _answers :Dictionary;
 
 
 		[EventHandler(event="AnswerEvent.INITIALIZED", properties="data")]
@@ -56,6 +51,8 @@ package com.bakalau.view
 
 
 		private var _view :GameScreenView;
+		private var _game :GameVO;
+		private var _answers :Dictionary;
 
 
 		[ViewAdded]
@@ -71,6 +68,11 @@ package com.bakalau.view
 				answer.category = category;
 				answer.value = value;
 				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.NEW, answer));
+			});
+
+			_view.onFinish.add(function () :void
+			{
+				dispatcher.dispatchEvent(new AppEvent(AppEvent.FINISH_ROUND));
 			});
 		}
 

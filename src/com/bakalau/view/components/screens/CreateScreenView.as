@@ -43,7 +43,7 @@ package com.bakalau.view.components.screens
 
 		private function onInitialize (event :Event) :void
 		{
-			headerProperties.title = "Nouvelle partie";
+			headerProperties.title = "Créer une partie";
 			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
 
 			const layout :TiledRowsLayout = new TiledRowsLayout();
@@ -80,7 +80,7 @@ package com.bakalau.view.components.screens
 						];
 
 				_confirmButton = new Button();
-				_confirmButton.label = "Ajouter";
+				_confirmButton.label = "OK";
 				_confirmButton.addEventListener(Event.TRIGGERED, confirmButton_triggeredHandler);
 
 				headerProperties.rightItems = new <DisplayObject>

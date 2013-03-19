@@ -18,10 +18,12 @@ package com.bakalau.view
 		{
 			beans = [
 				new NavigatorMediator(),
-				new ListScreenMediator(),
+				new GamesListScreenMediator(),
 				new CreateScreenMediator(),
 				new LobbyScreenMediator(),
-				new GameScreenMediator()
+				new GameScreenMediator(),
+				new DebriefScreenMediator(),
+				new LettersSpinnerMediator()
 			];
 		}
 	}

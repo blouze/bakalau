@@ -29,6 +29,9 @@
             <entry library-name="feathersUI-1.1.0 PRERELEASE" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="admob_v1" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="apache_flex_sdk_4.9" />
         </dependencies>
@@ -39,6 +42,7 @@
         <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau.xml" package-file-name="bakalau">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/db" path-in-package="db" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="assets" />
           </files-to-package>
         </packaging-android>
         <packaging-ios package-file-name="bakalau" />
@@ -70,15 +74,19 @@
             <entry library-name="MonsterDebuggerMobile" library-level="project">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-name="admob_v1" library-level="project">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="apache_flex_sdk_4.9" />
         </dependencies>
         <compiler-options>
-          <option name="additionalOptions" value="-keep-as3-metadata+=Bindings -keep-as3-metadata+=Dispatcher -keep-as3-metadata+=EventHandler -keep-as3-metadata+=Execute -keep-as3-metadata+=Inject -keep-as3-metadata+=Juggler -keep-as3-metadata+=PostConstruct -keep-as3-metadata+=ViewAdded -keep-as3-metadata+=ViewRemoved -default-size 800 480" />
+          <option name="additionalOptions" value="-keep-as3-metadata+=Bindings -keep-as3-metadata+=Dispatcher -keep-as3-metadata+=EventHandler -keep-as3-metadata+=Execute -keep-as3-metadata+=Inject -keep-as3-metadata+=Juggler -keep-as3-metadata+=PostConstruct -keep-as3-metadata+=ViewAdded -keep-as3-metadata+=ViewRemoved -default-size 1024 600" />
         </compiler-options>
         <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/bakalau-desktop.xml" package-file-name="bakalau-desktop">
           <files-to-package>
             <FilePathAndPathInPackage file-path="$MODULE_DIR$/db" path-in-package="db" />
+            <FilePathAndPathInPackage file-path="$MODULE_DIR$/assets" path-in-package="assets" />
           </files-to-package>
         </packaging-air-desktop>
         <packaging-android />
@@ -108,6 +116,8 @@
     <orderEntry type="library" exported="" name="MonsterDebuggerMobile" level="project" />
     <orderEntry type="library" exported="" name="MonsterDebugger" level="project" />
     <orderEntry type="library" exported="" name="source" level="project" />
+    <orderEntry type="library" exported="" name="admob_v1" level="project" />
+    <orderEntry type="library" exported="" name="GoogleAdMobAdsSdk-6.3.1" level="project" />
   </component>
 </module>
 

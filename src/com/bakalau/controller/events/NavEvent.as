@@ -16,6 +16,7 @@ package com.bakalau.controller.events
 		private static const PREFIX :String = "NAV_";
 
 		public static const NAVIGATE_TO_VIEW :String = PREFIX + "NAVIGATE_TO_VIEW";
+		public static const ADD_VIEW :String = PREFIX + "ADD_VIEW";
 		public static const NAVIGATE_TO_SCREEN :String = PREFIX + "NAVIGATE_TO_SCREEN";
 
 

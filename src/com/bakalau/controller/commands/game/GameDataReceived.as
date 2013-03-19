@@ -56,7 +56,7 @@ package com.bakalau.controller.commands.game
 
 				case AppMessageVO.START_ROUND :
 					answersModel.initAnswers(gameModel.game);
-					if (gameModel.game.isLocalClientAPlayer) {
+					if (gameModel.game.isLocalClientInPlayers) {
 						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_SCREEN, NavigatorView.GAME_MAIN));
 					}
 					break;
@@ -67,6 +67,9 @@ package com.bakalau.controller.commands.game
 					break;
 
 				case AppMessageVO.FINISH_ROUND :
+					if (gameModel.game.isLocalClientInPlayers) {
+						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_SCREEN, NavigatorView.DEBRIEF_GAME));
+					}
 					break;
 
 				default :
@@ -75,16 +78,17 @@ package com.bakalau.controller.commands.game
 
 			gameModel.updateGame(gameMessage);
 
-			if (gameModel.game.isLocalClientTheOwner) {
+			if (!gameModel.game.owner && gameModel.game.playersConnected > 0) {
+				gameModel.game.owner = gameModel.game.players[0];
+			}
+
+			if (gameModel.game.isOwnedByLocalClient) {
 				if (gameMessage.type == AppMessageVO.START_GAME) {
 					gameModel.sendToAllClients(AppMessageVO.START_ROUND);
 				}
 				else {
 					appModel.sendToAllClients(AppMessageVO.UPDATE_GAME, gameModel.game)
 				}
-			}
-			else if (!gameModel.game.owner) {
-
 			}
 		}
 	}

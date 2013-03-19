@@ -9,13 +9,13 @@ package com.bakalau.view
 {
 	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.VOs.GameVO;
-	import com.bakalau.view.components.screens.ListScreenView;
+	import com.bakalau.view.components.screens.GamesListScreenView;
 
 	import starling.events.EventDispatcher;
 
 
 
-	public class ListScreenMediator
+	public class GamesListScreenMediator
 	{
 		[Dispatcher]
 		public var dispatcher :EventDispatcher;
@@ -29,12 +29,12 @@ package com.bakalau.view
 		}
 
 
-		private var _view :ListScreenView;
+		private var _view :GamesListScreenView;
 		private var _games :Vector.<GameVO>;
 
 
 		[ViewAdded]
-		public function viewAdded (gamesListScreen :ListScreenView) :void
+		public function viewAdded (gamesListScreen :GamesListScreenView) :void
 		{
 			_view = gamesListScreen;
 			_view.games = _games;
@@ -47,7 +47,7 @@ package com.bakalau.view
 
 
 		[ViewRemoved]
-		public function viewRemoved (gamesListScreen :ListScreenView) :void
+		public function viewRemoved (gamesListScreen :GamesListScreenView) :void
 		{
 			_view = null;
 		}

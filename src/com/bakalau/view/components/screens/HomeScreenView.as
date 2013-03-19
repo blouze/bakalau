@@ -10,10 +10,11 @@ package com.bakalau.view.components.screens
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Header;
 	import feathers.controls.PanelScreen;
+	import feathers.controls.ScrollText;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
-	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.VerticalLayout;
 
 	import org.osflash.signals.Signal;
 
@@ -25,6 +26,8 @@ package com.bakalau.view.components.screens
 	{
 		public var onListGames :Signal = new Signal();
 
+		private var _buttonGroup :ButtonGroup;
+
 
 		public function HomeScreenView ()
 		{
@@ -32,16 +35,25 @@ package com.bakalau.view.components.screens
 		}
 
 
-		private var _buttonGroup :ButtonGroup;
-
-
 		protected function onInitialize (event :Event) :void
 		{
-			headerProperties.title = "BAKALAU!";
+			headerProperties.title = "BaKaLau!";
 			headerProperties.titleAlign = Header.TITLE_ALIGN_CENTER;
 
-			layout = new AnchorLayout();
+			var verticalLayout :VerticalLayout = new VerticalLayout();
+			verticalLayout.gap = 36;
+			verticalLayout.horizontalAlign = VerticalLayout.HORIZONTAL_ALIGN_CENTER;
+			verticalLayout.verticalAlign = VerticalLayout.VERTICAL_ALIGN_MIDDLE;
+			layout = verticalLayout;
 
+			var _scrollText :ScrollText = new ScrollText();
+			_scrollText.text = "Le jeu du baccalauréat, le vrai! \n\n" +
+					"Pour jouer avec vos amis, c'est facile: \n" +
+					"il suffit d'être connecté au réseau Wi-Fi après avoir installé l'application, " +
+					"puis de créer une partie, ou de rejoindre une partie existante. \n\n" +
+					"Répondez dans toutes les catégories le plus vite possible. \n\n" +
+					"Les réponses uniques comptent double.";
+			addChild(_scrollText);
 
 			const buttonGroupLayoutData :AnchorLayoutData = new AnchorLayoutData();
 			buttonGroupLayoutData.horizontalCenter = 0;
@@ -50,11 +62,20 @@ package com.bakalau.view.components.screens
 			_buttonGroup = new ButtonGroup();
 			_buttonGroup.dataProvider = new ListCollection(
 					[
-						{ label: "Jouer", triggered: onListGamesTriggered }
+						{ label: "Commencer", triggered: onListGamesTriggered }
 					]);
 			_buttonGroup.layoutData = buttonGroupLayoutData;
 
 			addChild(_buttonGroup);
+
+
+			backButtonHandler = onBackButton;
+		}
+
+
+		private function onBackButton () :void
+		{
+			dispatchEventWith(Event.COMPLETE);
 		}
 
 
