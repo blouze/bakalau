@@ -16,8 +16,11 @@ package com.bakalau.view.components.screens.renderers
 	import feathers.events.FeathersEventType;
 	import feathers.layout.HorizontalLayout;
 
+	import flash.text.ReturnKeyLabel;
+
 	import org.osflash.signals.Signal;
 
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 
@@ -51,6 +54,7 @@ package com.bakalau.view.components.screens.renderers
 			_answerUI.horizontalScrollPolicy = ScrollContainer.SCROLL_POLICY_OFF;
 
 			_textInput = new TextInput();
+			_textInput.textEditorProperties.returnKeyLabel = ReturnKeyLabel.GO;
 			_textInput.addEventListener(FeathersEventType.ENTER, onUserTypeEnter);
 			_answerUI.addChild(_textInput);
 
@@ -114,6 +118,7 @@ package com.bakalau.view.components.screens.renderers
 			if (_textInput.text != data.value) {
 				_confirmSignal.dispatch(data.category, _textInput.text);
 			}
+			Starling.current.nativeStage.focus = null;
 			owner.selectedIndex = -1;
 		}
 
