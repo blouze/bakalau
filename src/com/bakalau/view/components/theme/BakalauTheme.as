@@ -12,20 +12,37 @@ package com.bakalau.view.components.theme
 	import com.bakalau.view.components.screens.renderers.GamesListItemRenderer;
 	import com.bakalau.view.components.screens.renderers.PlayersListItemRenderer;
 
+	import feathers.controls.Check;
+	import feathers.controls.GroupedList;
+	import feathers.controls.List;
+	import feathers.controls.ScrollText;
 	import feathers.display.TiledImage;
+	import feathers.text.BitmapFontTextFormat;
 	import feathers.themes.AzureMobileTheme;
 
+	import flash.text.TextFormat;
+
+	import starling.core.Starling;
 	import starling.display.DisplayObjectContainer;
+	import starling.display.Quad;
 
 
 
 	public class BakalauTheme extends AzureMobileTheme
 	{
+		public static var BACKGROUND_COLOR :uint = 0xFFFFFF;
+		public static var PRIMARY_TEXT_COLOR :uint = 0x2E2E2E;
+		public static var SELECTED_TEXT_COLOR :uint = PRIMARY_TEXT_COLOR;
+		public static var LIST_BACKGROUND_COLOR :uint = 0xC0C0C0;
 
 
 		public function BakalauTheme (root :DisplayObjectContainer, scaleToDPI :Boolean = true)
 		{
 			super(root, scaleToDPI);
+			Starling.current.nativeStage.color = BACKGROUND_COLOR;
+			if (root.stage) {
+				root.stage.color = BACKGROUND_COLOR;
+			}
 		}
 
 
@@ -37,6 +54,33 @@ package com.bakalau.view.components.theme
 			setInitializerForClass(AnswersListItemRenderer, answersListItemRendererInitializer);
 			setInitializerForClass(PlayersListItemRenderer, playersListItemRendererInitializer);
 			setInitializerForClass(GameLobbyListItemRenderer, gameLobbyListItemRendererInitializer);
+		}
+
+
+		override protected function scrollTextInitializer (text :ScrollText) :void
+		{
+			super.scrollTextInitializer(text);
+			text.textFormat = new TextFormat("Lato,Roboto,Helvetica,Arial,_sans", this.fontSize, PRIMARY_TEXT_COLOR);
+		}
+
+
+		override protected function checkInitializer (check :Check) :void
+		{
+			super.checkInitializer(check);
+			check.defaultLabelProperties.textFormat = new BitmapFontTextFormat(bitmapFont, this.fontSize, PRIMARY_TEXT_COLOR);
+			check.defaultSelectedLabelProperties.textFormat = new BitmapFontTextFormat(bitmapFont, this.fontSize, SELECTED_TEXT_COLOR);
+		}
+
+
+		override protected function listInitializer (list :List) :void
+		{
+			list.backgroundSkin = new Quad(100, 100, LIST_BACKGROUND_COLOR);
+		}
+
+
+		override protected function groupedListInitializer (list :GroupedList) :void
+		{
+			list.backgroundSkin = new Quad(100, 100, LIST_BACKGROUND_COLOR);
 		}
 
 

@@ -45,7 +45,6 @@ package com.bakalau.view.components.screens
 
 
 		private var _backButton :Button;
-		private var _joinButton :Button;
 		private var _startButton :Button;
 		private var _resumeButton :Button;
 		private var _quitButton :Button;
@@ -53,7 +52,7 @@ package com.bakalau.view.components.screens
 		private var _startedLabel :Label;
 
 		private var _gameList :GroupedList;
-		private var _buttonGroup :ButtonGroup;
+		private var _joinButtonGroup :ButtonGroup;
 		private var _gameListData :HierarchicalCollection = new HierarchicalCollection();
 		private var _game :GameVO;
 
@@ -71,39 +70,35 @@ package com.bakalau.view.components.screens
 			addChild(_gameList);
 
 			_backButton = new Button();
-			_backButton.label = "Retour";
+			_backButton.label = "Retour".toUpperCase();
 			_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
 			backButtonHandler = onBackButton;
 
-			_joinButton = new Button();
-			_joinButton.label = "Rejoindre cette partie";
-			_joinButton.addEventListener(Event.TRIGGERED, joinButton_triggeredHandler);
-
 			_startButton = new Button();
-			_startButton.label = "Commencer le jeu";
+			_startButton.label = "Commencer".toUpperCase();
 			_startButton.addEventListener(Event.TRIGGERED, startButton_triggeredHandler);
 
 			_resumeButton = new Button();
-			_resumeButton.label = "Reprendre le jeu";
+			_resumeButton.label = "Reprendre".toUpperCase();
 			_resumeButton.addEventListener(Event.TRIGGERED, resumeButton_triggeredHandler);
 
 			_quitButton = new Button();
-			_quitButton.label = "Quitter";
+			_quitButton.label = "Quitter".toUpperCase();
 			_quitButton.addEventListener(Event.TRIGGERED, quitButton_triggeredHandler);
 
 			_holdLabel = new Label();
-			_holdLabel.text = "En attente ...";
+			_holdLabel.text = "En attente ...".toUpperCase();
 
 			_startedLabel = new Label();
 			_startedLabel.text = "Partie en cours";
 
-			_buttonGroup = new ButtonGroup();
-			_buttonGroup.dataProvider = new ListCollection(
+			_joinButtonGroup = new ButtonGroup();
+			_joinButtonGroup.dataProvider = new ListCollection(
 					[
-						{ label: "Rejoindre cette partie", triggered: joinButton_triggeredHandler }
+						{ label: "Rejoindre cette partie".toUpperCase(), triggered: joinButton_triggeredHandler }
 					]);
-			addChild(_buttonGroup);
+			addChild(_joinButtonGroup);
 		}
 
 
@@ -112,9 +107,9 @@ package com.bakalau.view.components.screens
 			super.draw();
 
 			if (isInvalid(INVALIDATION_FLAG_SIZE)) {
-				_gameList.layoutData = new AnchorLayoutData(0, 0, actualHeight * (1 - 0.618), 0);
-				var buttonPadding :Number = _gameList.height * (1 - 0.618) * (1 - 0.618);
-				_buttonGroup.layoutData = new AnchorLayoutData(actualHeight * 0.618, buttonPadding, buttonPadding, buttonPadding);
+				var buttonPadding :Number = actualHeight * (1 - 0.618) * (1 - 0.618) / 2;
+				_joinButtonGroup.layoutData = new AnchorLayoutData(buttonPadding * 2, buttonPadding, actualHeight * 0.618, buttonPadding);
+				_gameList.layoutData = new AnchorLayoutData(actualHeight * (1 - 0.618), 0, 0, 0);
 			}
 
 			if (isInvalid(INVALIDATION_FLAG_DATA)) {
@@ -123,7 +118,7 @@ package com.bakalau.view.components.screens
 //					}
 
 					_startButton.isEnabled = (_game.players.length > 1);
-					_buttonGroup.isEnabled = !_game.isLocalClientInPlayers;
+					_joinButtonGroup.isEnabled = !_game.isLocalClientInPlayers;
 
 					if (_game.isLocalClientInPlayers) {
 						headerProperties.leftItems = new <DisplayObject>[_quitButton];
@@ -145,7 +140,7 @@ package com.bakalau.view.components.screens
 							headerProperties.rightItems = new <DisplayObject>[_startedLabel];
 						}
 						else {
-//							headerProperties.rightItems = new <DisplayObject>[_joinButton];
+							headerProperties.rightItems = new <DisplayObject>[];
 						}
 					}
 				}

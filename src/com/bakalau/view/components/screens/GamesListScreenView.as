@@ -51,7 +51,7 @@ package com.bakalau.view.components.screens
 
 
 			var _backButton :Button = new Button();
-			_backButton.label = "Retour";
+			_backButton.label = "Retour".toUpperCase();
 			_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
 			headerProperties.leftItems = new <DisplayObject>
@@ -64,7 +64,7 @@ package com.bakalau.view.components.screens
 			_buttonGroup.gap = 36;
 			_buttonGroup.dataProvider = new ListCollection(
 					[
-						{ label: "Créer une partie", triggered: createGameButton_triggeredHandler }
+						{ label: "Créer une partie".toUpperCase(), triggered: createGameButton_triggeredHandler }
 					]);
 			addChild(_buttonGroup);
 
@@ -86,9 +86,9 @@ package com.bakalau.view.components.screens
 			super.draw();
 
 			if (isInvalid(INVALIDATION_FLAG_SIZE)) {
-				var buttonPadding :Number = actualHeight * (1 - 0.618) * (1 - 0.618);
-				_buttonGroup.layoutData = new AnchorLayoutData(buttonPadding, buttonPadding, actualHeight * (1 - 0.618) + buttonPadding, buttonPadding);
-				_gamesList.layoutData = new AnchorLayoutData(actualHeight * 0.618, 0, 0, 0);
+				var buttonPadding :Number = actualHeight * (1 - 0.618) * (1 - 0.618) / 2;
+				_buttonGroup.layoutData = new AnchorLayoutData(buttonPadding * 2, buttonPadding, actualHeight * 0.618, buttonPadding);
+				_gamesList.layoutData = new AnchorLayoutData(actualHeight * (1 - 0.618), 0, 0, 0);
 			}
 		}
 

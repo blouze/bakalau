@@ -30,6 +30,8 @@ package com.bakalau.controller
 	import com.creativebottle.starlingmvc.beans.BeanProvider;
 	import com.creativebottle.starlingmvc.commands.Command;
 
+	import flash.system.Capabilities;
+
 
 
 	public class ControllerBeanProvider extends BeanProvider
@@ -37,7 +39,6 @@ package com.bakalau.controller
 		public function ControllerBeanProvider ()
 		{
 			beans = [
-				new Command(AppEvent.INIT_NATIVE_ADS, InitNativeAds),
 				new Command(AppEvent.READY, ApplicationReady),
 				new Command(AppEvent.CLIENT_ADDED, ClientAdded),
 
@@ -58,6 +59,10 @@ package com.bakalau.controller
 
 				new Command(NavEvent.NAVIGATE_TO_VIEW, NavigateToView)
 			];
+
+			if (Capabilities.cpuArchitecture == "ARM") {
+				beans.push(new Command(AppEvent.INIT_NATIVE_ADS, InitNativeAds));
+			}
 		}
 	}
 }

@@ -43,9 +43,6 @@ package com.bakalau.view.components.screens
 
 		private function onInitialize (event :Event) :void
 		{
-			headerProperties.title = "Créer une partie";
-			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
-
 			const layout :TiledRowsLayout = new TiledRowsLayout();
 			layout.horizontalAlign = TiledRowsLayout.HORIZONTAL_ALIGN_LEFT;
 			layout.verticalAlign = TiledRowsLayout.VERTICAL_ALIGN_MIDDLE;
@@ -71,7 +68,7 @@ package com.bakalau.view.components.screens
 			if (true) {
 //			if (!DeviceCapabilities.isTablet(Starling.current.nativeStage)) {
 				_backButton = new Button();
-				_backButton.label = "Annuler";
+				_backButton.label = "Annuler".toUpperCase();
 				_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 
 				headerProperties.leftItems = new <DisplayObject>
@@ -80,7 +77,7 @@ package com.bakalau.view.components.screens
 						];
 
 				_confirmButton = new Button();
-				_confirmButton.label = "OK";
+				_confirmButton.label = "Créer".toUpperCase();
 				_confirmButton.addEventListener(Event.TRIGGERED, confirmButton_triggeredHandler);
 
 				headerProperties.rightItems = new <DisplayObject>

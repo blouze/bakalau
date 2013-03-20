@@ -47,12 +47,14 @@ package com.bakalau.view.components.screens
 			layout = verticalLayout;
 
 			var _scrollText :ScrollText = new ScrollText();
-			_scrollText.text = "Le jeu du baccalauréat, le vrai! \n\n" +
+			_scrollText.text = "Le jeu du baccalauréat, le seul, le vrai! \n\n" +
+					"De 2 à 8 joueurs par partie. \n\n" +
 					"Pour jouer avec vos amis, c'est facile: \n" +
 					"il suffit d'être connecté au réseau Wi-Fi après avoir installé l'application, " +
 					"puis de créer une partie, ou de rejoindre une partie existante. \n\n" +
-					"Répondez dans toutes les catégories le plus vite possible. \n\n" +
-					"Les réponses uniques comptent double.";
+					"Répondez dans le plus grand nombre de catégories et cliquez sur \"J'ai fini!\". \n\n" +
+					"Les réponses uniques comptent double.\n" +
+					"Le joueur qui répond le premier dans toutes les catégories clôt la manche.";
 			addChild(_scrollText);
 
 			const buttonGroupLayoutData :AnchorLayoutData = new AnchorLayoutData();
@@ -62,7 +64,7 @@ package com.bakalau.view.components.screens
 			_buttonGroup = new ButtonGroup();
 			_buttonGroup.dataProvider = new ListCollection(
 					[
-						{ label: "Commencer", triggered: onListGamesTriggered }
+						{ label: "Commencer".toUpperCase(), triggered: onListGamesTriggered }
 					]);
 			_buttonGroup.layoutData = buttonGroupLayoutData;
 

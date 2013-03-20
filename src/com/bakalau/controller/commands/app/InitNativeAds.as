@@ -49,7 +49,12 @@ package com.bakalau.controller.commands.app
 			}
 
 			var viewPort :Rectangle = Starling.current.viewPort;
-			viewPort.height -= nativeAdsModel.adResolutionY;
+			if (DeviceCapabilities.dpi < 320) {
+				viewPort.height -= nativeAdsModel.adResolutionY;
+			}
+			else {
+				viewPort.height -= 100;
+			}
 			appModel.resizeStarling(viewPort);
 			nativeAdsModel.initAds(Starling.current.viewPort);
 		}

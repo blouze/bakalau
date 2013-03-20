@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<s:SplashScreenImage xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
+    <!-- To change this template use File | Settings | File Templates. -->
+
+    <!-- Default splashscreen image. -->
+    <s:SplashScreenImageSource
+            source="@Embed('../assets/icons/android/drawable-hdpi/ic_launcher.png')"/>
+
+    <s:SplashScreenImageSource
+            source="@Embed('../assets/icons/android/drawable-mdpi/ic_launcher.png')"
+            dpi="240"
+            aspectRatio="portrait"/>
+
+    <s:SplashScreenImageSource
+            source="@Embed('../assets/icons/android/drawable-mdpi/ic_launcher.png')"
+            dpi="240"
+            aspectRatio="landscape"/>
+
+    <s:SplashScreenImageSource
+            source="@Embed('../assets/icons/android/drawable-ldpi/ic_launcher.png')"
+            dpi="160"
+            aspectRatio="portrait"
+            minResolution="960"/>
+</s:SplashScreenImage>

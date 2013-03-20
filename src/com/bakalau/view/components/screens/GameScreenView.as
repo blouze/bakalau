@@ -52,29 +52,27 @@ package com.bakalau.view.components.screens
 
 		private var _answersListData :ListCollection = new ListCollection(new Vector.<AnswerVO>());
 		private var _playersListData :ListCollection = new ListCollection(new Vector.<ClientVO>());
-		private var _hasPlayerFinished :Boolean;
 
 		private var _game :GameVO;
 		private var _answers :Dictionary;
 		private var _progresses :Array;
+		private var _localPlayerProgress :int;
+		private var _localPlayerHasFinished :Boolean = false;
 
 
 		protected function onInitialize (event :Event) :void
 		{
-			headerProperties.title = _game.gameID;
-			headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_LEFT;
-
 			layout = new AnchorLayout();
 
 			var _backButton :Button = new Button();
-			_backButton.label = "Retour";
+			_backButton.label = "Retour".toUpperCase();
 			_backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 			headerProperties.leftItems = new <DisplayObject>[_backButton];
 
 			backButtonHandler = onBackButton;
 
 			_finishButton = new Button();
-			_finishButton.label = "J'ai fini!";
+			_finishButton.label = "J'ai fini!".toUpperCase();
 			_finishButton.addEventListener(Event.TRIGGERED, finishButton_triggeredHandler);
 			headerProperties.rightItems = new <DisplayObject>[_finishButton];
 
@@ -100,7 +98,13 @@ package com.bakalau.view.components.screens
 			super.draw();
 
 			if (isInvalid(FeathersControl.INVALIDATION_FLAG_DATA)) {
-				_finishButton.isEnabled = _hasPlayerFinished;
+				if (_localPlayerHasFinished) {
+					headerProperties.rightItems = new <DisplayObject>[];
+					if (_localPlayerProgress < _answersListData.length) {
+						headerProperties.title = "J'ai fini.";
+						headerProperties.titleAlign = Header.TITLE_ALIGN_PREFER_RIGHT;
+					}
+				}
 			}
 
 			if (isInvalid(FeathersControl.INVALIDATION_FLAG_SIZE)) {
@@ -147,7 +151,7 @@ package com.bakalau.view.components.screens
 			for (var playerGroupID :String in _answers) {
 				var answers :Vector.<AnswerVO> = Vector.<AnswerVO>(_answers[playerGroupID]);
 				var player :ClientVO = answers[0].player;
-				var progress :Number = answers.filter(function (answerVO :AnswerVO, index :int, vector :Vector.<AnswerVO>) :Boolean
+				var progress :int = answers.filter(function (answerVO :AnswerVO, index :int, vector :Vector.<AnswerVO>) :Boolean
 				{
 					return answerVO.value != "";
 				}).length;
@@ -158,8 +162,7 @@ package com.bakalau.view.components.screens
 				});
 
 				if (player == _game.localClient) {
-//					_hasPlayerFinished = (progress == _answersListData.length);
-					_hasPlayerFinished = (progress > 0);
+					_localPlayerProgress = progress;
 				}
 			}
 
@@ -182,7 +185,14 @@ package com.bakalau.view.components.screens
 
 		private function finishButton_triggeredHandler (event :Event) :void
 		{
-			onFinish.dispatch();
+			_localPlayerHasFinished = true;
+			_answersList.isEnabled = false;
+
+			if (_localPlayerProgress >= _answersListData.length) {
+				onFinish.dispatch();
+			}
+
+			invalidate(INVALIDATION_FLAG_DATA);
 		}
 
 
