@@ -133,41 +133,37 @@ package com.bakalau.view.components.screens
 
 				_answersListData.data = null;
 				_answersListData.data = _answers[_game.localClient.groupID];
+			}
+		}
 
-				setProgresses();
+
+		public function set progresses (value :Dictionary) :void
+		{
+			if (value) {
+				_progresses = [];
+
+				for (var playerGroupID :String in value) {
+					var answers :Vector.<AnswerVO> = Vector.<AnswerVO>(_answers[playerGroupID]);
+					var player :ClientVO = answers[0].player;
+
+					_progresses.push({
+						label: player.clientName,
+						value: value[playerGroupID]
+					});
+
+					if (player == _game.localClient) {
+						_localPlayerProgress = value[playerGroupID];
+					}
+				}
+
+				_progresses.sortOn("value", Array.NUMERIC);
+				_progresses.reverse();
 
 				_playersListData.data = null;
 				_playersListData.data = _progresses;
 
 				invalidate(INVALIDATION_FLAG_DATA);
 			}
-		}
-
-
-		private function setProgresses () :void
-		{
-			_progresses = [];
-
-			for (var playerGroupID :String in _answers) {
-				var answers :Vector.<AnswerVO> = Vector.<AnswerVO>(_answers[playerGroupID]);
-				var player :ClientVO = answers[0].player;
-				var progress :int = answers.filter(function (answerVO :AnswerVO, index :int, vector :Vector.<AnswerVO>) :Boolean
-				{
-					return answerVO.value != "";
-				}).length;
-
-				_progresses.push({
-					label: player.clientName,
-					value: progress
-				});
-
-				if (player == _game.localClient) {
-					_localPlayerProgress = progress;
-				}
-			}
-
-			_progresses.sortOn("value", Array.NUMERIC);
-			_progresses.reverse();
 		}
 
 
@@ -188,9 +184,7 @@ package com.bakalau.view.components.screens
 			_localPlayerHasFinished = true;
 			_answersList.isEnabled = false;
 
-			if (_localPlayerProgress >= _answersListData.length) {
-				onFinish.dispatch();
-			}
+			onFinish.dispatch();
 
 			invalidate(INVALIDATION_FLAG_DATA);
 		}

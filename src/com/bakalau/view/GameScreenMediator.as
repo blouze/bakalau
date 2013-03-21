@@ -8,7 +8,6 @@
 package com.bakalau.view
 {
 	import com.bakalau.controller.events.AnswerEvent;
-	import com.bakalau.controller.events.AppEvent;
 	import com.bakalau.model.VOs.AnswerVO;
 	import com.bakalau.model.VOs.CategoryVO;
 	import com.bakalau.model.VOs.GameVO;
@@ -34,14 +33,6 @@ package com.bakalau.view
 		}
 
 
-		[EventHandler(event="AnswerEvent.INITIALIZED", properties="data")]
-		public function onAnswersInitialized (value :Dictionary) :void
-		{
-			_answers = value;
-			if (_view) _view.answers = _answers;
-		}
-
-
 		[EventHandler(event="AnswerEvent.UPDATE", properties="data")]
 		public function onAnswerUpdate (value :Dictionary) :void
 		{
@@ -50,9 +41,18 @@ package com.bakalau.view
 		}
 
 
+		[EventHandler(event="AnswerEvent.PROGRESS", properties="data")]
+		public function onProgressUpdate (value :Dictionary) :void
+		{
+			_progresses = value;
+			if (_view) _view.progresses = _progresses;
+		}
+
+
 		private var _view :GameScreenView;
 		private var _game :GameVO;
 		private var _answers :Dictionary;
+		private var _progresses :Dictionary;
 
 
 		[ViewAdded]
@@ -61,6 +61,7 @@ package com.bakalau.view
 			_view = gameMainScreen;
 			_view.game = _game;
 			_view.answers = _answers;
+			_view.progresses = _progresses;
 
 			_view.onAnswer.add(function (category :CategoryVO, value :String) :void
 			{
@@ -72,7 +73,7 @@ package com.bakalau.view
 
 			_view.onFinish.add(function () :void
 			{
-				dispatcher.dispatchEvent(new AppEvent(AppEvent.FINISH_ROUND));
+				dispatcher.dispatchEvent(new AnswerEvent(AnswerEvent.PLAYER_FINISH));
 			});
 		}
 
@@ -89,6 +90,7 @@ package com.bakalau.view
 		{
 			_game = null;
 			_answers = null;
+			_progresses = null;
 		}
 	}
 }

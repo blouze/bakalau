@@ -123,9 +123,9 @@
 
     <!-- The icon the system uses for the application. For at least one resolution, specify the path to a PNG file included in the AIR package. Optional. -->
     <icon>
-        <image36x36>assets/icons/android/drawable-ldpi/ic_launcher.png</image36x36>
-        <image48x48>assets/icons/android/drawable-mdpi/ic_launcher.png</image48x48>
-        <image72x72>assets/icons/android/drawable-hdpi/ic_launcher.png</image72x72>
+        <image36x36>assets/images/icons/android/drawable-ldpi/ic_launcher.png</image36x36>
+        <image48x48>assets/images/icons/android/drawable-mdpi/ic_launcher.png</image48x48>
+        <image72x72>assets/images/icons/android/drawable-hdpi/ic_launcher.png</image72x72>
     </icon>
 
     <!-- Whether the application handles the update when a user double-clicks an update version of the AIR file (true),

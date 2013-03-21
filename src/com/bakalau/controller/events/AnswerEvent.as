@@ -15,9 +15,10 @@ package com.bakalau.controller.events
 	{
 		private static const PREFIX :String = "ANSWER_";
 
-		public static const INITIALIZED :String = PREFIX + "INITIALIZED";
 		public static const UPDATE :String = PREFIX + "UPDATE";
+		public static const PROGRESS :String = PREFIX + "PROGRESS";
 		public static const NEW :String = PREFIX + "NEW";
+		public static const PLAYER_FINISH :String = PREFIX + "PLAYER_FINISH";
 
 
 		public function AnswerEvent (type :String, data :Object = null, bubbles :Boolean = false)

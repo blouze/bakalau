@@ -16,6 +16,7 @@ package com.bakalau.controller
 	import com.bakalau.controller.commands.app.InitNativeAds;
 	import com.bakalau.controller.commands.app.JoinGame;
 	import com.bakalau.controller.commands.app.LeaveGame;
+	import com.bakalau.controller.commands.app.PlayerFinnish;
 	import com.bakalau.controller.commands.app.QuitGame;
 	import com.bakalau.controller.commands.app.StartGame;
 	import com.bakalau.controller.commands.app.ViewGame;
@@ -56,6 +57,7 @@ package com.bakalau.controller
 				new Command(GameEvent.CLIENT_LEAVE, ClientLeave),
 
 				new Command(AnswerEvent.NEW, NewAnswer),
+				new Command(AnswerEvent.PLAYER_FINISH, PlayerFinnish),
 
 				new Command(NavEvent.NAVIGATE_TO_VIEW, NavigateToView)
 			];

@@ -15,6 +15,7 @@ package com.bakalau.model.VOs
 		public static const UPDATE_GAME :String = PREFIX + "UPDATE_GAME";
 		public static const START_ROUND :String = PREFIX + "START_ROUND";
 		public static const NEW_ANSWER :String = PREFIX + "NEW_ANSWER";
+		public static const PLAYER_FINNISH :String = PREFIX + "PLAYER_FINNISH";
 		public static const FINISH_ROUND :String = PREFIX + "FINISH_ROUND";
 
 		public var type :String;

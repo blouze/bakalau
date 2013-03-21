@@ -9,6 +9,8 @@ package com.bakalau.model.VOs
 {
 	import com.projectcocoon.p2p.vo.ClientVO;
 
+	import flash.utils.Dictionary;
+
 
 
 	public class GameVO
@@ -16,12 +18,12 @@ package com.bakalau.model.VOs
 		public var gameID :String;
 		public var isInitialized :Boolean = false;
 
-		private var _clients :Vector.<ClientVO> = new <ClientVO>[];
 		private var _localClient :ClientVO;
 
 		public var owner :ClientVO;
 		public var categories :Vector.<CategoryVO> = new <CategoryVO>[];
 		public var players :Vector.<ClientVO> = new <ClientVO>[];
+		public var playersFinnished :Dictionary = new Dictionary(true);
 		public var started :Boolean = false;
 		public var letters :Array;
 
@@ -95,6 +97,14 @@ package com.bakalau.model.VOs
 		}
 
 
+		public function initRound () :void
+		{
+			for each (var player :ClientVO in players) {
+				playersFinnished[player.groupID] = false;
+			}
+		}
+
+
 		public function get currentLetter () :String
 		{
 			return _currentLetter;
@@ -116,6 +126,18 @@ package com.bakalau.model.VOs
 		public function get isOwnedByLocalClient () :Boolean
 		{
 			return _localClient && _localClient.groupID == owner.groupID;
+		}
+
+
+		public function get hasEveryoneFinnished () :Boolean
+		{
+			for each (var hasFinished :Boolean in playersFinnished) {
+				if (!hasFinished) {
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 }

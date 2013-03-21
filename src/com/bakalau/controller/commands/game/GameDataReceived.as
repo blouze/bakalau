@@ -56,6 +56,7 @@ package com.bakalau.controller.commands.game
 
 				case AppMessageVO.START_ROUND :
 					answersModel.initAnswers(gameModel.game);
+					gameModel.game.initRound();
 					if (gameModel.game.isLocalClientInPlayers) {
 						dispatcher.dispatchEvent(new NavEvent(NavEvent.NAVIGATE_TO_SCREEN, NavigatorView.GAME_MAIN));
 					}
@@ -64,6 +65,14 @@ package com.bakalau.controller.commands.game
 				case AppMessageVO.NEW_ANSWER :
 					var answer :AnswerVO = AnswerVO(gameMessage.data);
 					answersModel.updateAnswer(answer);
+					break;
+
+				case AppMessageVO.PLAYER_FINNISH :
+					player = ClientVO(gameMessage.data);
+					gameModel.game.playersFinnished[player.groupID] = true;
+					if (gameModel.game.hasEveryoneFinnished || answersModel.progresses[player.groupID] >= answersModel.answers[player.groupID].length) {
+						gameModel.sendToAllClients(AppMessageVO.FINISH_ROUND);
+					}
 					break;
 
 				case AppMessageVO.FINISH_ROUND :
